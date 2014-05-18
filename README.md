@@ -35,8 +35,9 @@ In both cases, each 8-byte word is little-endian.
 -----
 
 Directories:
- - [y-cruncher/CVN/](https://github.com/Mysticial/DigitViewer/tree/master/source/y-cruncher/CVN) - This directory contains all the heavily optimized conversion code. You probably don't want to look at this. :)
- - [y-cruncher/ConsoleIO/](https://github.com/Mysticial/DigitViewer/tree/master/source/y-cruncher/ConsoleIO) - This is where the console colors come from.
- - [y-cruncher/DigitViewer/](https://github.com/Mysticial/DigitViewer/tree/master/source/y-cruncher/DigitViewer) - This has all the Digit Viewer classes.
- - [y-cruncher/FileIO/](https://github.com/Mysticial/DigitViewer/tree/master/source/y-cruncher/FileIO) - What the names says. These are the file handles that the program uses.
- - [y-cruncher/Strings/](https://github.com/Mysticial/DigitViewer/tree/master/source/y-cruncher/Strings) - Leftover from when y-cruncher was entirely a C program.
+ - [y-cruncher/CVN/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher) - This directory contains all the heavily optimized conversion code. You probably don't want to look at this. :)
+ - [y-cruncher/ConsoleIO/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/ConsoleIO) - This is where the console colors come from.
+ - [y-cruncher/DigitViewer/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/DigitViewer) - This has all the Digit Viewer classes.
+ - [y-cruncher/FileIO/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/FileIO) - What the names says. These are the file handles that the program uses.
+ - [y-cruncher/ProcessorCapability/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/ProcessorCapability) - The CPU feature detection.
+ - [y-cruncher/Strings/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/Strings) - Leftover from when y-cruncher was entirely a C program.
