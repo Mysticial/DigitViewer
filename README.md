@@ -1,18 +1,18 @@
-y-cruncher v0.6.3's Digit Viewer
+y-cruncher v0.6.5's Digit Viewer
 ===========
 
-This is the full self-contained source code for y-cruncher v0.6.3's Digit Viewer.<br>
+This is the full self-contained source code for y-cruncher v0.6.5's Digit Viewer.<br>
 It includes everything including the heavily optimized back-end conversion code.
 
 To Compile (Windows):
  - Double-click `Windows - Compile All.cmd`.
- - You need to have Visual Studio 2012 installed in the default directory.
+ - You need to have Visual Studio 2013 installed in the default directory.
 
 To Compile (Linux):
  - Run `Linux - Compile All.sh` from the directory it is in.
  - x64 and a sufficiently new version of GCC is required.
 
-A Visual Studio 2012 project has been provided.<br>
+A Visual Studio 2013 project has been provided.<br>
 The compiled Windows binaries have also been included.<br>
 Running `Digit Viewer.exe` will automatically do CPU-dispatching to select one of the 4 binaries to run.
 
