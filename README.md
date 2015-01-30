@@ -1,25 +1,19 @@
-y-cruncher v0.6.5's Digit Viewer
+y-cruncher v0.6.8's Digit Viewer
 ===========
 
-This is the full self-contained source code for y-cruncher v0.6.5's Digit Viewer.<br>
+This is the full self-contained source code for y-cruncher v0.6.8's integrated Digit Viewer.<br>
 It includes everything including the heavily optimized back-end conversion code.
 
+The v0.6.8 integrated Digit Viewer is functionally the same as the v0.6.5 stand-alone Digit Viewer. But it has been rebased a whole bunch of times.
+Note that this rebased Digit Viewer has yet to be re-tested. So it may contain bugs. But it will be thoroughly tested before y-cruncher v0.6.8 goes live.
+
 To Compile (Windows):
- - Double-click `Windows - Compile All.cmd`.
- - You need to have Visual Studio 2013 installed in the default directory.
+ - Open the Visual Studio project and compile from within the IDE. The options are x86/Release, x86/SSE3, x64/SSE3, x64/SSE4.1.
+ - Visual Studio 2013 is required.
 
 To Compile (Linux):
- - Run `Linux - Compile All.sh` from the directory it is in.
+ - Run `Digit Viewer (VSS)/Linux - Compile All.sh` from the directory it is in. It will create a folder `Binaries` with the two executables.
  - x64 and a sufficiently new version of GCC is required.
-
-A Visual Studio 2013 project has been provided.<br>
-The compiled Windows binaries have also been included.<br>
-Running `Digit Viewer.exe` will automatically do CPU-dispatching to select one of the 4 binaries to run.
-
-If you intend to use and modify the code, the classes of interest are in:
-[`/source/y-cruncher/DigitViewer`](https://github.com/Mysticial/DigitViewer/tree/master/source/y-cruncher/DigitViewer)<br>
-You can see how they are used in
-[`source/DigitViewerOptions.h`](https://github.com/Mysticial/DigitViewer/blob/master/source/DigitViewerUI.h)
 
 -----
 
@@ -35,9 +29,14 @@ In both cases, each 8-byte word is little-endian.
 -----
 
 Directories:
- - [y-cruncher/CVN/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher) - This directory contains all the heavily optimized conversion code. You probably don't want to look at this. :)
- - [y-cruncher/ConsoleIO/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/ConsoleIO) - This is where the console colors come from.
- - [y-cruncher/DigitViewer/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/DigitViewer) - This has all the Digit Viewer classes.
- - [y-cruncher/FileIO/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/FileIO) - What the names says. These are the file handles that the program uses.
- - [y-cruncher/ProcessorCapability/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/ProcessorCapability) - The CPU feature detection.
- - [y-cruncher/Strings/](https://github.com/Mysticial/DigitViewer/tree/master/Digit%20Viewer%20%28VSS%29/source/y-cruncher/Strings) - Leftover from when y-cruncher was entirely a C program.
+
+ - `Source Files/Public/` - The open-sourced subset of y-cruncher's support library.
+ - `Source Files/DigitViewer/` - The Digit Viewer itself.
+ - `Source Files/DigitViewer/DigitReaders/` - The Digit Reader classes.
+ - `Source Files/DigitViewer/DigitWriter/` - The Digit Writer classes.
+ - `Source Files/DigitViewer/DigitConverter/` - The highly optimized (and unreadable) digit conversion primitives.
+
+y-cruncher v0.6.8 has a build dependency on this Digit Viewer.
+Not just because it embeds the Digit Viewer, but it actually uses the DigitWriter classes to output digits at the end of a computation.
+
+So what you are seeing here is actual y-cruncher source code.

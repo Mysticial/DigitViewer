@@ -1,6 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="04-SSE3|Win32">
+      <Configuration>04-SSE3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="04-SSE3|x64">
+      <Configuration>04-SSE3</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="07-Penryn|Win32">
+      <Configuration>07-Penryn</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="07-Penryn|x64">
+      <Configuration>07-Penryn</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -17,121 +33,9 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="x86 SSE2|Win32">
-      <Configuration>x86 SSE2</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="x86 SSE2|x64">
-      <Configuration>x86 SSE2</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="x86 SSE4.1|Win32">
-      <Configuration>x86 SSE4.1</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="x86 SSE4.1|x64">
-      <Configuration>x86 SSE4.1</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="x86_SSE2|Win32">
-      <Configuration>x86_SSE2</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="x86_SSE2|x64">
-      <Configuration>x86_SSE2</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="X86_SSE3|Win32">
-      <Configuration>X86_SSE3</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="X86_SSE3|x64">
-      <Configuration>X86_SSE3</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\source\DigitViewerOptions.h" />
-    <ClInclude Include="..\source\DigitViewerUI.h" />
-    <ClInclude Include="..\source\Dispatcher.h" />
-    <ClInclude Include="..\source\y-cruncher\ConsoleIO\ymo_APIs_cio_ColorCodes.h" />
-    <ClInclude Include="..\source\y-cruncher\ConsoleIO\ymo_APIs_cio_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\ConsoleIO\ymo_APIs_cio_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\ConsoleIO\ymo_APIs_cio_Shared.h" />
-    <ClInclude Include="..\source\y-cruncher\ConsoleIO\ymo_APIs_cio_Windows.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_raw_to_str_Default32.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_raw_to_str_Default64.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_raw_to_u64_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_str_to_raw_Default32.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_str_to_raw_Default64.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_u64_to_raw_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymh_CVN_u64_to_str_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_rawd_to_strd_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_rawd_to_ud_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_rawh_to_strh_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_rawh_to_ub_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_strd_to_rawd_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_strh_to_rawh_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_u64b_to_rawh_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_u64b_to_strh_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_u64d_to_rawd_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\Default\ymi_CVN_u64d_to_strd_Default.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymh_CVN_raw_to_str_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymh_CVN_str_to_raw_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymh_CVN_u64_to_raw_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymh_CVN_u64_to_str_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_rawd_to_strd_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_rawd_to_ud_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_rawh_to_strh_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_rawh_to_ub_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_strd_to_rawd_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_strh_to_rawh_SSE2.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_u64b_to_rawh_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_u64b_to_strh_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_u64d_to_rawd_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\u64_forward\SSE\ymi_CVN_u64d_to_strd_SSE41.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\ymb_CVN_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\CVN\ymb_CVN_u64_forward.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_DigitReader_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_DigitReader_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_TextReader_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_TextReader_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_YCDFileReader_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_YCDFileReader_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_YCDReader_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitReaders\yc_YCDReader_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitViewer_globals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitViewer_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitViewer_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_DigitWriter_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_DigitWriter_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_TextWriter_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_TextWriter_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_YCDFileWriter_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_YCDFileWriter_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_YCDWriter_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\DigitViewer\DigitWriters\yc_YCDWriter_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\FileIO\ymf_APIs_file_Default_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\FileIO\ymf_APIs_file_Default_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\FileIO\ymf_APIs_file_WinAPI_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\FileIO\ymf_APIs_file_WinAPI_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\ProcessorCapability\cpu_x86_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\ProcessorCapability\cpu_x86_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\SelfContained.h" />
-    <ClInclude Include="..\source\y-cruncher\Strings\ymb_APIs_StringBuilder_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\Strings\ymb_APIs_StringBuilder_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\Strings\ymb_APIs_StringTools_headers.h" />
-    <ClInclude Include="..\source\y-cruncher\Strings\ymb_APIs_StringTools_internals.h" />
-    <ClInclude Include="..\source\y-cruncher\y-cruncher.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\source\main.cpp" />
-    <ClCompile Include="..\source\y-cruncher\y-cruncher.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0D6B1C6C-5A7D-4EBD-9F11-F6D252A04326}</ProjectGuid>
+    <ProjectGuid>{15B7832A-8575-40F2-849D-F7852D7015AE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DigitViewer</RootNamespace>
   </PropertyGroup>
@@ -139,84 +43,56 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -230,31 +106,19 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -267,31 +131,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -300,8 +152,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -314,8 +169,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;_DEBUG;_CONSOLE;X86_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -330,85 +188,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|Win32'">
-    <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;X86_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|Win32'">
-    <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;X86_SSE41;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|Win32'">
-    <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|Win32'">
-    <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;X86_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -425,9 +207,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;X86_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -436,7 +219,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE2|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
@@ -444,9 +227,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;X86_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_04_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -455,7 +238,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86 SSE4.1|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
@@ -463,9 +246,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;X86_SSE41;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -474,7 +257,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x86_SSE2|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
@@ -482,9 +265,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_04_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -493,7 +277,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='X86_SSE3|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
@@ -501,9 +285,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_07_Penryn;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -512,6 +296,81 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitConverter\ym_CVN.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitReaders\DigitReader.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitReaders\TextReader.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitReaders\YCDFileReader.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitReaders\YCDReader.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitWriters\DigitWriter.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitWriters\TextWriter.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitWriters\YCDFileWriter.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitWriters\YCDWriter.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\EndPointTasks.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\Main.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\Menu_DigitViewer.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\PrintHelpers.cpp" />
+    <ClCompile Include="..\..\Source Files\Public\SMC_Public.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawd_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawh_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawd_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawh_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default32.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default64.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_u64_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_str_to_raw_Default32.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_str_to_raw_Default64.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_u64_to_raw_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_u64_to_str_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawd_to_strd_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawd_to_ud_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawh_to_strh_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawh_to_ub_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_strd_to_rawd_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_strh_to_rawh_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64b_to_rawh_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64b_to_strh_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64d_to_rawd_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64d_to_strd_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_str_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_str_to_raw_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_u64_to_raw_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_u64_to_str_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawd_to_strd_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawd_to_ud_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawh_to_strh_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawh_to_ub_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_strd_to_rawd_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_strh_to_rawh_SSE2.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_rawh_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_strh_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_rawd_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_strd_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_headers.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_internals.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_u64_forward.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitReaders\DigitReader.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitReaders\TextReader.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitReaders\YCDFileReader.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitReaders\YCDReader.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\Globals.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitViewerUI.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitWriters\DigitWriter.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitWriters\TextWriter.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitWriters\YCDFileWriter.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitWriters\YCDWriter.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\EndPointTasks.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\Menu_DigitViewer.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\PrintHelpers.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\x86_SSE2.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -2,23 +2,30 @@ del "Digit Viewer.sdf"
 rd /s /q "ipch\"
 rd /s /q "x64\"
 rd /s /q "Digit Viewer\x64\"
+
 rd /s /q "Debug\"
 rd /s /q "Digit Viewer\Debug\"
+
 rd /s /q "Release\"
 rd /s /q "Digit Viewer\Release\"
-rd /s /q "x86 SSE2\"
-rd /s /q "Digit Viewer\x86 SSE2\"
-rd /s /q "x86 SSE4.1\"
-rd /s /q "Digit Viewer\x86 SSE4.1\"
-rd /s /q "Binaries\"
-rd /s /q "Output Files\"
-del "Digit Viewer.exe"
 
-cd Launcher
-del "Launcher.sdf"
-rd /s /q "Debug\"
-rd /s /q "Launcher\Debug\"
-rd /s /q "Release\"
-rd /s /q "Launcher\Release\"
+rd /s /q "04-SSE3\"
+rd /s /q "Digit Viewer\04-SSE3\"
 
-cd ..
+rd /s /q "07-Penryn\"
+rd /s /q "Digit Viewer\07-Penryn\"
+
+rd /s /q "08-Nehalem\"
+rd /s /q "Digit Viewer\08-Nehalem\"
+
+rd /s /q "11-SandyBridge\"
+rd /s /q "Digit Viewer\11-SandyBridge\"
+
+rd /s /q "11-Bulldozer\"
+rd /s /q "Digit Viewer\11-Bulldozer\"
+
+rd /s /q "13-Haswell\"
+rd /s /q "Digit Viewer\13-Haswell\"
+
+rd /s /q "15-Skylake\"
+rd /s /q "Digit Viewer\15-Skylake\"
