@@ -25,7 +25,7 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Helpers
-void write_uL_max(char* str,uiL_t x){
+void write_uL_max(char* str, uiL_t x){
     upL_t c = YC_DIGITWRITER_MAX_DIGIT_WIDTH;
     while (x != 0){
         str[--c] = (char)(x % 10) + '0';
@@ -38,7 +38,7 @@ void write_uL_max(char* str,uiL_t x){
 std::string to_string_max(uiL_t x){
     char str[YC_DIGITWRITER_MAX_DIGIT_WIDTH + 1];
     str[YC_DIGITWRITER_MAX_DIGIT_WIDTH] = '\0';
-    write_uL_max(str,x);
+    write_uL_max(str, x);
     return std::string(str);
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ void YCDFileWriter::operator=(YCDFileWriter &&x){
     pos_word            = x.pos_word;
     pos_char            = x.pos_char;
     buffered            = x.buffered;
-    memcpy(str_buffer,x.str_buffer,sizeof(str_buffer));
+    memcpy(str_buffer, x.str_buffer, sizeof(str_buffer));
 }
 YCDFileWriter::~YCDFileWriter(){
     close();
@@ -78,7 +78,7 @@ YCDFileWriter::YCDFileWriter(
     int radix_
 )
     : path(std::move(path_))
-    , file(0,path.c_str())
+    , file(0, path.c_str())
     , radix(radix_)
     , digits_per_file(digits_per_file_)
     , file_id(fileid_)
@@ -127,7 +127,7 @@ YCDFileWriter::YCDFileWriter(
 
     //  Write the header
     upL_t size = header.size();
-    if (file.write(&header[0],size) != size){
+    if (file.write(&header[0], size) != size){
         FileIO::PrintLastError();
         throw ym_exception(
             "Error writing to file.",
@@ -147,11 +147,11 @@ YCDFileWriter::YCDFileWriter(
             fp_convert = ymb_CVN_rawh_to_u64b_f;
             break;
         default:
-            throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
     }
 
     words_per_file = (digits_per_file - 1) / digits_per_word + 1;
-    memset(str_buffer,0,sizeof(str_buffer));
+    memset(str_buffer, 0, sizeof(str_buffer));
 }
 void YCDFileWriter::close(){
     //  The object isn't valid anyway.
@@ -189,12 +189,12 @@ bool YCDFileWriter::isValid() const{
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void YCDFileWriter::write_words(u64_t* T,upL_t L){
+void YCDFileWriter::write_words(u64_t* T, upL_t L){
     if (pos_word + L > words_per_file)
-        throw ym_exception("Attempted to write beyond the range of this file.",YCR_DIO_ERROR_INTERNAL);
+        throw ym_exception("Attempted to write beyond the range of this file.", YCR_DIO_ERROR_INTERNAL);
 
     upL_t bytes = L * sizeof(u64_t);
-    if (file.write(T,bytes) != bytes){
+    if (file.write(T, bytes) != bytes){
         FileIO::PrintLastError();
         throw ym_exception(
             "Error writing to file.",
@@ -204,8 +204,8 @@ void YCDFileWriter::write_words(u64_t* T,upL_t L){
     }
 }
 upL_t YCDFileWriter::write_chars(
-    const char* str,upL_t digits,
-    u64_t* buffer,upL_t buffer_L
+    const char* str, upL_t digits,
+    u64_t* buffer, upL_t buffer_L
 ){
     //  Write digits to the file.
     //  This method returns the number of digits that are actually written.
@@ -216,7 +216,7 @@ upL_t YCDFileWriter::write_chars(
     //  If the end of the file is reached, the file is closed.
 
     if (!file.IsOpen())
-        throw ym_exception("This file is already closed.",YCR_DIO_ERROR_INTERNAL);
+        throw ym_exception("This file is already closed.", YCR_DIO_ERROR_INTERNAL);
 
     upL_t start_digits = digits;
 
@@ -242,8 +242,8 @@ upL_t YCDFileWriter::write_chars(
             //  Buffer is full. Flush it.
             if (buffered == digits_per_word){
                 u64_t tmp;
-                fp_convert(&tmp,str_buffer,1);
-                write_words(&tmp,1);
+                fp_convert(&tmp, str_buffer, 1);
+                write_words(&tmp, 1);
                 buffered = 0;
             }
             continue;
@@ -271,8 +271,8 @@ upL_t YCDFileWriter::write_chars(
         current_digits = words * digits_per_word;
 
         //  Convert
-        fp_convert(buffer,str,words);
-        write_words(buffer,words);
+        fp_convert(buffer, str, words);
+        write_words(buffer, words);
 
         str      += current_digits;
         digits   -= current_digits;
@@ -294,8 +294,8 @@ void YCDFileWriter::flush(){
 
     //  Flush
     u64_t tmp;
-    fp_convert(&tmp,str_buffer,1);
-    write_words(&tmp,1);
+    fp_convert(&tmp, str_buffer, 1);
+    write_words(&tmp, 1);
     buffered = 0;
 }
 ////////////////////////////////////////////////////////////////////////////////

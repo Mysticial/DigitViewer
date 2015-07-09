@@ -73,7 +73,7 @@ public:
     void    push    (char digit);
 
     //  Write N digits to the file.
-    void    push    (const char* str,upL_t digits);
+    void    push    (const char* str, upL_t digits);
 
     //  Flush the internal buffer.
     void    flush   ();
@@ -96,7 +96,7 @@ public:
      *  So the same performance guidelines apply. Use this only when "digits"
      *  is very large.
      */
-    virtual void    write   (char* str,upL_t digits) = 0;
+    virtual void    write   (char* str, upL_t digits) = 0;
 
 private:
     DigitWriter(const DigitWriter&);

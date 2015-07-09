@@ -36,8 +36,8 @@ public:
 
 public:
     BasicFile(){};
-    BasicFile(const wchar_t* path,bool retry = false);              //  Open for read only.
-    BasicFile(ufL_t bytes,const wchar_t* path,bool retry = false);  //  Create for read + write.
+    BasicFile(const wchar_t* path, bool retry = false);                 //  Open for read only.
+    BasicFile(ufL_t bytes, const wchar_t* path, bool retry = false);    //  Create for read + write.
     ~BasicFile(){ Close(); }
 
     void Close();
@@ -50,12 +50,12 @@ public:
 
     void set_ptr(ufL_t offset);
 
-    upL_t write(const void* T,upL_t bytes);
-    upL_t read(void* T,upL_t bytes);
+    upL_t write(const void* T, upL_t bytes);
+    upL_t read(void* T, upL_t bytes);
     void flush();
 
     upL_t write_u16(const wchar_t* str);
-    upL_t read_u16(wchar_t* str,upL_t L);
+    upL_t read_u16(wchar_t* str, upL_t L);
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

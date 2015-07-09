@@ -31,29 +31,29 @@ void Menu_TextFile(TextReader* reader){
     Console::println("\n\nText File\n");
 
     Console::print("Total Digits after decimal place: ");
-    Console::println_commas(reader->get_digits(),'G');
+    Console::println_commas(reader->get_digits(), 'G');
     Console::println();
 
-    Console::println("First Digits:",'w');
-    Console::println(reader->get_first_digits(50).c_str(),'Y');
+    Console::println("First Digits:", 'w');
+    Console::println(reader->get_first_digits(50).c_str(), 'Y');
     Console::println("\n");
 
-    Console::println("What would you like to do?\n",'w');
+    Console::println("What would you like to do?\n", 'w');
     Console::print("  0     ");
-    Console::println("View a small range of digits.",'G');
-    Console::print("  1     ",'w');
-    Console::println("Count up the # of instances of each digit.",'G');
+    Console::println("View a small range of digits.", 'G');
+    Console::print("  1     ", 'w');
+    Console::println("Count up the # of instances of each digit.", 'G');
 
     if (reader->get_radix() == 10){
-        Console::print("  2     ",'w');
-        Console::println("Compute hash: Floor(x * 10^digits) mod (2^61 - 1)",'G');
+        Console::print("  2     ", 'w');
+        Console::println("Compute hash: Floor(x * 10^digits) mod (2^61 - 1)", 'G');
     }
 
-    Console::print("  3     ",'w');
-    Console::println("Compress the digits into one or more .ycd file.",'G');
+    Console::print("  3     ", 'w');
+    Console::println("Compress the digits into one or more .ycd file.", 'G');
 
-    Console::println("\nEnter your choice:",'w');
-    upL_t c = Console::scan_label_upL_range("option: ",0,3);
+    Console::println("\nEnter your choice:", 'w');
+    upL_t c = Console::scan_label_upL_range("option: ", 0, 3);
     Console::println();
 
     switch (c){
@@ -80,48 +80,48 @@ void Menu_YCDFile(YCDReader* reader){
         Console::println("Digits Found:");
         uiL_t digits = reader->get_digits();
         if (digits == 0){
-            Console::println("Unknown - Extended File Format",'G');
+            Console::println("Unknown - Extended File Format", 'G');
         }else{
-            Console::println_commas(digits,'G');
+            Console::println_commas(digits, 'G');
         }
         Console::println();
 
-        Console::println("First Digits:",'w');
-        Console::println(reader->get_first_digits(64).c_str(),'Y');
+        Console::println("First Digits:", 'w');
+        Console::println(reader->get_first_digits(64).c_str(), 'Y');
         Console::println();
 
-        Console::println("Digits per File:",'w');
-        Console::println_commas(reader->get_digits_per_file(),'Y');
+        Console::println("Digits per File:", 'w');
+        Console::println_commas(reader->get_digits_per_file(), 'Y');
         Console::println();
 
-        Console::println("Search paths:",'w');
+        Console::println("Search paths:", 'w');
         Console::SetColor('Y');
         reader->print_paths();
         Console::println();
 
-        Console::println("What would you like to do?\n",'w');
+        Console::println("What would you like to do?\n", 'w');
         Console::print("  0     ");
-        Console::println("View a small range of digits.",'G');
-        Console::print("  1     ",'w');
-        Console::println("Count up the # of instances of each digit.",'G');
+        Console::println("View a small range of digits.", 'G');
+        Console::print("  1     ", 'w');
+        Console::println("Count up the # of instances of each digit.", 'G');
 
         if (reader->get_radix() == 10){
-            Console::print("  2     ",'w');
-            Console::println("Compute hash: Floor(x * 10^digits) mod (2^61 - 1)",'G');
+            Console::print("  2     ", 'w');
+            Console::println("Compute hash: Floor(x * 10^digits) mod (2^61 - 1)", 'G');
         }
 
-        Console::print("  3     ",'w');
-        Console::println("Decompress a range of digits to a text file.",'G');
-        Console::print("  4     ",'w');
-        Console::println("Recompress a range of digits to one or more .ycd files.",'G');
-        Console::println("        (Advanced - Don't use unless you know what you're doing...)",'Y');
+        Console::print("  3     ", 'w');
+        Console::println("Decompress a range of digits to a text file.", 'G');
+        Console::print("  4     ", 'w');
+        Console::println("Recompress a range of digits to one or more .ycd files.", 'G');
+        Console::println("        (Advanced - Don't use unless you know what you're doing...)", 'Y');
         Console::println();
-        Console::print("  5     ",'w');
-        Console::print("Add search directory.",'G');
-        Console::println(" (if .ycd files are in multiple paths)",'Y');
+        Console::print("  5     ", 'w');
+        Console::print("Add search directory.", 'G');
+        Console::println(" (if .ycd files are in multiple paths)", 'Y');
 
-        Console::println("\nEnter your choice:",'w');
-        upL_t c = Console::scan_label_upL_range("option: ",0,5);
+        Console::println("\nEnter your choice:", 'w');
+        upL_t c = Console::scan_label_upL_range("option: ", 0, 5);
 
         switch (c){
             case 0:
@@ -156,10 +156,10 @@ void Menu_YCDFile(YCDReader* reader){
 ////////////////////////////////////////////////////////////////////////////////
 void Menu_DigitViewer(){
     Console::println("\n\n");
-    Console::println(VERSION,'G');
+    Console::println(VERSION, 'G');
     Console::println();
 
-    Console::println("Enter the path of the file (include .txt or .ycd extensions):",'w');
+    Console::println("Enter the path of the file (include .txt or .ycd extensions):", 'w');
 
     //  Prompt for path
     auto path = Console::scan_wstr();

@@ -18,8 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#define ymi_CVN_rawh_to_u64b_u0_Default(T,A){   \
-    register u64_t _r0,_r1,_r2,_r3; \
+#define ymi_CVN_rawh_to_u64b_u0_Default(T, A){   \
+    register u64_t _r0, _r1, _r2, _r3; \
     \
     _r0 = ((const u64_t*)(A))[0];   \
     _r1 = ((const u64_t*)(A))[1];   \
@@ -62,9 +62,9 @@
     \
     ((u64_t*)(T))[0] = _r0; \
 }
-#define ymi_CVN_rawh_to_u64b_u1_Default(T,A){   \
-    register u64_t _r0,_r1,_r2,_r3; \
-    register u64_t _s0,_s1,_s2,_s3; \
+#define ymi_CVN_rawh_to_u64b_u1_Default(T, A){   \
+    register u64_t _r0, _r1, _r2, _r3; \
+    register u64_t _s0, _s1, _s2, _s3; \
     \
     _r0 = ((const u64_t*)(A))[0];   \
     _r1 = ((const u64_t*)(A))[1];   \

@@ -7,6 +7,7 @@
  */
 
 #include "DigitConverter/ymb_CVN_internals.h"
+#include "DigitConverter/ymb_CVN_cdi_reverse.cpp"
 
 #include "DigitReaders/DigitReader.cpp"
 #include "DigitReaders/TextReader.cpp"

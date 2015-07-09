@@ -46,11 +46,11 @@ public:
     YCDFileReader(std::wstring path);
 
     void print() const;
-    void read_words(ufL_t pos,u64_t* T,upL_t L);
+    void read_words(ufL_t pos, u64_t* T, upL_t L);
     void read_chars(
-        uiL_t pos,char* str,upL_t digits,
-        u64_t* buffer,upL_t buffer_L,
-        void (*fp_convert)(char*,const u64_t*,upL_t)
+        uiL_t pos, char* str, upL_t digits,
+        u64_t* buffer, upL_t buffer_L,
+        void (*fp_convert)(char*, const u64_t*, upL_t)
     );
 
 private:

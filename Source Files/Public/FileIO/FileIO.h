@@ -30,9 +30,9 @@ namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Headers
-void    Arch                ();
+void    CompileOptions      ();
 void    MakeDirectory       (const wchar_t* path);
-void    RenameFile          (const wchar_t* oldname,const wchar_t* newname);
+void    RenameFile          (const wchar_t* oldname, const wchar_t* newname);
 ufL_t   GetFileSize         (const wchar_t* path);
 bool    FileExists          (const wchar_t* path);
 void    RemoveFile          (const wchar_t* path);

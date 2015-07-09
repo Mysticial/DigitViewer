@@ -31,19 +31,19 @@ enum NumberFormat{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Integer
-std::string tostr       (uiL_t x,NumberFormat format = NORMAL);
-std::string tostr       (siL_t x,NumberFormat format = NORMAL);
-std::string tostrln     (uiL_t x,NumberFormat format = NORMAL);
-std::string tostrln     (siL_t x,NumberFormat format = NORMAL);
-inline std::string tostrln  (u32_t x,NumberFormat format = NORMAL){ return tostrln((uiL_t)x,format); }
-inline std::string tostrln  (s32_t x,NumberFormat format = NORMAL){ return tostrln((siL_t)x,format); }
+std::string tostr       (uiL_t x, NumberFormat format = NORMAL);
+std::string tostr       (siL_t x, NumberFormat format = NORMAL);
+std::string tostrln     (uiL_t x, NumberFormat format = NORMAL);
+std::string tostrln     (siL_t x, NumberFormat format = NORMAL);
+inline std::string tostrln  (u32_t x, NumberFormat format = NORMAL){ return tostrln((uiL_t)x, format); }
+inline std::string tostrln  (s32_t x, NumberFormat format = NORMAL){ return tostrln((siL_t)x, format); }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Float
-std::string tostr_float     (double x,int precision = 0);
-std::string tostrln_float   (double x,int precision = 0);
-std::string tostr_fixed     (double x,int precision = 3);
-std::string tostrln_fixed   (double x,int precision = 3);
+std::string tostr_float     (double x, int precision = 0);
+std::string tostrln_float   (double x, int precision = 0);
+std::string tostr_fixed     (double x, int precision = 3);
+std::string tostrln_fixed   (double x, int precision = 3);
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  char <-> wide

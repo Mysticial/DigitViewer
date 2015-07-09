@@ -27,20 +27,20 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
-YCDReader::YCDReader(std::wstring path_,bool raw,upL_t buffer_size)
+YCDReader::YCDReader(std::wstring path_, bool raw, upL_t buffer_size)
     : max_id_length(0)
     , fp_convert(NULL)
 {
     if (buffer_size < 4096)
-        throw ym_exception("Requested buffer size is too small.",YCR_DIO_ERROR_INVALID_PARAMETERS);
+        throw ym_exception("Requested buffer size is too small.", YCR_DIO_ERROR_INVALID_PARAMETERS);
 
     //  Check the file name
     if (path_.size() < 4)
-        throw ym_exception("File name is too short.",path_,YCR_DIO_ERROR_INVALID_FILE);
+        throw ym_exception("File name is too short.", path_, YCR_DIO_ERROR_INVALID_FILE);
 
     //  Check extension
-    if (path_.substr(path_.size() - 4,4) != L".ycd")
-        throw ym_exception("Invalid Extension",YCR_DIO_ERROR_INVALID_EXTENSION);
+    if (path_.substr(path_.size() - 4, 4) != L".ycd")
+        throw ym_exception("Invalid Extension", YCR_DIO_ERROR_INVALID_EXTENSION);
 
     //  Separate name and path.
     upL_t slash_index = path_.size();
@@ -50,8 +50,8 @@ YCDReader::YCDReader(std::wstring path_,bool raw,upL_t buffer_size)
             break;
         slash_index--;
     }
-    std::wstring base = path_.substr(0,slash_index);
-    name = path_.substr(slash_index,path_.size());
+    std::wstring base = path_.substr(0, slash_index);
+    name = path_.substr(slash_index, path_.size());
 
     //  Add base path to path list.
     paths.push_back(std::move(base));
@@ -80,7 +80,7 @@ YCDReader::YCDReader(std::wstring path_,bool raw,upL_t buffer_size)
     set_raw(raw);
 
     bin_buffer_L = buffer_size / sizeof(u64_t);
-    bin_buffer = (u64_t*)AlignedMalloc(bin_buffer_L * sizeof(u64_t),2*sizeof(u64_t));
+    bin_buffer = (u64_t*)AlignedMalloc(bin_buffer_L * sizeof(u64_t), 2*sizeof(u64_t));
 }
 YCDReader::~YCDReader(){
     AlignedFree(bin_buffer);
@@ -90,11 +90,11 @@ YCDReader::~YCDReader(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 void YCDReader::print() const{
-    Console::println_labelm(8,"Name:",name);
+    Console::println_labelm(8, "Name:", name);
 
     const upL_t MARGIN = 20;
-    
-    Console::println_labelm(MARGIN,"max_id_length:",max_id_length);
+
+    Console::println_labelm(MARGIN, "max_id_length:", max_id_length);
 
     //  Search Paths
     Console::println("Search Paths:");
@@ -104,16 +104,16 @@ void YCDReader::print() const{
     }
     Console::println();
 
-    Console::println_labelm         (MARGIN,"Radix:",radix);
-    Console::println_labelm_commas  (MARGIN,"digits_per_word:",digits_per_word);
-    Console::println_labelm         (MARGIN,"first_digits:",first_digits);
-    Console::println_labelm_commas  (MARGIN,"total_digits:",total_digits);
-    Console::println_labelm_commas  (MARGIN,"digits_per_file:",digits_per_file);
-    Console::println_labelm_commas  (MARGIN,"blocks_per_file:",blocks_per_file);
-    Console::println_labelm_commas  (MARGIN,"bin_buffer_L:",bin_buffer_L);
-    Console::println_labelm_commas  (MARGIN,"buffer_L:",buffer_L);
-    Console::println_labelm         (24,"Iterator File Offset:",iter_f_offset);
-    Console::println_labelm_commas  (24,"Iterator Buffer Offset:",iter_b_offset);
+    Console::println_labelm         (MARGIN, "Radix:", radix);
+    Console::println_labelm_commas  (MARGIN, "digits_per_word:", digits_per_word);
+    Console::println_labelm         (MARGIN, "first_digits:", first_digits);
+    Console::println_labelm_commas  (MARGIN, "total_digits:", total_digits);
+    Console::println_labelm_commas  (MARGIN, "digits_per_file:", digits_per_file);
+    Console::println_labelm_commas  (MARGIN, "blocks_per_file:", blocks_per_file);
+    Console::println_labelm_commas  (MARGIN, "bin_buffer_L:", bin_buffer_L);
+    Console::println_labelm_commas  (MARGIN, "buffer_L:", buffer_L);
+    Console::println_labelm         (24, "Iterator File Offset:", iter_f_offset);
+    Console::println_labelm_commas  (24, "Iterator Buffer Offset:", iter_b_offset);
     Console::println();
 }
 int YCDReader::get_radix() const{
@@ -136,7 +136,7 @@ void YCDReader::set_raw(bool raw){
         default:;
     }
 }
-bool YCDReader::check_range(uiL_t start,uiL_t end){
+bool YCDReader::check_range(uiL_t start, uiL_t end){
     //  Checks to see if all the necessary files to access the range [start, end)
     //  exist and can be opened.
 
@@ -172,7 +172,7 @@ bool YCDReader::check_range(uiL_t start,uiL_t end){
 std::string YCDReader::get_first_digits(upL_t L){
     return first_digits;
 }
-void YCDReader::read(uiL_t pos,char* str,upL_t digits){
+void YCDReader::read(uiL_t pos, char* str, upL_t digits){
     //  This method reads digits from the file.
     //  It reads the following region:
     //      [pos, pos + digits)
@@ -186,7 +186,7 @@ void YCDReader::read(uiL_t pos,char* str,upL_t digits){
 
     uiL_t end = pos + digits;
     if (total_digits != 0 && end > total_digits)
-        throw ym_exception("Out of range.",YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw ym_exception("Out of range.", YCR_DIO_ERROR_OUT_OF_RANGE);
 
     //  Find file boundaries
     uiL_t file_start = pos / digits_per_file;
@@ -196,7 +196,7 @@ void YCDReader::read(uiL_t pos,char* str,upL_t digits){
     if (file_end - file_start == 1){
         set_current_file(file_start);
 //        cout << file_start << "  " << pos << "   " << pos + digits << "  " << digits << endl;
-        current_file.read_chars(pos,str,digits,bin_buffer,bin_buffer_L,fp_convert);
+        current_file.read_chars(pos, str, digits, bin_buffer, bin_buffer_L, fp_convert);
         return;
     }
 
@@ -213,7 +213,7 @@ void YCDReader::read(uiL_t pos,char* str,upL_t digits){
         //  First file may be a partial file.
         if (file == file_start){
             upL_t current = (upL_t)(local_end - pos);
-            current_file.read_chars(pos,str,current,bin_buffer,bin_buffer_L,fp_convert);
+            current_file.read_chars(pos, str, current, bin_buffer, bin_buffer_L, fp_convert);
             str += current;
             pos += current;
             digits -= current;
@@ -225,7 +225,7 @@ void YCDReader::read(uiL_t pos,char* str,upL_t digits){
         if (current > digits_per_file)
             current = (upL_t)digits_per_file;
 
-        current_file.read_chars(pos,str,current,bin_buffer,bin_buffer_L,fp_convert);
+        current_file.read_chars(pos, str, current, bin_buffer, bin_buffer_L, fp_convert);
 
         str += current;
         pos += current;
@@ -260,7 +260,7 @@ void YCDReader::print_paths() const{
 upL_t YCDReader::get_num_paths() const{
     return paths.size();
 }
-void YCDReader::load_new_file(std::wstring path,uiL_t id){
+void YCDReader::load_new_file(std::wstring path, uiL_t id){
     //  Loads a new file, checks all the metadata and updates "total_digits" and
     //  "max_id_length" if possible.
 
@@ -273,18 +273,18 @@ void YCDReader::load_new_file(std::wstring path,uiL_t id){
 
     //  Cross check all the metadata.
     if (new_file.file_version != current_file.file_version)
-        throw ym_exception("File version does not match.",YCR_DIO_ERROR_INCONSISTENT);
+        throw ym_exception("File version does not match.", YCR_DIO_ERROR_INCONSISTENT);
     if (new_file.radix != current_file.radix)
-        throw ym_exception("Radix does not match.",YCR_DIO_ERROR_INCONSISTENT);
+        throw ym_exception("Radix does not match.", YCR_DIO_ERROR_INCONSISTENT);
     if (new_file.digits_per_file != current_file.digits_per_file)
-        throw ym_exception("Digits per file does not match.",YCR_DIO_ERROR_INCONSISTENT);
+        throw ym_exception("Digits per file does not match.", YCR_DIO_ERROR_INCONSISTENT);
     if (new_file.digits_per_word != current_file.digits_per_word)
-        throw ym_exception("Digits per word does not match.",YCR_DIO_ERROR_INCONSISTENT);
+        throw ym_exception("Digits per word does not match.", YCR_DIO_ERROR_INCONSISTENT);
     if (total_digits != 0 &&
         current_file.total_digits != 0 &&
         total_digits != current_file.total_digits
     ){
-        throw ym_exception("Total digit does not match.",YCR_DIO_ERROR_INCONSISTENT);
+        throw ym_exception("Total digit does not match.", YCR_DIO_ERROR_INCONSISTENT);
     }
 
     //  Set new total digits.
@@ -323,7 +323,7 @@ void YCDReader::set_current_file(uiL_t id){
 
             //  If the file exists, we're done. Open it.
             if (FileIO::FileExists(full_path.c_str())){
-                load_new_file(std::move(full_path),id);
+                load_new_file(std::move(full_path), id);
                 return;
             }
 
@@ -339,7 +339,7 @@ void YCDReader::set_current_file(uiL_t id){
 
     std::string error = "Unable to open file #";
     error += std::to_string(id);
-    throw ym_exception(error,YCR_DIO_ERROR_FILE_NOT_FOUND);
+    throw ym_exception(error, YCR_DIO_ERROR_FILE_NOT_FOUND);
 }
 YM_NO_INLINE void YCDReader::reload(){
     //  This overrides the default reload() function. This is necessary because
@@ -375,7 +375,7 @@ YM_NO_INLINE void YCDReader::reload(){
     if (total_digits != 0 && start >= total_digits){
         std::string error("No more digits left: ");
         error += std::to_string(total_digits);
-        throw ym_exception(std::move(error),YCR_DIO_ERROR_NO_DIGITS_LEFT);
+        throw ym_exception(std::move(error), YCR_DIO_ERROR_NO_DIGITS_LEFT);
     }
 
     //  Get read limit.
@@ -410,7 +410,7 @@ YM_NO_INLINE void YCDReader::reload(){
     }
 
     //  Read into buffer
-    this->read(start,&buffer[current_b_offset],read);
+    this->read(start, &buffer[current_b_offset], read);
 
     //  Do this assignment last to protect against an exception.
     iter_b_offset = current_b_offset;

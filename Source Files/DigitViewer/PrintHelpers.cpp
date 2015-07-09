@@ -29,7 +29,7 @@ void ClearLine(){
 
     Console::print("\r");
 }
-void DisplayChar(char digit,upL_t *b,upL_t *r,uiL_t *c){
+void DisplayChar(char digit, upL_t *b, upL_t *r, uiL_t *c){
     //  Print a single digit.
 
     //Parameters:
@@ -41,8 +41,8 @@ void DisplayChar(char digit,upL_t *b,upL_t *r,uiL_t *c){
     (*r)++;
     (*c)++;
 
-    char str[] = {digit,'\0'};
-    Console::print(str,'Y');
+    char str[] = {digit, '\0'};
+    Console::print(str, 'Y');
     Console::SetColor('w');
 
     if (*b == 10){
@@ -52,11 +52,11 @@ void DisplayChar(char digit,upL_t *b,upL_t *r,uiL_t *c){
     if (*r == 50){
         *r = 0;
         Console::print(" :  ");
-        Console::println_commas(*c,'G');
+        Console::println_commas(*c, 'G');
         Console::SetColor('w');
     }
 }
-void DisplayFancy(uiL_t pos,const char *str,upL_t digits){
+void DisplayFancy(uiL_t pos, const char *str, upL_t digits){
     //  Print a string of digits in fancy format.
 
     uiL_t end = pos + digits;
@@ -67,14 +67,14 @@ void DisplayFancy(uiL_t pos,const char *str,upL_t digits){
 
     //  Leading spaces
     while (c < pos)
-        DisplayChar(' ',&b,&r,&c);
+        DisplayChar(' ', &b, &r, &c);
 
     //  Print digits
     while (c < end){
         char ch = *str++;
         if (ch == '\0')
             break;
-        DisplayChar(ch,&b,&r,&c);
+        DisplayChar(ch, &b, &r, &c);
     }
 
     if (c < 50)

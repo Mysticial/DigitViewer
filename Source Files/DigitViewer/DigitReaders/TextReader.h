@@ -45,9 +45,9 @@ public:
     virtual int         get_radix       () const;
     virtual ufL_t       get_digits      () const;
     virtual void        set_raw         (bool raw);
-    virtual bool        check_range     (uiL_t start,uiL_t end);
+    virtual bool        check_range     (uiL_t start, uiL_t end);
     virtual std::string get_first_digits(upL_t L);
-    virtual void        read            (uiL_t pos,char* str,upL_t digits);
+    virtual void        read            (uiL_t pos, char* str, upL_t digits);
 
     void                set_radix       (int radix);
 
@@ -55,7 +55,7 @@ private:
     FileIO::BasicFile file;         //  File handle
     int radix;                      //  Radix of the digits. (10 or 16)
 
-    int (*fp_convert)(char*,upL_t); //  Function pointer for digit conversion.
+    int (*fp_convert)(char*, upL_t); //  Function pointer for digit conversion.
     ufL_t dp_offset;                //  Offset in the file of the first digit after the decimal place.
     ufL_t total_digits;             //  Digits after the decimal place.
 

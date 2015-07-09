@@ -46,8 +46,8 @@ TextReader::TextReader(
     uiL_t c = 0;
     while (1){
         char ch;
-        if (file.read(&ch,1) != 1){
-            throw ym_exception("Unexpected End of File",path,FileIO::GetLastErrorCode());
+        if (file.read(&ch, 1) != 1){
+            throw ym_exception("Unexpected End of File", path, FileIO::GetLastErrorCode());
         }
 
         c++;
@@ -114,7 +114,7 @@ void TextReader::set_raw(bool raw){
                 fp_convert = ymb_CVN_strh_to_rawh_f;
                 break;
             default:
-                throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+                throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
         };
     }else{
         //  User wants output to be text.
@@ -126,13 +126,13 @@ void TextReader::set_raw(bool raw){
                 fp_convert = NULL;
                 break;
             default:
-                throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+                throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
         };
     }
 }
-bool TextReader::check_range(uiL_t start,uiL_t end){
+bool TextReader::check_range(uiL_t start, uiL_t end){
     if (start >= end)
-        throw ym_exception("Invalid Parameters",YCR_DIO_ERROR_INVALID_PARAMETERS);
+        throw ym_exception("Invalid Parameters", YCR_DIO_ERROR_INVALID_PARAMETERS);
     if (start >= total_digits)
         return false;
     if (end > total_digits)
@@ -144,8 +144,8 @@ std::string TextReader::get_first_digits(upL_t L){
         return "";
     file.set_ptr(0);
 
-    std::string str(L,'\0');
-    file.read(&str[0],L);
+    std::string str(L, '\0');
+    file.read(&str[0], L);
 
     return str;
 }
@@ -153,26 +153,26 @@ std::string TextReader::get_first_digits(upL_t L){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void TextReader::read(uiL_t pos,char* str,upL_t digits){
+void TextReader::read(uiL_t pos, char* str, upL_t digits){
     uiL_t end = pos + digits;
 
     //  Ends past the end.
     if (end > total_digits)
-        throw ym_exception("Out of range.",YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw ym_exception("Out of range.", YCR_DIO_ERROR_OUT_OF_RANGE);
 
     file.set_ptr(dp_offset + pos);
-    if (file.read(str,digits) != digits){
-        throw ym_exception("Error Reading from File",FileIO::GetLastErrorCode());
+    if (file.read(str, digits) != digits){
+        throw ym_exception("Error Reading from File", FileIO::GetLastErrorCode());
     }
 
     //  Convert
     if (fp_convert != NULL){
-        if (fp_convert(str,digits)){
+        if (fp_convert(str, digits)){
             std::string error("Invalid Digit: ");
             error += std::to_string(pos);
             error += " - ";
             error += std::to_string(pos + digits);
-            throw ym_exception(std::move(error),YCR_DIO_ERROR_INVALID_DIGIT);
+            throw ym_exception(std::move(error), YCR_DIO_ERROR_INVALID_DIGIT);
         }
     }
 }
@@ -188,7 +188,7 @@ void TextReader::set_radix(int radix){
         case 16:
             break;
         default:
-            throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
     }
     this->radix = radix;
     if (fp_convert != NULL)
@@ -206,7 +206,7 @@ void TextReader::auto_detect_radix(){
 
     for (upL_t c = 0; c < 64; c++){
         char ch;
-        if (file.read(&ch,1) != 1){
+        if (file.read(&ch, 1) != 1){
             break;
         }
 

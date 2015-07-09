@@ -27,14 +27,14 @@ const int DEFAULT_PRECISION = 6;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void Arch();
+void CompileOptions();
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core
-upL_t   print   (const char* str,char color = ' ');
-upL_t   print   (const wchar_t* str,char color = ' ');
+upL_t   print   (const char* str, char color = ' ');
+upL_t   print   (const wchar_t* str, char color = ' ');
 upL_t   println ();
 ////////////////////////////////////////////////////////////////////////////////
 std::string     scan_astr   (char color = 'T');
@@ -46,46 +46,46 @@ void    SetColorDefault ();
 extern bool EnableColors;
 ////////////////////////////////////////////////////////////////////////////////
 //  Basic Derived
-upL_t   print       (const std::string& str,char color = ' ');
-upL_t   print       (const std::wstring& str,char color = ' ');
-upL_t   println     (std::string str,char color = ' ');
-upL_t   println     (std::wstring str,char color = ' ');
+upL_t   print       (const std::string& str, char color = ' ');
+upL_t   print       (const std::wstring& str, char color = ' ');
+upL_t   println     (std::string str, char color = ' ');
+upL_t   println     (std::wstring str, char color = ' ');
 void    ClearLine   (int characters = 79);
-void    Warning     (std::string str,bool sticky = false);
+void    Warning     (std::string str, bool sticky = false);
 void    Quit        (int code);
 ////////////////////////////////////////////////////////////////////////////////
 //  Integer
-upL_t   print           (uiL_t x,char color = ' ');
-upL_t   print           (siL_t x,char color = ' ');
-inline  upL_t   print   (u32_t x,char color = ' '){ return print((uiL_t)x,color); }
-inline  upL_t   print   (s32_t x,char color = ' '){ return print((siL_t)x,color); }
+upL_t   print           (uiL_t x, char color = ' ');
+upL_t   print           (siL_t x, char color = ' ');
+inline  upL_t   print   (u32_t x, char color = ' '){ return print((uiL_t)x, color); }
+inline  upL_t   print   (s32_t x, char color = ' '){ return print((siL_t)x, color); }
 ////////////////////////////////////////////////////////////////////////////////
-upL_t   println         (uiL_t x,char color = ' ');
-upL_t   println         (siL_t x,char color = ' ');
-inline  upL_t   println (u32_t x,char color = ' '){ return println((uiL_t)x,color); }
-inline  upL_t   println (s32_t x,char color = ' '){ return println((siL_t)x,color); }
+upL_t   println         (uiL_t x, char color = ' ');
+upL_t   println         (siL_t x, char color = ' ');
+inline  upL_t   println (u32_t x, char color = ' '){ return println((uiL_t)x, color); }
+inline  upL_t   println (s32_t x, char color = ' '){ return println((siL_t)x, color); }
 ////////////////////////////////////////////////////////////////////////////////
-upL_t   print_commas    (uiL_t x,char color = ' ');
-upL_t   print_commas    (siL_t x,char color = ' ');
-inline  upL_t   print_commas    (u32_t x,char color = ' '){ return print_commas((uiL_t)x,color); }
-inline  upL_t   print_commas    (s32_t x,char color = ' '){ return print_commas((siL_t)x,color); }
-upL_t   println_commas  (uiL_t x,char color = ' ');
-upL_t   println_commas  (siL_t x,char color = ' ');
-inline  upL_t   println_commas  (u32_t x,char color = ' '){ return println_commas((uiL_t)x,color); }
-inline  upL_t   println_commas  (s32_t x,char color = ' '){ return println_commas((siL_t)x,color); }
+upL_t   print_commas    (uiL_t x, char color = ' ');
+upL_t   print_commas    (siL_t x, char color = ' ');
+inline  upL_t   print_commas    (u32_t x, char color = ' '){ return print_commas((uiL_t)x, color); }
+inline  upL_t   print_commas    (s32_t x, char color = ' '){ return print_commas((siL_t)x, color); }
+upL_t   println_commas  (uiL_t x, char color = ' ');
+upL_t   println_commas  (siL_t x, char color = ' ');
+inline  upL_t   println_commas  (u32_t x, char color = ' '){ return println_commas((uiL_t)x, color); }
+inline  upL_t   println_commas  (s32_t x, char color = ' '){ return println_commas((siL_t)x, color); }
 ////////////////////////////////////////////////////////////////////////////////
-upL_t   print_bytes     (uiL_t x,char color = ' ');
-upL_t   println_bytes   (uiL_t x,char color = ' ');
-upL_t   print_ebytes    (uiL_t x,char color = ' ');
-upL_t   println_ebytes  (uiL_t x,char color = ' ');
+upL_t   print_bytes     (uiL_t x, char color = ' ');
+upL_t   println_bytes   (uiL_t x, char color = ' ');
+upL_t   print_ebytes    (uiL_t x, char color = ' ');
+upL_t   println_ebytes  (uiL_t x, char color = ' ');
 siL_t   scan_siL        (char color = 'T');
 uiL_t   scan_bytes      (char color = 'T');
 ////////////////////////////////////////////////////////////////////////////////
 //  Floating Point
-upL_t   print_float     (double x,int precision = DEFAULT_PRECISION,char color = ' ');
-upL_t   println_float   (double x,int precision = DEFAULT_PRECISION,char color = ' ');
-upL_t   print_fixed     (double x,int precision = 3,char color = ' ');
-upL_t   println_fixed   (double x,int precision = 3,char color = ' ');
+upL_t   print_float     (double x, int precision = DEFAULT_PRECISION, char color = ' ');
+upL_t   println_float   (double x, int precision = DEFAULT_PRECISION, char color = ' ');
+upL_t   print_fixed     (double x, int precision = 3, char color = ' ');
+upL_t   println_fixed   (double x, int precision = 3, char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
 //  Unit Tests
 void    print_test      (bool x);

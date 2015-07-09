@@ -28,29 +28,29 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void ymb_CVN_u64b_to_rawh_f(char* T,const u64_t* A,upL_t AL){
+void ymb_CVN_u64b_to_rawh_f(char* T, const u64_t* A, upL_t AL){
     const u64_t* stopA = A + AL;
 
     //  Iterate until A is aligned.
     if (A < stopA && ((upL_t)A & 15)){
-        ymi_CVN_u64b_to_rawh_u0_Default(T,A);
+        ymi_CVN_u64b_to_rawh_u0_Default(T, A);
         A += 1;
         T += 16;
     }
 
     //  Proceed at full speed.
     while (A < stopA - 3){
-        ymi_CVN_u64b_to_rawh_u2_SSE41(T,A);
+        ymi_CVN_u64b_to_rawh_u2_SSE41(T, A);
         A += 4;
         T += 64;
     }
     while (A < stopA - 1){
-        ymi_CVN_u64b_to_rawh_u1_SSE41(T,A);
+        ymi_CVN_u64b_to_rawh_u1_SSE41(T, A);
         A += 2;
         T += 32;
     }
     if (A < stopA){
-        ymi_CVN_u64b_to_rawh_u0_Default(T,A);
+        ymi_CVN_u64b_to_rawh_u0_Default(T, A);
         A += 1;
         T += 16;
     }
@@ -59,24 +59,24 @@ void ymb_CVN_u64b_to_rawh_f(char* T,const u64_t* A,upL_t AL){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void ymb_CVN_u64d_to_rawd_f(char* T,const u64_t* A,upL_t AL){
+void ymb_CVN_u64d_to_rawd_f(char* T, const u64_t* A, upL_t AL){
     const u64_t* stopA = A + AL;
 
     //  Iterate until A is aligned.
     while  (A < stopA && ((upL_t)A & 15)){
-        ymi_CVN_u64d19_to_rawd_u0_Default(T,A);
+        ymi_CVN_u64d19_to_rawd_u0_Default(T, A);
         A += 1;
         T += 19;
     }
 
     //  Proceed at full speed.
     while (A < stopA - 1){
-        ymi_CVN_u64d19_to_rawd_u1_SSE41(T,A);
+        ymi_CVN_u64d19_to_rawd_u1_SSE41(T, A);
         A += 2;
         T += 38;
     }
     if (A < stopA){
-        ymi_CVN_u64d19_to_rawd_u0_Default(T,A);
+        ymi_CVN_u64d19_to_rawd_u0_Default(T, A);
         A += 1;
         T += 19;
     }

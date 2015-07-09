@@ -21,17 +21,17 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void Arch(){
-    Console::println_labelm("Console IO","Color Codes",'G');
+void CompileOptions(){
+    Console::println_labelm("Console IO", "Color Codes", 'G');
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
-upL_t print(const char* str,char color){
+upL_t print(const char* str, char color){
     SetColor(color);
-    if (fwide(stdout,0) <= 0){
+    if (fwide(stdout, 0) <= 0){
         std::cout << str;
     }else{
         std::wcout << str;
@@ -39,9 +39,9 @@ upL_t print(const char* str,char color){
     fflush(stdout);
     return strlen(str);
 }
-upL_t print(const wchar_t* str,char color){
+upL_t print(const wchar_t* str, char color){
     SetColor(color);
-    if (fwide(stdout,0) <= 0){
+    if (fwide(stdout, 0) <= 0){
         std::cout << StringTools::w_to_a_direct(str);
     }else{
         std::wcout << str;
@@ -50,18 +50,18 @@ upL_t print(const wchar_t* str,char color){
     return wcslen(str);
 }
 std::string scan_astr(char color){
-    if (fwide(stdin,0) > 0)
+    if (fwide(stdin, 0) > 0)
         return StringTools::w_to_a_direct(scan_wstr(color));
 
     SetColor(color);
     std::string out;
-    std::getline(std::cin,out);
+    std::getline(std::cin, out);
     if (color != ' ')
         SetColor('w');
     return out;
 }
 std::wstring scan_wstr(char color){
-    if (fwide(stdin,0) <= 0)
+    if (fwide(stdin, 0) <= 0)
         return StringTools::a_to_w_direct(scan_astr(color));
 
     SetColor(color);
@@ -78,7 +78,7 @@ std::wstring scan_wstr(char color){
     return out;
 }
 void Pause(char color){
-    print("Press ENTER to continue . . .",color);
+    print("Press ENTER to continue . . .", color);
     scan_astr();
 }
 ////////////////////////////////////////////////////////////////////////////////

@@ -24,7 +24,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#define ymi_CVN_c32i_to_rawh_u0_Default(T,A){   \
+#define ymi_CVN_c32i_to_rawh_u0_Default(T, A){  \
     register u64_t _a0; \
     register u64_t _b0; \
     \
@@ -50,9 +50,9 @@
     \
     ((u64_t*)(T))[0] = _a0; \
 }
-#define ymi_CVN_c32i_to_rawh_u1_Default(T,A){   \
-    register u64_t _a0,_a1; \
-    register u64_t _b0,_b1; \
+#define ymi_CVN_c32i_to_rawh_u1_Default(T, A){  \
+    register u64_t _a0, _a1;    \
+    register u64_t _b0, _b1;    \
     \
     _a0 = ((const u32_t*)(A))[0];   \
     _a1 = ((const u32_t*)(A))[1];   \

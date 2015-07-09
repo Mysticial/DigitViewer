@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include "../CompilerSettings.h"
 #include "Array.h"
 namespace ymp{
 namespace Console{
@@ -18,8 +19,8 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-template <typename wtype>
-void print_af(const wtype* A,upL_t L,char color){
+template <typename wtype> YM_NO_INLINE
+void print_af(const wtype* A, upL_t L, char color){
     SetColor(color);
 
     if (L == 0){
@@ -28,7 +29,7 @@ void print_af(const wtype* A,upL_t L,char color){
     }
 
     print("{");
-    
+
     L--;
     for (upL_t c = 0; c < L; c++){
         print(A[c]);
@@ -38,14 +39,15 @@ void print_af(const wtype* A,upL_t L,char color){
     print("}");
 }
 template <typename wtype>
-void println_af(const wtype* A,upL_t L,char color){
-    print_af(A,L,color);
+void println_af(const wtype* A, upL_t L, char color){
+    print_af(A, L, color);
     println();
 }
-template void println_af<u32_t>(const u32_t* A,upL_t L,char color);
-template void println_af<s32_t>(const s32_t* A,upL_t L,char color);
-template void println_af<u64_t>(const u64_t* A,upL_t L,char color);
-template void println_af<s64_t>(const s64_t* A,upL_t L,char color);
+////////////////////////////////////////////////////////////////////////////////
+template void println_af<u32_t>(const u32_t* A, upL_t L, char color);
+template void println_af<s32_t>(const s32_t* A, upL_t L, char color);
+template void println_af<u64_t>(const u64_t* A, upL_t L, char color);
+template void println_af<s64_t>(const s64_t* A, upL_t L, char color);
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

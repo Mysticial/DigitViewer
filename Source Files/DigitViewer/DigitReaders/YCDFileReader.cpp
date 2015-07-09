@@ -26,15 +26,15 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Helpers
-std::string grab_until_delim(FileIO::BasicFile* file,char delim){
+std::string grab_until_delim(FileIO::BasicFile* file, char delim){
     //  Streams characters from "file" into a string until a deliminator is found.
 
     std::string out;
 
     char ch;
     do{
-        if (file->read(&ch,1) == 0)
-            throw ym_exception("Unexpected End of File",file->GetPath(),FileIO::GetLastErrorCode());
+        if (file->read(&ch, 1) == 0)
+            throw ym_exception("Unexpected End of File", file->GetPath(), FileIO::GetLastErrorCode());
         if (ch == '\r')
             continue;
         if (ch == delim)
@@ -42,7 +42,7 @@ std::string grab_until_delim(FileIO::BasicFile* file,char delim){
         out += ch;
     }while (1);
 }
-const char* grab_until_delim(std::string& token,const char* str,char delim){
+const char* grab_until_delim(std::string& token, const char* str, char delim){
     //  Streams characters from "str" into the builder until a deliminator is found.
 
     char ch;
@@ -91,16 +91,16 @@ YCDFileReader::YCDFileReader(std::wstring path_)
     {
         char ch;
         do{
-            if (file.read(&ch,1) == 0){
+            if (file.read(&ch, 1) == 0){
                 FileIO::PrintLastError();
-                throw ym_exception("Invalid File Format",std::move(path),FileIO::GetLastErrorCode());
+                throw ym_exception("Invalid File Format", std::move(path), FileIO::GetLastErrorCode());
             }
         }while (ch != '\n');
     }
 
     //  Parse header info
     while (1){
-        std::string token = grab_until_delim(&file,'\n');
+        std::string token = grab_until_delim(&file, '\n');
 
         //  Empty line
         if (token.size() == 0)
@@ -112,14 +112,14 @@ YCDFileReader::YCDFileReader(std::wstring path_)
         }
 
         //  Break up the token.
-        std::string key,value;
+        std::string key, value;
 
         //  Parse the key
         const char* ptr = token.c_str();
-        ptr = grab_until_delim(key,ptr,'\t');
+        ptr = grab_until_delim(key, ptr, '\t');
 
         //  Parse the value
-        grab_until_delim(value,ptr,'\n');
+        grab_until_delim(value, ptr, '\n');
 
         //  file_version
         if (key == YCF_CDF_TOKEN_FileVersion){
@@ -165,8 +165,8 @@ YCDFileReader::YCDFileReader(std::wstring path_)
     char ch;
     uiL_t c = 0;
     while (1){
-        if (file.read(&ch,1) == 0){
-            throw ym_exception("Error Reading File",FileIO::GetLastErrorCode());
+        if (file.read(&ch, 1) == 0){
+            throw ym_exception("Error Reading File", FileIO::GetLastErrorCode());
         }
         c++;
         if (ch == '\0')
@@ -176,7 +176,7 @@ YCDFileReader::YCDFileReader(std::wstring path_)
 
     //  Check Version
     if (file_version.size() == 0){
-        throw ym_exception("No version # found.",std::move(path),YCR_DIO_ERROR_INVALID_FILE);
+        throw ym_exception("No version # found.", std::move(path), YCR_DIO_ERROR_INVALID_FILE);
     }
     if (file_version != "1.0.0" && file_version != "1.1.0"){
         throw ym_exception(
@@ -189,7 +189,7 @@ YCDFileReader::YCDFileReader(std::wstring path_)
 
     //  Other checks
     if (digits_per_file < 100){
-        throw ym_exception("Invalid Digits per File",YCR_DIO_ERROR_INVALID_FILE);
+        throw ym_exception("Invalid Digits per File", YCR_DIO_ERROR_INVALID_FILE);
     }
 
     if (total_digits != 0 && digits_per_file > total_digits)
@@ -210,7 +210,7 @@ YCDFileReader::YCDFileReader(std::wstring path_)
             error += "Total Digits: ";
             error += std::to_string(total_digits);
             error += "\n";
-            throw ym_exception(error,YCR_DIO_ERROR_OUT_OF_RANGE);
+            throw ym_exception(error, YCR_DIO_ERROR_OUT_OF_RANGE);
         }
         if (block_end > total_digits){
             block_end = total_digits;
@@ -229,7 +229,7 @@ YCDFileReader::YCDFileReader(std::wstring path_)
             words_in_this_file = (block_digits - 1) / 16 + 1;
             break;
         default:
-            throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -238,20 +238,20 @@ void YCDFileReader::print() const{
     Console::println(path);
     Console::println();
 
-    Console::println_labelm("file_version:",file_version);
-    Console::println_labelm("radix:",radix);
-    Console::println_labelm("first_digits:",first_digits);
-    Console::println_labelm_commas("total_digits:",total_digits);
-    Console::println_labelm_commas("digits_per_file:",digits_per_file);
-    Console::println_labelm_commas("file_id:",file_id);
+    Console::println_labelm("file_version:", file_version);
+    Console::println_labelm("radix:", radix);
+    Console::println_labelm("first_digits:", first_digits);
+    Console::println_labelm_commas("total_digits:", total_digits);
+    Console::println_labelm_commas("digits_per_file:", digits_per_file);
+    Console::println_labelm_commas("file_id:", file_id);
     Console::println();
 
-    Console::println_labelm_commas("digits_per_word:",digits_per_word);
-    Console::println_labelm_commas("words_in_this_file:",words_in_this_file);
-    Console::println_labelm_commas("data_offset:",data_offset);
+    Console::println_labelm_commas("digits_per_word:", digits_per_word);
+    Console::println_labelm_commas("words_in_this_file:", words_in_this_file);
+    Console::println_labelm_commas("data_offset:", data_offset);
     Console::println();
 }
-void YCDFileReader::read_words(ufL_t pos,u64_t* T,upL_t L){
+void YCDFileReader::read_words(ufL_t pos, u64_t* T, upL_t L){
     //  This method reads L words starting at offset "pos".
     //  "pos" is measured in 64-bit words. It is relative to the start of the
     //  data section of the .ycd file.
@@ -269,7 +269,7 @@ void YCDFileReader::read_words(ufL_t pos,u64_t* T,upL_t L){
 
     if (pos + L > words_in_this_file){
         Console::Warning("Internal Error: Read out of Bounds");
-        std::string error = "YCDFile::read_words(ufL_t pos,u64_t* T,upL_t L)\n";
+        std::string error = "YCDFile::read_words(ufL_t pos, u64_t* T, upL_t L)\n";
         error += "Read out of bounds.\n";
         error += "Requested Range: ";
         error += std::to_string(pos);
@@ -279,24 +279,24 @@ void YCDFileReader::read_words(ufL_t pos,u64_t* T,upL_t L){
         error += std::to_string(0);
         error += " - ";
         error += std::to_string(words_in_this_file);
-        throw ym_exception(error,YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw ym_exception(error, YCR_DIO_ERROR_OUT_OF_RANGE);
     }
 
     //  Set file pointer
     file.set_ptr(data_offset + pos * sizeof(u64_t));
 
     //  Read
-    upL_t words_read = file.read(T,L * sizeof(u64_t)) / sizeof(u64_t);
+    upL_t words_read = file.read(T, L * sizeof(u64_t)) / sizeof(u64_t);
     if (words_read != L){
-        throw ym_exception("Error Reading File",FileIO::GetLastErrorCode());
+        throw ym_exception("Error Reading File", FileIO::GetLastErrorCode());
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 void YCDFileReader::read_chars(
-    uiL_t pos,char* str,upL_t digits,
-    u64_t* buffer,upL_t buffer_L,
-    void (*fp_convert)(char*,const u64_t*,upL_t)
+    uiL_t pos, char* str, upL_t digits,
+    u64_t* buffer, upL_t buffer_L,
+    void (*fp_convert)(char*, const u64_t*, upL_t)
 ){
     //  This method reads digits from the file.
     //  It reads the following region:
@@ -333,7 +333,7 @@ void YCDFileReader::read_chars(
         error += std::to_string(block_start);
         error += " - ";
         error += std::to_string(block_end);
-        throw ym_exception(error,YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw ym_exception(error, YCR_DIO_ERROR_OUT_OF_RANGE);
     }
 
     //  Local digit range.
@@ -357,9 +357,9 @@ void YCDFileReader::read_chars(
     if (word_length == 1){
 //        cout << "Single Word" << endl;
         char tmp[19];
-        read_words(word_start,buffer,1);
-        fp_convert(tmp,buffer,1);
-        memcpy(str,tmp + bot_offset,top_offset - bot_offset);
+        read_words(word_start, buffer, 1);
+        fp_convert(tmp, buffer, 1);
+        memcpy(str, tmp + bot_offset, top_offset - bot_offset);
         return;
     }
 
@@ -374,14 +374,14 @@ void YCDFileReader::read_chars(
         u64_t* current_buffer = buffer;
 
         //  Load words
-        read_words(word_start,current_buffer,current_block);
+        read_words(word_start, current_buffer, current_block);
 
         //  Bottom edge
         if (bot_offset != 0){
 //            cout << "Bottom Edge: " << bot_offset << endl;
             char tmp[19];
-            fp_convert(tmp,current_buffer,1);
-            memcpy(str,tmp + bot_offset,digits_per_word - bot_offset);
+            fp_convert(tmp, current_buffer, 1);
+            memcpy(str, tmp + bot_offset, digits_per_word - bot_offset);
             word_start++;
             word_length--;
             current_block--;
@@ -406,7 +406,7 @@ void YCDFileReader::read_chars(
         //  Convert the middle words.
         if (current_block != 0){
 //            cout << "Middle: " << current_block << endl;
-            fp_convert(str,current_buffer,current_block);
+            fp_convert(str, current_buffer, current_block);
             word_start += current_block;
             word_length -= current_block;
             current_buffer += current_block;
@@ -417,8 +417,8 @@ void YCDFileReader::read_chars(
         if (handle_top_edge){
 //            cout << "Top Edge: " << top_offset << endl;
             char tmp[19];
-            fp_convert(tmp,current_buffer,1);
-            memcpy(str,tmp,top_offset);
+            fp_convert(tmp, current_buffer, 1);
+            memcpy(str, tmp, top_offset);
             word_start++;
             word_length--;
             str += top_offset;

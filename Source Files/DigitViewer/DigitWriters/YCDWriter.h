@@ -61,7 +61,7 @@ public:
         void (*deallocator)(void*) = NULL
     );
 
-    virtual void    write   (char* str,upL_t digits);
+    virtual void    write   (char* str, upL_t digits);
 
 private:
     std::wstring path;                  //  Full path (including the id #)

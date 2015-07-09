@@ -29,10 +29,10 @@
 YM_FORCE_INLINE static __m128i _mm_set1_epi64x(int64_t x){
     __m128i a = _mm_set1_epi32((int32_t)x);
     __m128i b = _mm_set1_epi32((int32_t)(x >> 32));
-    return _mm_unpacklo_epi32(a,b);
+    return _mm_unpacklo_epi32(a, b);
 }
 YM_FORCE_INLINE static int64_t _mm_cvtsi128_si64(__m128i x){
-    return (uint32_t)_mm_cvtsi128_si32(x) | (int64_t)_mm_cvtsi128_si32(_mm_shuffle_epi32(x,177)) << 32;
+    return (uint32_t)_mm_cvtsi128_si32(x) | (int64_t)_mm_cvtsi128_si32(_mm_shuffle_epi32(x, 177)) << 32;
 }
 #endif
 ////////////////////////////////////////////////////////////////////////////////

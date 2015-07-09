@@ -43,7 +43,7 @@ void DigitReader::clear_buffer(){
 void DigitReader::set_pos(uiL_t offset){
     uiL_t total_digits = get_digits();
     if (total_digits != 0 && offset > total_digits){
-        throw ym_exception("Out of range.",YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw ym_exception("Out of range.", YCR_DIO_ERROR_OUT_OF_RANGE);
     }
 
     //  Set the offset
@@ -52,7 +52,7 @@ void DigitReader::set_pos(uiL_t offset){
     //  Setting the position will invalidate the buffer.
     clear_buffer();
 }
-void DigitReader::read(char* str,upL_t digits){
+void DigitReader::read(char* str, upL_t digits){
     while (digits > 0){
         //  Buffer is empty
         if (iter_b_offset == buffer_L){
@@ -63,7 +63,7 @@ void DigitReader::read(char* str,upL_t digits){
         if (block > digits)
             block = digits;
 
-        memcpy(str,&buffer[0] + iter_b_offset,block);
+        memcpy(str, &buffer[0] + iter_b_offset, block);
         
         iter_f_offset += block;
         iter_b_offset += block;
@@ -105,7 +105,7 @@ YM_NO_INLINE void DigitReader::reload(){
     if (start >= total_digits){
         std::string error("No more digits left: ");
         error += std::to_string(total_digits);
-        throw ym_exception(std::move(error),YCR_DIO_ERROR_NO_DIGITS_LEFT);
+        throw ym_exception(std::move(error), YCR_DIO_ERROR_NO_DIGITS_LEFT);
     }
 
     //  Near the end. Read the rest and fill only part of the buffer.
@@ -116,7 +116,7 @@ YM_NO_INLINE void DigitReader::reload(){
     }
 
     //  Read into buffer
-    this->read(start,&buffer[current_b_offset],read);
+    this->read(start, &buffer[current_b_offset], read);
 
     //  Do this assignment last to protect against an exception.
     iter_b_offset = current_b_offset;
@@ -126,21 +126,21 @@ YM_NO_INLINE void DigitReader::reload(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Factory
-std::unique_ptr<DigitReader> OpenDigitFile(std::wstring path,bool raw,upL_t buffer_size){
+std::unique_ptr<DigitReader> OpenDigitFile(std::wstring path, bool raw, upL_t buffer_size){
     //  Extract the extension
     size_t extension_offset = path.rfind('.');
     if (extension_offset >= path.size()){
-        throw ym_exception("No Extension found.",std::move(path));
+        throw ym_exception("No Extension found.", std::move(path));
     }
     std::wstring extension = path.substr(extension_offset);
 
     //  Use RTTI.
     if (extension == L".txt"){
-        return std::unique_ptr<DigitReader>(new TextReader(path,raw,0));
+        return std::unique_ptr<DigitReader>(new TextReader(path, raw, 0));
     }else if (extension == L".ycd"){
-        return std::unique_ptr<DigitReader>(new YCDReader(std::move(path),raw,buffer_size));
+        return std::unique_ptr<DigitReader>(new YCDReader(std::move(path), raw, buffer_size));
     }else{
-        throw ym_exception("Unrecognized Extension",std::move(extension));
+        throw ym_exception("Unrecognized Extension", std::move(extension));
     }
 }
 ////////////////////////////////////////////////////////////////////////////////

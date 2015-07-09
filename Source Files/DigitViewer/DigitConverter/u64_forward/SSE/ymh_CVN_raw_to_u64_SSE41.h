@@ -28,21 +28,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void ymb_CVN_rawh_to_u64b_f(u64_t* T,const char* A,upL_t TL){
+void ymb_CVN_rawh_to_u64b_f(u64_t* T, const char* A, upL_t TL){
     const u64_t* stopT = T + TL;
 
     while (T < stopT - 3){
-        ymi_CVN_rawh_to_u64b_u2_SSE2(T,A);
+        ymi_CVN_rawh_to_u64b_u2_SSE2(T, A);
         A += 64;
         T += 4;
     }
     while (T < stopT - 1){
-        ymi_CVN_rawh_to_u64b_u1_SSE2(T,A);
+        ymi_CVN_rawh_to_u64b_u1_SSE2(T, A);
         A += 32;
         T += 2;
     }
     if (T < stopT){
-        ymi_CVN_rawh_to_u64b_u0_Default(T,A);
+        ymi_CVN_rawh_to_u64b_u0_Default(T, A);
         A += 16;
         T += 1;
     }
@@ -51,21 +51,21 @@ void ymb_CVN_rawh_to_u64b_f(u64_t* T,const char* A,upL_t TL){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void ymb_CVN_rawd_to_u64d_f(u64_t* T,const char* A,upL_t TL){
+void ymb_CVN_rawd_to_u64d_f(u64_t* T, const char* A, upL_t TL){
     const u64_t* stopT = T + TL;
     
     while (T < stopT - 3){
-        ymi_CVN_rawd_to_u64d19_u2_SSE41(T,A);
+        ymi_CVN_rawd_to_u64d19_u2_SSE41(T, A);
         A += 76;
         T += 4;
     }
     if (T < stopT - 1){
-        ymi_CVN_rawd_to_u64d19_u1_SSE41(T,A);
+        ymi_CVN_rawd_to_u64d19_u1_SSE41(T, A);
         A += 38;
         T += 2;
     }
     if (T < stopT){
-        ymi_CVN_rawd_to_u64d19_u0_Default(T,A);
+        ymi_CVN_rawd_to_u64d19_u0_Default(T, A);
         A += 19;
         T += 1;
     }

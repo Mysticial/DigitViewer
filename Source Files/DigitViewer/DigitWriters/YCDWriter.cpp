@@ -34,7 +34,7 @@ void YCDWriter::create_file(uiL_t fileid){
     full_path += std::to_wstring(fileid);
     full_path += L".ycd";
 
-    file = YCDFileWriter(full_path,first_digits,digits_per_file,fileid,radix);
+    file = YCDFileWriter(full_path, first_digits, digits_per_file, fileid, radix);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,13 +60,13 @@ YCDWriter::YCDWriter(
     , fp_free(deallocator)
 {
     if (buffer_size < 4096)
-        throw ym_exception("Requested buffer size is too small.",YCR_DIO_ERROR_INVALID_PARAMETERS);
+        throw ym_exception("Requested buffer size is too small.", YCR_DIO_ERROR_INVALID_PARAMETERS);
 
     switch (radix){
         case 16: break;
         case 10: break;
         default:
-            throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
     }
 
     //  Make sure path ends in a slash.
@@ -86,7 +86,7 @@ YCDWriter::YCDWriter(
     bin_buffer_L = buffer_size / sizeof(u64_t);
     if (buffer == NULL){
         external_buffer = false;
-        bin_buffer = (u64_t*)AlignedMalloc(bin_buffer_L * sizeof(u64_t),2*sizeof(u64_t));
+        bin_buffer = (u64_t*)AlignedMalloc(bin_buffer_L * sizeof(u64_t), 2*sizeof(u64_t));
     }else{
         external_buffer = true;
         bin_buffer = buffer;
@@ -105,7 +105,7 @@ YCDWriter::~YCDWriter(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void YCDWriter::write(char* str,upL_t digits){
+void YCDWriter::write(char* str, upL_t digits){
     while (true){
         //  No file is opened.
         if (!file.isValid()){
@@ -113,7 +113,7 @@ void YCDWriter::write(char* str,upL_t digits){
         }
 
         //  Write digits
-        upL_t written = file.write_chars(str,digits,bin_buffer,bin_buffer_L);
+        upL_t written = file.write_chars(str, digits, bin_buffer, bin_buffer_L);
         if (written == digits)
             return;
 

@@ -25,7 +25,7 @@
     \
     _a0 = ((const __m128i*)(T))[0]; \
     \
-    _a0 = _mm_add_epi8(_a0,_LIMIT0);    \
+    _a0 = _mm_add_epi8(_a0, _LIMIT0);    \
     \
     ((__m128i*)(T))[0] = _a0;   \
 }
@@ -38,8 +38,8 @@
     _a0 = ((const __m128i*)(T))[0]; \
     _a1 = ((const __m128i*)(T))[1]; \
     \
-    _a0 = _mm_add_epi8(_a0,_LIMIT0);    \
-    _a1 = _mm_add_epi8(_a1,_LIMIT0);    \
+    _a0 = _mm_add_epi8(_a0, _LIMIT0);    \
+    _a1 = _mm_add_epi8(_a1, _LIMIT0);    \
     \
     ((__m128i*)(T))[0] = _a0;   \
     ((__m128i*)(T))[1] = _a1;   \
@@ -57,10 +57,10 @@
     _a2 = ((const __m128i*)(T))[2]; \
     _a3 = ((const __m128i*)(T))[3]; \
     \
-    _a0 = _mm_add_epi8(_a0,_LIMIT0);    \
-    _a1 = _mm_add_epi8(_a1,_LIMIT0);    \
-    _a2 = _mm_add_epi8(_a2,_LIMIT0);    \
-    _a3 = _mm_add_epi8(_a3,_LIMIT0);    \
+    _a0 = _mm_add_epi8(_a0, _LIMIT0);    \
+    _a1 = _mm_add_epi8(_a1, _LIMIT0);    \
+    _a2 = _mm_add_epi8(_a2, _LIMIT0);    \
+    _a3 = _mm_add_epi8(_a3, _LIMIT0);    \
     \
     ((__m128i*)(T))[0] = _a0;   \
     ((__m128i*)(T))[1] = _a1;   \

@@ -63,7 +63,7 @@ public:
     //ym_exception& operator=(ym_exception&& x);
     virtual ~ym_exception() throw (){}
 
-    ym_exception(int code_,const char* str_ = NULL)
+    ym_exception(int code_, const char* str_ = NULL)
         : code(code_)
         , str(str_)
         , message(YM_EXCEPTION_GENERIC_EXCEPTION)
@@ -73,25 +73,25 @@ public:
         , str(str_)
         , message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(std::string str_,int code_ = 0)
+    ym_exception(std::string str_, int code_ = 0)
         : code (code_)
         , str(NULL)
         , astr(std::move(str_))
         , message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(std::wstring str_,int code_ = 0)
+    ym_exception(std::wstring str_, int code_ = 0)
         : code (code_)
         , str(NULL)
         , wstr(std::move(str_))
         , message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(const char* astr_,std::wstring wstr_,int code_ = 0)
+    ym_exception(const char* astr_, std::wstring wstr_, int code_ = 0)
         : code (code_)
         , str(astr_)
         , wstr(std::move(wstr_))
         , message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(std::string astr_,std::wstring wstr_,int code_ = 0)
+    ym_exception(std::string astr_, std::wstring wstr_, int code_ = 0)
         : code (code_)
         , str(NULL)
         , astr(std::move(astr_))
@@ -101,7 +101,7 @@ public:
 
     void print() const{
         Console::println("\n");
-        Console::println_labelc("Exception Encountered",message,'R');
+        Console::println_labelc("Exception Encountered", message, 'R');
         Console::print("Error Code: ");
         Console::println(std::to_string(code));
         if (location != nullptr){
@@ -160,7 +160,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 class ym_error : public std::exception{
 public:
-    ym_error(ym_exception e_,const char* msg = NULL)
+    ym_error(ym_exception e_, const char* msg = NULL)
         : e(std::move(e_))
         , astr(msg)
     {}
@@ -184,7 +184,7 @@ public:
         e.print();
 
         if (astr != NULL){
-            Console::println(astr,'R');
+            Console::println(astr, 'R');
             Console::println();
             Console::SetColor('w');
         }

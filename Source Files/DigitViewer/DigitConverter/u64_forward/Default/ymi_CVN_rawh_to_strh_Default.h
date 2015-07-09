@@ -35,7 +35,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #define ymi_CVN_rawh_to_strh_u2_Default32(T){   \
-    register u32_t _a0,_b0; \
+    register u32_t _a0, _b0; \
     \
     _a0 = ((const u32_t*)(T))[0];   \
     \
@@ -54,8 +54,8 @@
     ((u32_t*)(T))[0] = _a0; \
 }
 #define ymi_CVN_rawh_to_strh_u3_Default32(T){   \
-    register u32_t _a0,_b0; \
-    register u32_t _a1,_b1; \
+    register u32_t _a0, _b0; \
+    register u32_t _a1, _b1; \
     \
     _a0 = ((const u32_t*)(T))[0];   \
     _a1 = ((const u32_t*)(T))[1];   \
@@ -86,7 +86,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #define ymi_CVN_rawh_to_strh_u3_Default64(T){   \
-    register u64_t _a0,_b0; \
+    register u64_t _a0, _b0; \
     \
     _a0 = ((const u64_t*)(T))[0];   \
     \
@@ -105,8 +105,8 @@
     ((u64_t*)(T))[0] = _a0; \
 }
 #define ymi_CVN_rawh_to_strh_u4_Default64(T){   \
-    register u64_t _a0,_b0; \
-    register u64_t _a1,_b1; \
+    register u64_t _a0, _b0; \
+    register u64_t _a1, _b1; \
     \
     _a0 = ((const u64_t*)(T))[0];   \
     _a1 = ((const u64_t*)(T))[1];   \
@@ -133,10 +133,10 @@
     ((u64_t*)(T))[1] = _a1; \
 }
 #define ymi_CVN_rawh_to_strh_u5_Default64(T){   \
-    register u64_t _a0,_b0; \
-    register u64_t _a1,_b1; \
-    register u64_t _a2,_b2; \
-    register u64_t _a3,_b3; \
+    register u64_t _a0, _b0; \
+    register u64_t _a1, _b1; \
+    register u64_t _a2, _b2; \
+    register u64_t _a3, _b3; \
     \
     _a0 = ((const u64_t*)(T))[0];   \
     _a1 = ((const u64_t*)(T))[1];   \

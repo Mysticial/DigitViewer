@@ -84,6 +84,12 @@
     <ClCompile Include="..\..\Source Files\Public\SMC_Public.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.cpp">
+      <Filter>Header Files\DigitConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source Files\DigitViewer\SMC_DigitViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitReaders\DigitReader.h">
@@ -110,9 +116,6 @@
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitWriters\YCDWriter.h">
       <Filter>Header Files\DigitWriters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.h">
-      <Filter>Header Files\DigitConverter</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_headers.h">
       <Filter>Header Files\DigitConverter</Filter>
     </ClInclude>
@@ -122,17 +125,11 @@
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_u64_forward.h">
       <Filter>Header Files\DigitConverter</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.h">
-      <Filter>Header Files\DigitConverter\cdi_reverse\Default</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawd_Default.h">
       <Filter>Header Files\DigitConverter\cdi_reverse\Default</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawh_Default.h">
       <Filter>Header Files\DigitConverter\cdi_reverse\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.h">
-      <Filter>Header Files\DigitConverter\cdi_reverse\SSE</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawd_SSE41.h">
       <Filter>Header Files\DigitConverter\cdi_reverse\SSE</Filter>
@@ -256,6 +253,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source Files\DigitViewer\x86_SSE2.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.ipp">
+      <Filter>Header Files\DigitConverter\cdi_reverse\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.ipp">
+      <Filter>Header Files\DigitConverter\cdi_reverse\SSE</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

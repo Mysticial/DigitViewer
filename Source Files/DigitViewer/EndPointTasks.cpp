@@ -59,7 +59,7 @@ void ViewRange(DigitReader* file){
 
     Console::println();
 
-    uiL_t start = Console::scan_label_uiL_range("Starting Digit: ",1,limit);
+    uiL_t start = Console::scan_label_uiL_range("Starting Digit: ", 1, limit);
     Console::println();
     start--;
     limit -= start;
@@ -68,11 +68,11 @@ void ViewRange(DigitReader* file){
     if (limit > 100000)
         limit = 100000;
 
-    upL_t digits = Console::scan_label_upL_range("Digits to View: ",1,(upL_t)limit);
+    upL_t digits = Console::scan_label_upL_range("Digits to View: ", 1, (upL_t)limit);
     Console::println();
 
     //  Check range
-    if (!file->check_range(start,start + digits)){
+    if (!file->check_range(start, start + digits)){
         Console::print("This range of digits is not accessible.");
         return;
     }
@@ -81,8 +81,8 @@ void ViewRange(DigitReader* file){
     file->set_raw(false);
 
     //  Read digits
-    std::string str(digits,'-');
-    file->read(start,&str[0],digits);
+    std::string str(digits, '-');
+    file->read(start, &str[0], digits);
 
     //  Check bounds
     limit = file->get_digits();
@@ -97,7 +97,7 @@ void ViewRange(DigitReader* file){
     }
 
     //  Display
-    DisplayFancy(start,&str[0],digits);
+    DisplayFancy(start, &str[0], digits);
 }
 void CountDigits(DigitReader* file){
     //  Count up the # of instances of each digit.
@@ -108,12 +108,12 @@ void CountDigits(DigitReader* file){
 
     Console::println();
 
-    uiL_t start = Console::scan_label_uiL_range("Starting Digit: ",1,limit);
-    uiL_t end   = Console::scan_label_uiL_range("Ending Digit:   ",start,limit);
+    uiL_t start = Console::scan_label_uiL_range("Starting Digit: ", 1, limit);
+    uiL_t end   = Console::scan_label_uiL_range("Ending Digit:   ", start, limit);
     start--;
 
     //  Check range
-    if (!file->check_range(start,end)){
+    if (!file->check_range(start, end)){
         Console::print("This range of digits is not accessible.");
         return;
     }
@@ -122,7 +122,7 @@ void CountDigits(DigitReader* file){
     file->set_raw(true);
 
     u64_t digit[16];
-    memset(digit,0,sizeof(digit));
+    memset(digit, 0, sizeof(digit));
 
     Console::println();
 
@@ -143,7 +143,7 @@ void CountDigits(DigitReader* file){
         Console::print(" - ");
         Console::print_commas(pos);
         Console::print(" :\t");
-        Console::print_af(digit,file->get_radix());
+        Console::print_af(digit, file->get_radix());
     }
 }
 void ComputeHash(DigitReader* file){
@@ -155,10 +155,10 @@ void ComputeHash(DigitReader* file){
 
     Console::println();
 
-    uiL_t end = Console::scan_label_uiL_range("Ending Digit:   ",1,limit);
+    uiL_t end = Console::scan_label_uiL_range("Ending Digit:   ", 1, limit);
 
     //  Check range
-    if (!file->check_range(0,end)){
+    if (!file->check_range(0, end)){
         Console::print("This range of digits is not accessible.");
         return;
     }
@@ -238,16 +238,16 @@ void ToTextFile(DigitReader* file){
 
     Console::println();
 
-    uiL_t start = Console::scan_label_uiL_range("Starting Digit: ",1,limit);
+    uiL_t start = Console::scan_label_uiL_range("Starting Digit: ", 1, limit);
     Console::println();
     start--;
     limit -= start;
 
-    uiL_t digits = Console::scan_label_uiL_range("Digits to Write: ",1,limit);
+    uiL_t digits = Console::scan_label_uiL_range("Digits to Write: ", 1, limit);
     Console::println();
 
     //  Check range
-    if (!file->check_range(start,start + digits)){
+    if (!file->check_range(start, start + digits)){
         Console::print("This range of digits is not accessible.");
         return;
     }
@@ -258,7 +258,7 @@ void ToTextFile(DigitReader* file){
     Console::println("Enter the path of the destination file:");
 
     //  Prompt for path
-    auto path = Console::scan_wstr();
+    std::wstring path = Console::scan_wstr();
 
     //  Extract the extension
     size_t extension_offset = path.rfind('.');
@@ -294,10 +294,10 @@ void ToTextFile(DigitReader* file){
             current_digits = (upL_t)digits;
 
         //  Read digits
-        file->read(start,str.get(),current_digits);
+        file->read(start, str.get(), current_digits);
 
         //  Write digits
-        writer.write(str.get(),current_digits);
+        writer.write(str.get(), current_digits);
 
         //  Update Counters
         start   += current_digits;
@@ -320,11 +320,11 @@ void ToYCDFileAll(DigitReader* file){
 
     Console::println();
 
-    uiL_t digits = Console::scan_label_uiL_range("Digits to Write: ",1000000,limit);
+    uiL_t digits = Console::scan_label_uiL_range("Digits to Write: ", 1000000, limit);
     Console::println();
 
     //  Check range
-    if (!file->check_range(0,digits)){
+    if (!file->check_range(0, digits)){
         Console::print("This range of digits is not accessible.");
         return;
     }
@@ -334,12 +334,12 @@ void ToYCDFileAll(DigitReader* file){
     
     uiL_t digits_per_file;
     do{
-        digits_per_file = Console::scan_label_uiL_range("Digits per file (0 for single file): ",0,digits);
+        digits_per_file = Console::scan_label_uiL_range("Digits per file (0 for single file): ", 0, digits);
         Console::println();
         if (digits_per_file == 0)
             digits_per_file = (uiL_t)0 - 1;
         if (digits_per_file < 1000000){
-            Console::Warning("Must be at least 1,000,000.\n");
+            Console::Warning("Must be at least 1, 000, 000.\n");
             continue;
         }
         break;
@@ -349,7 +349,7 @@ void ToYCDFileAll(DigitReader* file){
     auto name = Console::scan_labelc_wstr("Name");
 
     Console::println("\nEnter the destination path (SPACE for default):");
-    auto path = Console::scan_wstr();
+    std::wstring path = Console::scan_wstr();
     if (path.size() != 0 && path[0] == L' ')
         path.clear();
 
@@ -380,10 +380,10 @@ void ToYCDFileAll(DigitReader* file){
             current_digits = (upL_t)digits;
 
         //  Read digits
-        file->read(current_position,str.get(),current_digits);
+        file->read(current_position, str.get(), current_digits);
 
         //  Write digits
-        writer.write(str.get(),current_digits);
+        writer.write(str.get(), current_digits);
 
         //  Update Counters
         current_position += current_digits;
@@ -393,7 +393,7 @@ void ToYCDFileAll(DigitReader* file){
         //  Print
         ClearLine();
         Console::print("Streaming:  ");
-        Console::print_commas(written,0);
+        Console::print_commas(written, 0);
         Console::print("  digits written");
     }
 }
@@ -409,11 +409,11 @@ void ToYCDFilePartial(YCDReader* file){
     //  Use raw output.
     file->set_raw(true);
     
-    uiL_t digits_per_file = Console::scan_label_uiL_range("Digits per file: ",0,limit);
+    uiL_t digits_per_file = Console::scan_label_uiL_range("Digits per file: ", 0, limit);
 
     Console::println();
-    uiL_t start_id = Console::scan_label_uiL_range("Start ID: ",0);
-    uiL_t end_id   = Console::scan_label_uiL_range("End   ID: ",start_id) + 1;
+    uiL_t start_id = Console::scan_label_uiL_range("Start ID: ", 0);
+    uiL_t end_id   = Console::scan_label_uiL_range("End   ID: ", start_id) + 1;
 
     uiL_t start_pos = digits_per_file * start_id;
     uiL_t end_pos   = digits_per_file * end_id;
@@ -425,13 +425,13 @@ void ToYCDFilePartial(YCDReader* file){
         end_pos = limit;
 
     //  Check range
-    if (!file->check_range(start_pos,end_pos)){
+    if (!file->check_range(start_pos, end_pos)){
         Console::print("This range of digits is not accessible.");
         return;
     }
 
     Console::println("\nEnter the destination path (SPACE for default):");
-    auto path = Console::scan_wstr();
+    std::wstring path = Console::scan_wstr();
     if (path.size() != 0 && path[0] == L' ')
         path.clear();
 
@@ -472,10 +472,10 @@ void ToYCDFilePartial(YCDReader* file){
             current_digits = (upL_t)digits;
 
         //  Read digits
-        file->read(current_position,str.get(),current_digits);
+        file->read(current_position, str.get(), current_digits);
 
         //  Write digits
-        writer.write(str.get(),current_digits);
+        writer.write(str.get(), current_digits);
 
         //  Update Counters
         current_position += current_digits;

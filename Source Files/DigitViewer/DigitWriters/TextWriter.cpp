@@ -31,15 +31,15 @@ TextWriter::TextWriter(
     bool raw,
     int radix
 )
-    : file(0,path.c_str())
+    : file(0, path.c_str())
     , fp_convert(NULL)
 {
     //  Write the first digits.
     if (first_digits.size() != 0){
         upL_t decimal_offset = first_digits.find('.');
         if (decimal_offset == std::string::npos)
-            throw ym_exception("No decimal place was found.",YCR_DIO_ERROR_INVALID_PARAMETERS);
-        file.write(first_digits.c_str(),decimal_offset + 1);
+            throw ym_exception("No decimal place was found.", YCR_DIO_ERROR_INVALID_PARAMETERS);
+        file.write(first_digits.c_str(), decimal_offset + 1);
     }
 
     if (raw){
@@ -51,7 +51,7 @@ TextWriter::TextWriter(
                 fp_convert = ymb_CVN_rawh_to_strh_f;
                 break;
             default:
-                throw ym_exception("Unsupported Radix",YCR_DIO_ERROR_INVALID_BASE);
+                throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
         }
     }
 }
@@ -62,7 +62,7 @@ TextWriter::~TextWriter(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void TextWriter::write(char* str,upL_t digits){
+void TextWriter::write(char* str, upL_t digits){
     //  If the buffer isn't empty and "str" isn't the buffer itself, then we
     //  must flush the buffer first.
     if (iter_b_offset != 0 && str != buffer){
@@ -71,10 +71,10 @@ void TextWriter::write(char* str,upL_t digits){
 
     //  If the input isn't raw, convert it.
     if (fp_convert != NULL)
-        fp_convert(str,digits);
+        fp_convert(str, digits);
 
     //  Write to disk.
-    if (file.write(str,digits) != digits){
+    if (file.write(str, digits) != digits){
         FileIO::PrintLastError();
         throw ym_exception(
             "Error writing to file.",

@@ -172,7 +172,7 @@ std::string tostr_s_bytes(siL_t bytes){
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-std::string tostr(uiL_t x,NumberFormat format){
+std::string tostr(uiL_t x, NumberFormat format){
     switch (format){
     case COMMAS:
         return tostr_u_commas(x);
@@ -189,7 +189,7 @@ std::string tostr(uiL_t x,NumberFormat format){
         return std::to_string(x);
     }
 }
-std::string tostr(siL_t x,NumberFormat format){
+std::string tostr(siL_t x, NumberFormat format){
     switch (format){
     case COMMAS:
         return tostr_s_commas(x);
@@ -206,35 +206,35 @@ std::string tostr(siL_t x,NumberFormat format){
         return std::to_string(x);
     }
 }
-std::string tostrln(uiL_t x,NumberFormat format){
-    return tostr(x,format) += "\r\n";
+std::string tostrln(uiL_t x, NumberFormat format){
+    return tostr(x, format) += "\r\n";
 }
-std::string tostrln(siL_t x,NumberFormat format){
-    return tostr(x,format) += "\r\n";
+std::string tostrln(siL_t x, NumberFormat format){
+    return tostr(x, format) += "\r\n";
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Float
-std::string tostr_float(double x,int precision){
+std::string tostr_float(double x, int precision){
     std::ostringstream out;
     out << std::setprecision(precision);
     out << x;
     return out.str();
 }
-std::string tostrln_float(double x,int precision){
-    return tostr_float(x,precision) += "\r\n";
+std::string tostrln_float(double x, int precision){
+    return tostr_float(x, precision) += "\r\n";
 }
-std::string tostr_fixed(double x,int precision){
+std::string tostr_fixed(double x, int precision){
     std::ostringstream out;
     out << std::setprecision(precision);
     out << std::fixed;
     out << x;
     return out.str();
 }
-std::string tostrln_fixed(double x,int precision){
-    return tostr_fixed(x,precision) += "\r\n";
+std::string tostrln_fixed(double x, int precision){
+    return tostr_fixed(x, precision) += "\r\n";
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

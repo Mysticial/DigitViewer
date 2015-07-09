@@ -40,14 +40,14 @@ public:
         int radix = 10
     );
 
-    virtual void    write   (char* str,upL_t digits);
+    virtual void    write   (char* str, upL_t digits);
 
 private:
     //  File handle
     FileIO::BasicFile file;
 
     //  Function pointer for digit conversion.
-    void (*fp_convert)(char*,upL_t);
+    void (*fp_convert)(char*, upL_t);
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

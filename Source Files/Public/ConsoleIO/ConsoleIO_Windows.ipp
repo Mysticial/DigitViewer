@@ -21,21 +21,21 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void Arch(){
-    Console::println_labelm("Console IO","WinAPI",'G');
+void CompileOptions(){
+    Console::println_labelm("Console IO", "WinAPI", 'G');
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
-upL_t print(const char* str,char color){
+upL_t print(const char* str, char color){
     SetColor(color);
     std::cout << str;
     fflush(stdout);
     return strlen(str);
 }
-upL_t print(const wchar_t* str,char color){
+upL_t print(const wchar_t* str, char color){
     SetColor(color);
     std::wcout << str;
     fflush(stdout);
@@ -44,7 +44,7 @@ upL_t print(const wchar_t* str,char color){
 std::string scan_astr(char color){
     SetColor(color);
     std::string out;
-    std::getline(std::cin,out);
+    std::getline(std::cin, out);
     if (color != ' ')
         SetColor('w');
     return out;
@@ -116,7 +116,7 @@ void SetColor(char color){
         default:
             attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
     }
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),attributes);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attributes);
 }
 void SetColorDefault(){
     SetColor('w');

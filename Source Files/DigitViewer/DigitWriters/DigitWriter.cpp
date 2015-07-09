@@ -32,7 +32,7 @@ DigitWriter::DigitWriter()
 DigitWriter::~DigitWriter(){
     AlignedFree(buffer);
 }
-void DigitWriter::push(const char* str,upL_t digits){
+void DigitWriter::push(const char* str, upL_t digits){
     while (digits > 0){
         //  Buffer is full
         if (iter_b_offset == buffer_L){
@@ -43,7 +43,7 @@ void DigitWriter::push(const char* str,upL_t digits){
         if (block > digits)
             block = digits;
 
-        memcpy(&buffer[0] + iter_b_offset,str,block);
+        memcpy(&buffer[0] + iter_b_offset, str, block);
         
         iter_f_offset += block;
         iter_b_offset += block;
@@ -55,13 +55,13 @@ void DigitWriter::flush(){
     //  Buffer isn't initialized yet.
     if (buffer_L == 0){
         upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER;
-        buffer = (char*)AlignedMalloc(buffer_size,2*sizeof(u64_t));
+        buffer = (char*)AlignedMalloc(buffer_size, 2*sizeof(u64_t));
 
         //  Do this assignment last - just in case the above throws.
         buffer_L = buffer_size;
     }else{
         //  Write
-        write(buffer,iter_b_offset);
+        write(buffer, iter_b_offset);
     }
 
     //  Clear the buffer

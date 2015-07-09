@@ -14,6 +14,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include "../CompilerSettings.h"
 #include "../Exception.h"
 namespace ymp{
 namespace FileIO{
@@ -34,7 +35,7 @@ class FileException : public ym_exception{
     std::wstring file;
 
 public:
-    FileException(const char* location,const wchar_t* file,const char* message){
+    FileException(const char* location, const wchar_t* file, const char* message){
         level = YMC_EXCEPTION_FILEIO;
         code = 1;
         this->location = location;
@@ -42,7 +43,7 @@ public:
         this->file = file;
         this->wstr = this->file.c_str();
     }
-    FileException(int code,const char* location,const wchar_t* file,const char* message){
+    FileException(int code, const char* location, const wchar_t* file, const char* message){
         level = YMC_EXCEPTION_FILEIO;
         this->code = code;
         this->location = location;

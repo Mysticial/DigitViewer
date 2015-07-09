@@ -202,7 +202,7 @@ public:
     //  From there it will take care of the rest.
     //  For ASCII char output, use:   raw = false
     //  For raw integer output, use:  raw = true
-    YCDReader(std::wstring path,bool raw = false,upL_t buffer_size = YC_DIGITREADER_DEFAULT_BUFFER);
+    YCDReader(std::wstring path, bool raw = false, upL_t buffer_size = YC_DIGITREADER_DEFAULT_BUFFER);
     virtual const char* get_extension() const{
         return "ycd";
     }
@@ -212,9 +212,9 @@ public:
     virtual int         get_radix       () const;
     virtual ufL_t       get_digits      () const;
     virtual void        set_raw         (bool raw);
-    virtual bool        check_range     (uiL_t start,uiL_t end);
+    virtual bool        check_range     (uiL_t start, uiL_t end);
     virtual std::string get_first_digits(upL_t L);
-    virtual void        read            (uiL_t pos,char* str,upL_t digits);
+    virtual void        read            (uiL_t pos, char* str, upL_t digits);
 
     //  Add a new search path for which this reader will search in an attempt
     //  to find .ycd files associated with this digit stream.
@@ -231,7 +231,7 @@ private:
     std::vector<std::wstring> paths;    //  Full path (including the id #)
 
     int radix;                          //  Radix of the digits. (10 or 16)
-    void (*fp_convert)(char*,const u64_t*,upL_t);   //  Function pointer for digit conversion.
+    void (*fp_convert)(char*, const u64_t*, upL_t);   //  Function pointer for digit conversion.
     upL_t digits_per_word;
 
     std::string first_digits;           //  First digits
@@ -251,7 +251,7 @@ private:
     upL_t bin_buffer_L;
 
     virtual void reload();  //  Override
-    void load_new_file(std::wstring path,uiL_t id);
+    void load_new_file(std::wstring path, uiL_t id);
     void set_current_file(uiL_t id);
 };
 ////////////////////////////////////////////////////////////////////////////////

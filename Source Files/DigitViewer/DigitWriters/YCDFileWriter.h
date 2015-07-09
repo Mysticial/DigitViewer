@@ -59,8 +59,8 @@ public:
     void close();
 
     upL_t write_chars(
-        const char* str,upL_t digits,
-        u64_t* buffer,upL_t buffer_L
+        const char* str, upL_t digits,
+        u64_t* buffer, upL_t buffer_L
     );
 
     bool isValid() const;
@@ -71,7 +71,7 @@ private:
 
     int radix;                          //  Radix of the digits. (10 or 16)
     upL_t digits_per_word;
-    void (*fp_convert)(u64_t*,const char*,upL_t);
+    void (*fp_convert)(u64_t*, const char*, upL_t);
 
     ufL_t words_per_file;
     ufL_t digits_per_file;
@@ -89,7 +89,7 @@ private:
     char str_buffer[20];    //  Buffer to handle end points.
     upL_t buffered;         //  # of digits in the buffer.
 
-    void write_words(u64_t* T,upL_t L);
+    void write_words(u64_t* T, upL_t L);
     void flush();
 
 };

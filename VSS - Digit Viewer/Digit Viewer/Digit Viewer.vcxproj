@@ -297,6 +297,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.cpp" />
     <ClCompile Include="..\..\Source Files\DigitViewer\DigitConverter\ym_CVN.cpp" />
     <ClCompile Include="..\..\Source Files\DigitViewer\DigitReaders\DigitReader.cpp" />
     <ClCompile Include="..\..\Source Files\DigitViewer\DigitReaders\TextReader.cpp" />
@@ -310,13 +311,23 @@
     <ClCompile Include="..\..\Source Files\DigitViewer\Main.cpp" />
     <ClCompile Include="..\..\Source Files\DigitViewer\Menu_DigitViewer.cpp" />
     <ClCompile Include="..\..\Source Files\DigitViewer\PrintHelpers.cpp" />
+    <ClCompile Include="..\..\Source Files\DigitViewer\SMC_DigitViewer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='04-SSE3|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source Files\Public\SMC_Public.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.ipp" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawd_Default.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawh_Default.h" />
-    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.h" />
+    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.ipp" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawd_SSE41.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawh_SSE41.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default32.h" />
@@ -352,7 +363,6 @@
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_strh_SSE41.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_rawd_SSE41.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_strd_SSE41.h" />
-    <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_headers.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_internals.h" />
     <ClInclude Include="..\..\Source Files\DigitViewer\DigitConverter\ymb_CVN_u64_forward.h" />

@@ -18,7 +18,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#define ymi_CVN_rawd_to_u64d19_u0_Default(T,A){   \
+#define ymi_CVN_rawd_to_u64d19_u0_Default(T, A){   \
     register u32_t _a0; \
     register u32_t _b0; \
     register u64_t _c0; \
@@ -63,10 +63,10 @@
     _c0 += _a0; \
     ((u64_t*)(T))[0] = _c0; \
 }
-#define ymi_CVN_rawd_to_u64d19_u1_Default(T,A){   \
-    register u32_t _a0,_a1; \
-    register u32_t _b0,_b1; \
-    register u64_t _c0,_c1; \
+#define ymi_CVN_rawd_to_u64d19_u1_Default(T, A){   \
+    register u32_t _a0, _a1; \
+    register u32_t _b0, _b1; \
+    register u64_t _c0, _c1; \
     \
     _a0 = ((const char*)(A))[ 0];   \
     _a1 = ((const char*)(A))[19];   \
@@ -151,8 +151,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#define ymi_CVN_rawd_to_u64d19_u0_Default_disabled(T,A){    \
-    register u64_t _r0,_r1,_r2,_r3; \
+#define ymi_CVN_rawd_to_u64d19_u0_Default_disabled(T, A){    \
+    register u64_t _r0, _r1, _r2, _r3; \
     \
     _r0 = ((const u64_t*)(A))[0];   \
     _r1 = ((const u64_t*)(A))[1];   \

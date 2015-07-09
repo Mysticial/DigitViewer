@@ -24,8 +24,8 @@ namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void Arch(){
-    Console::println_labelm("File IO","WinAPI",'G');
+void CompileOptions(){
+    Console::println_labelm("File IO", "WinAPI", 'G');
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ int GetLastErrorCode(){
 }
 void PrintLastError(){
     DWORD errorcode = GetLastError();
-    Console::print_labelc("Windows Error Code",errorcode);
+    Console::print_labelc("Windows Error Code", errorcode);
     Console::print("    ");
     switch (errorcode){
         case ERROR_ACCESS_DENIED:
@@ -70,9 +70,9 @@ void PrintLastError(){
 void MakeDirectory(const wchar_t* path){
     _wmkdir(path);
 }
-void RenameFile(const wchar_t* oldname,const wchar_t* newname){
+void RenameFile(const wchar_t* oldname, const wchar_t* newname){
     while (1){
-        if (!_wrename(oldname,newname))
+        if (!_wrename(oldname, newname))
             return;
 
         errno_t err;
@@ -81,8 +81,8 @@ void RenameFile(const wchar_t* oldname,const wchar_t* newname){
         if (err == EEXIST){
     //        Console::println("\nWarning: Overwriting existing Checkpoint Swap File...");
         }else{
-            Console::Warning("Unable to rename file.",true);
-            Console::println_labelc("Error Code",err);
+            Console::Warning("Unable to rename file.", true);
+            Console::println_labelc("Error Code", err);
             Console::println(newname);
             Console::println();
             Console::println("Re-attempting...");
@@ -92,18 +92,18 @@ void RenameFile(const wchar_t* oldname,const wchar_t* newname){
 
         if (_wremove(newname)){
             _get_errno(&err);
-            Console::Warning("Unable to delete file.",true);
-            Console::println_labelc("Error Code",err);
+            Console::Warning("Unable to delete file.", true);
+            Console::println_labelc("Error Code", err);
             Console::println();
             Console::println("Re-attempting...");
             Console::SetColor('w');
             continue;
         }
 
-        if (_wrename(oldname,newname)){
+        if (_wrename(oldname, newname)){
             _get_errno(&err);
-            Console::Warning("Unable to rename file.",true);
-            Console::println_labelc("Error Code",err);
+            Console::Warning("Unable to rename file.", true);
+            Console::println_labelc("Error Code", err);
             Console::println(newname);
             Console::println();
             Console::println("Re-attempting...");
@@ -114,7 +114,7 @@ void RenameFile(const wchar_t* oldname,const wchar_t* newname){
 }
 ufL_t GetFileSize(const wchar_t* path){
     WIN32_FIND_DATAW filedata;
-    HANDLE data = FindFirstFileW(path,&filedata);
+    HANDLE data = FindFirstFileW(path, &filedata);
     if (data == INVALID_HANDLE_VALUE){
         Console::Warning("Path does not exist.");
         Console::Quit(1);
@@ -131,7 +131,7 @@ ufL_t GetFileSize(const wchar_t* path){
 }
 bool FileExists(const wchar_t* path){
     FILE *file;
-    if (_wfopen_s(&file,path,L"rb"))
+    if (_wfopen_s(&file, path, L"rb"))
         return false;
     fclose(file);
     return true;
@@ -181,7 +181,7 @@ bool DirectoryIsWritable(const wchar_t* directory){
     }
 
     while (_wremove(path.c_str())){
-        Console::Warning("Unable to delete file.",true);
+        Console::Warning("Unable to delete file.", true);
         Console::println();
         Console::println("Re-attempting...");
         Console::Pause('w');
@@ -202,7 +202,7 @@ void BasicFile::operator=(BasicFile&& x){
     filehandle = std::move(x.filehandle);
     x.path.clear();
 }
-BasicFile::BasicFile(const wchar_t* path,bool retry){
+BasicFile::BasicFile(const wchar_t* path, bool retry){
     //  Copy the path
     this->path = path;
 
@@ -221,10 +221,10 @@ BasicFile::BasicFile(const wchar_t* path,bool retry){
             break;
 
         if (!retry){
-            FileException(GetLastError(),nullptr,path,"Unable to open file.").fire();
+            FileException(GetLastError(), nullptr, path, "Unable to open file.").fire();
         }
 
-        Console::Warning("Unable to open file.",true);
+        Console::Warning("Unable to open file.", true);
         Console::println(path);
         PrintLastError();
         Console::println();
@@ -232,7 +232,7 @@ BasicFile::BasicFile(const wchar_t* path,bool retry){
         Console::Pause('w');
     }while (1);
 }
-BasicFile::BasicFile(ufL_t bytes,const wchar_t* path,bool retry){
+BasicFile::BasicFile(ufL_t bytes, const wchar_t* path, bool retry){
     //  Copy the path
     this->path = path;
 
@@ -250,16 +250,16 @@ BasicFile::BasicFile(ufL_t bytes,const wchar_t* path,bool retry){
         if (filehandle != INVALID_HANDLE_VALUE){
             LARGE_INTEGER t;
             t.QuadPart = (LONGLONG)bytes;
-            SetFilePointerEx(filehandle,t,NULL,FILE_BEGIN);
+            SetFilePointerEx(filehandle, t, NULL, FILE_BEGIN);
             SetEndOfFile(filehandle);
             break;
         }
 
         if (!retry){
-            FileException(GetLastError(),nullptr,path,"Unable to create file.").fire();
+            FileException(GetLastError(), nullptr, path, "Unable to create file.").fire();
         }
 
-        Console::Warning("Unable to create file.",true);
+        Console::Warning("Unable to create file.", true);
         Console::println(path);
         PrintLastError();
         Console::println();
@@ -283,7 +283,7 @@ void BasicFile::Delete(){
         return;
 
     while (!CloseHandle(filehandle)){
-        Console::Warning("Unable to close file.",true);
+        Console::Warning("Unable to close file.", true);
         PrintLastError();
         Console::println();
         Console::println("Re-attempting...");
@@ -306,7 +306,7 @@ void BasicFile::Rename(const wchar_t* name){
         return;
 
     while (!CloseHandle(filehandle)){
-        Console::Warning("Unable to close file.",true);
+        Console::Warning("Unable to close file.", true);
         PrintLastError();
         Console::println();
         Console::println("Re-attempting...");
@@ -314,7 +314,7 @@ void BasicFile::Rename(const wchar_t* name){
         continue;
     }
 
-    RenameFile(path.c_str(),name);
+    RenameFile(path.c_str(), name);
 
     path.clear();
     *this = BasicFile(name);
@@ -323,19 +323,19 @@ void BasicFile::Rename(const wchar_t* name){
 void BasicFile::set_ptr(ufL_t offset){
     LARGE_INTEGER t;
     t.QuadPart = (LONGLONG)offset;
-    if (!SetFilePointerEx(filehandle,t,NULL,FILE_BEGIN)){
+    if (!SetFilePointerEx(filehandle, t, NULL, FILE_BEGIN)){
         PrintLastError();
         Console::Warning("Unable to move file pointer.");
         Console::Quit(1);
     }
 }
-upL_t BasicFile::write(const void* T,upL_t bytes){
+upL_t BasicFile::write(const void* T, upL_t bytes){
 
     upL_t total_written = 0;
 
     DWORD bytes_written;
     while (bytes > BLOCK_SIZE){
-        int ret = !WriteFile(filehandle,T,(DWORD)BLOCK_SIZE,&bytes_written,NULL);
+        int ret = !WriteFile(filehandle, T, (DWORD)BLOCK_SIZE, &bytes_written, NULL);
         if (ret || bytes_written != BLOCK_SIZE){
             total_written += bytes_written;
             return total_written;
@@ -345,18 +345,18 @@ upL_t BasicFile::write(const void* T,upL_t bytes){
         T = (void*)((upL_t)T + BLOCK_SIZE);
     }
 
-    WriteFile(filehandle,T,(DWORD)bytes,&bytes_written,NULL);
+    WriteFile(filehandle, T, (DWORD)bytes, &bytes_written, NULL);
     total_written += bytes_written;
     return total_written;
 }
-upL_t BasicFile::read(void* T,upL_t bytes){
+upL_t BasicFile::read(void* T, upL_t bytes){
 //    Console::println("asdf");
 
     upL_t total_read = 0;
 
     DWORD bytes_read;
     while (bytes > BLOCK_SIZE){
-        int ret = !ReadFile(filehandle,T,(DWORD)BLOCK_SIZE,&bytes_read,NULL);
+        int ret = !ReadFile(filehandle, T, (DWORD)BLOCK_SIZE, &bytes_read, NULL);
         if (ret || bytes_read != BLOCK_SIZE){
             total_read += bytes_read;
             return total_read;
@@ -366,7 +366,7 @@ upL_t BasicFile::read(void* T,upL_t bytes){
         T = (void*)((upL_t)T + BLOCK_SIZE);
     }
 
-    ReadFile(filehandle,T,(DWORD)bytes,&bytes_read,NULL);
+    ReadFile(filehandle, T, (DWORD)bytes, &bytes_read, NULL);
     total_read += bytes_read;
     return total_read;
 }
@@ -378,27 +378,27 @@ upL_t BasicFile::write_u16(const wchar_t* str){
     upL_t length = wcslen(str);
 
     if (sizeof(wchar_t) == sizeof(u16_t)){
-        upL_t bytes = write(str,length * sizeof(wchar_t));
+        upL_t bytes = write(str, length * sizeof(wchar_t));
         return bytes / sizeof(wchar_t);
     }else{
         std::vector<u16_t> buffer(length);
         for (upL_t c = 0; c < length; c++){
             buffer[c] = str[c];
         }
-        upL_t bytes = write(&buffer[0],length);
+        upL_t bytes = write(&buffer[0], length);
         return bytes / sizeof(u16_t);
     }
 }
-upL_t BasicFile::read_u16(wchar_t* str,upL_t L){
+upL_t BasicFile::read_u16(wchar_t* str, upL_t L){
     //  Reads as a UTF16 string.
-    memset(str,0,L * sizeof(wchar_t));
+    memset(str, 0, L * sizeof(wchar_t));
 
     if (sizeof(wchar_t) == sizeof(u16_t)){
-        upL_t bytes = read(str,L * sizeof(wchar_t));
+        upL_t bytes = read(str, L * sizeof(wchar_t));
         return bytes / sizeof(wchar_t);
     }else{
         std::vector<u16_t> buffer(L);
-        upL_t bytes = read(&buffer[0],L * sizeof(u16_t));
+        upL_t bytes = read(&buffer[0], L * sizeof(u16_t));
         for (upL_t c = 0; c < L; c++){
             str[c] = buffer[c];
         }

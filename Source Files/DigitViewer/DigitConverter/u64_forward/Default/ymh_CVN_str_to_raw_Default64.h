@@ -26,24 +26,24 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-int ymb_CVN_strh_to_rawh_f(char* T,upL_t L){
+int ymb_CVN_strh_to_rawh_f(char* T, upL_t L){
     char* stop = T + L;
 
     u64_t bad = 0;
     while (T < stop - 15){
-        ymi_CVN_strh_to_rawh_u4_Default64(T,bad);
+        ymi_CVN_strh_to_rawh_u4_Default64(T, bad);
         T += 16;
     }
     while (T < stop - 7){
-        ymi_CVN_strh_to_rawh_u3_Default64(T,bad);
+        ymi_CVN_strh_to_rawh_u3_Default64(T, bad);
         T += 8;
     }
     while (T < stop - 3){
-        ymi_CVN_strh_to_rawh_u2_Default32(T,bad);
+        ymi_CVN_strh_to_rawh_u2_Default32(T, bad);
         T += 4;
     }
     while (T < stop){
-        ymi_CVN_strh_to_rawh_u0_Default(T,bad);
+        ymi_CVN_strh_to_rawh_u0_Default(T, bad);
         T += 1;
     }
 
@@ -53,24 +53,24 @@ int ymb_CVN_strh_to_rawh_f(char* T,upL_t L){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-int ymb_CVN_strd_to_rawd_f(char* T,upL_t L){
+int ymb_CVN_strd_to_rawd_f(char* T, upL_t L){
     char* stop = T + L;
 
     u64_t bad = 0;
     while (T < stop - 15){
-        ymi_CVN_strd_to_rawd_u4_Default64(T,bad);
+        ymi_CVN_strd_to_rawd_u4_Default64(T, bad);
         T += 16;
     }
     while (T < stop - 7){
-        ymi_CVN_strd_to_rawd_u3_Default64(T,bad);
+        ymi_CVN_strd_to_rawd_u3_Default64(T, bad);
         T += 8;
     }
     while (T < stop - 3){
-        ymi_CVN_strd_to_rawd_u2_Default32(T,bad);
+        ymi_CVN_strd_to_rawd_u2_Default32(T, bad);
         T += 4;
     }
     while (T < stop){
-        ymi_CVN_strd_to_rawd_u0_Default(T,bad);
+        ymi_CVN_strd_to_rawd_u0_Default(T, bad);
         T += 1;
     }
 
