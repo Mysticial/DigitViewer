@@ -1,7 +1,7 @@
-y-cruncher Digit Viewer
+y-cruncher's Digit Viewer
 ===========
 
-This is the full self-contained source code for y-cruncher integrated Digit Viewer.<br>
+This is the full self-contained source code for y-cruncher's integrated Digit Viewer.<br>
 It includes everything including the heavily optimized back-end conversion code.
 
 To Compile (Windows):
