@@ -23,8 +23,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <string>
-#include "../../PublicLibs/Types.h"
-#include "../../PublicLibs/FileIO/FileIO.h"
+#include "PublicLibs/Types.h"
+#include "PublicLibs/FileIO/FileIO.h"
 namespace DigitViewer{
     using namespace ymp;
 ////////////////////////////////////////////////////////////////////////////////

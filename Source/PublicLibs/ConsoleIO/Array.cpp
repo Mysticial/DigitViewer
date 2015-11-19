@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../CompilerSettings.h"
+#include "PublicLibs/CompilerSettings.h"
 #include "Array.h"
 namespace ymp{
 namespace Console{
@@ -38,12 +38,13 @@ void print_af(const wtype* A, upL_t L, char color){
     print(A[L]);
     print("}");
 }
-template <typename wtype>
+template <typename wtype> YM_NO_INLINE
 void println_af(const wtype* A, upL_t L, char color){
     print_af(A, L, color);
     println();
 }
 ////////////////////////////////////////////////////////////////////////////////
+template void println_af<u16_t>(const u16_t* A, upL_t L, char color);
 template void println_af<u32_t>(const u32_t* A, upL_t L, char color);
 template void println_af<s32_t>(const s32_t* A, upL_t L, char color);
 template void println_af<u64_t>(const u64_t* A, upL_t L, char color);

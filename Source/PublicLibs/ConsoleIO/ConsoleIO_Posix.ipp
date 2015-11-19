@@ -13,7 +13,7 @@
 //  Dependencies
 #include <string.h>
 #include <iostream>
-#include "../StringTools/ToString.h"
+#include "PublicLibs/StringTools/ToString.h"
 #include "Label.h"
 namespace ymp{
 namespace Console{
@@ -21,7 +21,7 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void CompileOptions(){
+YM_NO_INLINE void CompileOptions(){
     Console::println_labelm("Console IO", "Color Codes", 'G');
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ void CompileOptions(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
-upL_t print(const char* str, char color){
+YM_NO_INLINE upL_t print(const char* str, char color){
     SetColor(color);
     if (fwide(stdout, 0) <= 0){
         std::cout << str;
@@ -39,7 +39,7 @@ upL_t print(const char* str, char color){
     fflush(stdout);
     return strlen(str);
 }
-upL_t print(const wchar_t* str, char color){
+YM_NO_INLINE upL_t print(const wchar_t* str, char color){
     SetColor(color);
     if (fwide(stdout, 0) <= 0){
         std::cout << StringTools::w_to_a_direct(str);
@@ -49,7 +49,7 @@ upL_t print(const wchar_t* str, char color){
     fflush(stdout);
     return wcslen(str);
 }
-std::string scan_astr(char color){
+YM_NO_INLINE std::string scan_astr(char color){
     if (fwide(stdin, 0) > 0)
         return StringTools::w_to_a_direct(scan_wstr(color));
 
@@ -60,7 +60,7 @@ std::string scan_astr(char color){
         SetColor('w');
     return out;
 }
-std::wstring scan_wstr(char color){
+YM_NO_INLINE std::wstring scan_wstr(char color){
     if (fwide(stdin, 0) <= 0)
         return StringTools::a_to_w_direct(scan_astr(color));
 
@@ -77,7 +77,7 @@ std::wstring scan_wstr(char color){
         SetColor('w');
     return out;
 }
-void Pause(char color){
+YM_NO_INLINE void Pause(char color){
     print("Press ENTER to continue . . .", color);
     scan_astr();
 }
@@ -86,7 +86,7 @@ void Pause(char color){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Console Colors
-void SetColor(char color){
+YM_NO_INLINE void SetColor(char color){
     if (!EnableColors || color == ' ')
         return;
     const char* color_string;
@@ -132,7 +132,7 @@ void SetColor(char color){
     }
     print(color_string);
 }
-void SetColorDefault(){
+YM_NO_INLINE void SetColorDefault(){
     print("\033[39;49m");
 }
 ////////////////////////////////////////////////////////////////////////////////

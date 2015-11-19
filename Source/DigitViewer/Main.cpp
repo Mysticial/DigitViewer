@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../PublicLibs/Exception.h"
+#include "PublicLibs/Exception.h"
 #include "DigitViewerUI.h"
 
 int main(){

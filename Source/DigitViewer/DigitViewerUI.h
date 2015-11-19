@@ -13,9 +13,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../PublicLibs/CompilerSettings.h"
-#include "../PublicLibs/ConsoleIO/BasicIO.h"
-#include "../PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/ConsoleIO/BasicIO.h"
+#include "PublicLibs/ConsoleIO/Label.h"
 #include "Globals.h"
 #include "DigitConverter/ymb_CVN_headers.h"
 #include "Menu_DigitViewer.h"

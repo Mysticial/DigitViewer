@@ -12,8 +12,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <sstream>
 #include <iomanip>
-#include "../CompilerSettings.h"
-#include "../ConsoleIO/Label.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/ConsoleIO/Label.h"
 #include "ToString.h"
 namespace ymp{
 namespace StringTools{
@@ -22,7 +22,7 @@ namespace StringTools{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Helpers
-std::string tostr_u_commas(uiL_t x){
+YM_NO_INLINE std::string tostr_u_commas(uiL_t x){
     //  Prints out x with comma separators.
 
     std::string str = std::to_string(x);
@@ -48,13 +48,13 @@ std::string tostr_u_commas(uiL_t x){
 
     return out;
 }
-std::string tostr_s_commas(siL_t x){
+YM_NO_INLINE std::string tostr_s_commas(siL_t x){
     if (x < 0)
         return std::string("-") + tostr_u_commas(-x);
     else
         return tostr_u_commas(x);
 }
-std::string tostr_u_bytes(uiL_t bytes){
+YM_NO_INLINE std::string tostr_u_bytes(uiL_t bytes){
     //  Prints out bytes in one of the following forms:
     //  0.xx suffix
     //  x.xx suffix
@@ -164,7 +164,7 @@ std::string tostr_u_bytes(uiL_t bytes){
         return out;
     }
 }
-std::string tostr_s_bytes(siL_t bytes){
+YM_NO_INLINE std::string tostr_s_bytes(siL_t bytes){
     if (bytes < 0)
         return std::string("-") + tostr_u_bytes(-bytes);
     else
@@ -172,7 +172,7 @@ std::string tostr_s_bytes(siL_t bytes){
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-std::string tostr(uiL_t x, NumberFormat format){
+YM_NO_INLINE std::string tostr(uiL_t x, NumberFormat format){
     switch (format){
     case COMMAS:
         return tostr_u_commas(x);
@@ -189,7 +189,7 @@ std::string tostr(uiL_t x, NumberFormat format){
         return std::to_string(x);
     }
 }
-std::string tostr(siL_t x, NumberFormat format){
+YM_NO_INLINE std::string tostr(siL_t x, NumberFormat format){
     switch (format){
     case COMMAS:
         return tostr_s_commas(x);
@@ -206,10 +206,10 @@ std::string tostr(siL_t x, NumberFormat format){
         return std::to_string(x);
     }
 }
-std::string tostrln(uiL_t x, NumberFormat format){
+YM_NO_INLINE std::string tostrln(uiL_t x, NumberFormat format){
     return tostr(x, format) += "\r\n";
 }
-std::string tostrln(siL_t x, NumberFormat format){
+YM_NO_INLINE std::string tostrln(siL_t x, NumberFormat format){
     return tostr(x, format) += "\r\n";
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -217,23 +217,23 @@ std::string tostrln(siL_t x, NumberFormat format){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Float
-std::string tostr_float(double x, int precision){
+YM_NO_INLINE std::string tostr_float(double x, int precision){
     std::ostringstream out;
     out << std::setprecision(precision);
     out << x;
     return out.str();
 }
-std::string tostrln_float(double x, int precision){
+YM_NO_INLINE std::string tostrln_float(double x, int precision){
     return tostr_float(x, precision) += "\r\n";
 }
-std::string tostr_fixed(double x, int precision){
+YM_NO_INLINE std::string tostr_fixed(double x, int precision){
     std::ostringstream out;
     out << std::setprecision(precision);
     out << std::fixed;
     out << x;
     return out.str();
 }
-std::string tostrln_fixed(double x, int precision){
+YM_NO_INLINE std::string tostrln_fixed(double x, int precision){
     return tostr_fixed(x, precision) += "\r\n";
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ std::string tostrln_fixed(double x, int precision){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  char <-> wide
-std::wstring a_to_w_direct(const std::string& str){
+YM_NO_INLINE std::wstring a_to_w_direct(const std::string& str){
     //  Direct conversion of string -> wstring.
     //  No Unicode conversions are done.
 
@@ -260,7 +260,7 @@ std::wstring a_to_w_direct(const std::string& str){
 
     return out;
 }
-std::string w_to_a_direct(const std::wstring& str){
+YM_NO_INLINE std::string w_to_a_direct(const std::wstring& str){
     //  Direct conversion of wstring -> string.
     //  No Unicode conversions are done.
 

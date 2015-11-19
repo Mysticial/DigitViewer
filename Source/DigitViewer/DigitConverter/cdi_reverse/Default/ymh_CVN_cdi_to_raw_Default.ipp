@@ -17,8 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../../../../PublicLibs/Types.h"
-#include "../../../../PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/Types.h"
+#include "PublicLibs/ConsoleIO/Label.h"
 #include "ymi_CVN_cdi_to_rawh_Default.h"
 #include "ymi_CVN_cdi_to_rawd_Default.h"
 namespace DigitViewer{

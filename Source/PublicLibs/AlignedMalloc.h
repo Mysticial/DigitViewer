@@ -54,7 +54,7 @@ inline void AlignedFree(void *ptr){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-template <typename wtype = char>
+template <typename wtype = void>
 struct SmartPointer{
     typedef std::unique_ptr<wtype, SmartPointer> type;
     void operator()(void* ptr) const{
@@ -62,6 +62,16 @@ struct SmartPointer{
     }
     static type malloc_uptr(upL_t size, upL_t align = 0){
         return type((wtype*)AlignedMalloc(size * sizeof(wtype), align));
+    }
+};
+template <>
+struct SmartPointer<void>{
+    typedef std::unique_ptr<void, SmartPointer> type;
+    void operator()(void* ptr) const{
+        AlignedFree(ptr);
+    }
+    static type malloc_uptr(upL_t size, upL_t align = 0){
+        return type((void*)AlignedMalloc(size, align));
     }
 };
 ////////////////////////////////////////////////////////////////////////////////

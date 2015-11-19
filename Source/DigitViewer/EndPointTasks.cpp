@@ -13,11 +13,11 @@
 //  Dependencies
 #include <string.h>
 
-#include "../PublicLibs/CompilerSettings.h"
-#include "../PublicLibs/ConsoleIO/BasicIO.h"
-#include "../PublicLibs/ConsoleIO/Label.h"
-#include "../PublicLibs/ConsoleIO/Array.h"
-#include "../PublicLibs/Exception.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/ConsoleIO/BasicIO.h"
+#include "PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/ConsoleIO/Array.h"
+#include "PublicLibs/Exception.h"
 
 #include "Globals.h"
 #include "PrintHelpers.h"

@@ -14,12 +14,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #if 0
-#elif defined X64_16_Cannonlake
-#define YMP_Arch_2016_x64_Cannonlake
-#elif defined X64_15_Skylake
-#define YMP_Arch_2015_x64_Skylake
-#elif defined X64_15_KnightsLanding
-#define YMP_Arch_2015_x64_KnightsLanding
+#elif defined X64_17_Cannonlake
+#define YMP_Arch_2017_x64_Cannonlake
+#elif defined X64_17_Skylake
+#define YMP_Arch_2017_x64_Skylake
+#elif defined X64_16_KnightsLanding
+#define YMP_Arch_2016_x64_KnightsLanding
+#elif defined X64_14_Broadwell
+#define YMP_Arch_2014_x64_Broadwell
 #elif defined X64_13_Haswell
 #define YMP_Arch_2013_x64_Haswell
 #elif defined X64_11_Bulldozer
@@ -37,15 +39,19 @@
 #endif
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef YMP_Arch_2016_x64_Cannonlake
-#define YMP_Arch_2015_x64_Skylake
+#ifdef YMP_Arch_2017_x64_Cannonlake
+#define YMP_Arch_2014_x64_Broadwell
 #endif
 
-#ifdef YMP_Arch_2015_x64_Skylake
-#define YMP_Arch_2013_x64_Haswell
+#ifdef YMP_Arch_2017_x64_Skylake
+#define YMP_Arch_2014_x64_Broadwell
 #endif
 
-#ifdef YMP_Arch_2015_x64_KnightsLanding
+#ifdef YMP_Arch_2016_x64_KnightsLanding
+#define YMP_Arch_2014_x64_Broadwell
+#endif
+
+#ifdef YMP_Arch_2014_x64_Broadwell
 #define YMP_Arch_2013_x64_Haswell
 #endif
 

@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../../../x86_SSE2.h"
-#include "../../ymb_CVN_headers.h"
-#include "../Default/ymi_CVN_strh_to_rawh_Default.h"
-#include "../Default/ymi_CVN_strd_to_rawd_Default.h"
+#include "DigitViewer/x86_SSE2.h"
+#include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
+#include "DigitViewer/DigitConverter/u64_forward/Default/ymi_CVN_strh_to_rawh_Default.h"
+#include "DigitViewer/DigitConverter/u64_forward/Default/ymi_CVN_strd_to_rawd_Default.h"
 #include "ymi_CVN_strh_to_rawh_SSE2.h"
 #include "ymi_CVN_strd_to_rawd_SSE2.h"
 ////////////////////////////////////////////////////////////////////////////////

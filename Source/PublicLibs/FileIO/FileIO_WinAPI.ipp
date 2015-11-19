@@ -14,8 +14,8 @@
 #include <errno.h>
 #include <windows.h>
 #include <vector>
-#include "../CompilerSettings.h"
-#include "../ConsoleIO/Label.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/ConsoleIO/Label.h"
 #include "FileException.h"
 #include "FileIO_WinAPI.h"
 namespace ymp{

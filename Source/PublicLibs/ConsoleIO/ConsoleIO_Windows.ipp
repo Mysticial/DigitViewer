@@ -13,7 +13,7 @@
 //  Dependencies
 #include <iostream>
 #include <Windows.h>
-#include "../CompilerSettings.h"
+#include "PublicLibs/CompilerSettings.h"
 #include "Label.h"
 namespace ymp{
 namespace Console{
@@ -21,7 +21,7 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void CompileOptions(){
+YM_NO_INLINE void CompileOptions(){
     Console::println_labelm("Console IO", "WinAPI", 'G');
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,19 +29,19 @@ void CompileOptions(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
-upL_t print(const char* str, char color){
+YM_NO_INLINE upL_t print(const char* str, char color){
     SetColor(color);
     std::cout << str;
     fflush(stdout);
     return strlen(str);
 }
-upL_t print(const wchar_t* str, char color){
+YM_NO_INLINE upL_t print(const wchar_t* str, char color){
     SetColor(color);
     std::wcout << str;
     fflush(stdout);
     return wcslen(str);
 }
-std::string scan_astr(char color){
+YM_NO_INLINE std::string scan_astr(char color){
     SetColor(color);
     std::string out;
     std::getline(std::cin, out);
@@ -49,7 +49,7 @@ std::string scan_astr(char color){
         SetColor('w');
     return out;
 }
-std::wstring scan_wstr(char color){
+YM_NO_INLINE std::wstring scan_wstr(char color){
     SetColor(color);
     std::wstring out;
     wchar_t ch;
@@ -63,7 +63,7 @@ std::wstring scan_wstr(char color){
         SetColor('w');
     return out;
 }
-void Pause(char color){
+YM_NO_INLINE void Pause(char color){
     SetColor(color);
     system("pause");
 }
@@ -72,7 +72,7 @@ void Pause(char color){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Console Colors
-void SetColor(char color){
+YM_NO_INLINE void SetColor(char color){
     if (!EnableColors || color == ' ')
         return;
     WORD attributes;
@@ -118,7 +118,7 @@ void SetColor(char color){
     }
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attributes);
 }
-void SetColorDefault(){
+YM_NO_INLINE void SetColorDefault(){
     SetColor('w');
 }
 ////////////////////////////////////////////////////////////////////////////////

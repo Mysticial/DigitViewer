@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../StringTools/ToString.h"
+#include "PublicLibs/StringTools/ToString.h"
 #include "Label.h"
 namespace ymp{
 namespace Console{
@@ -20,7 +20,7 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  String Margins
-upL_t print_marginl(upL_t margin, std::string x, char color){
+YM_NO_INLINE    upL_t print_marginl(upL_t margin, std::string x, char color){
     SetColor(color);
 
     upL_t size = x.size();
@@ -30,13 +30,13 @@ upL_t print_marginl(upL_t margin, std::string x, char color){
     x.resize(margin, ' ');
     return print(x);
 }
-upL_t println_marginl(upL_t margin, std::string x, char color){
+YM_NO_INLINE    upL_t println_marginl(upL_t margin, std::string x, char color){
     upL_t ret = 0;
     ret += print_marginl(margin, std::move(x), color);
     ret += println();
     return ret;
 }
-upL_t print_marginr(upL_t margin, const std::string& x, char color){
+YM_NO_INLINE    upL_t print_marginr(upL_t margin, const std::string& x, char color){
     SetColor(color);
 
     upL_t size = x.size();
@@ -47,7 +47,7 @@ upL_t print_marginr(upL_t margin, const std::string& x, char color){
     out += x;
     return print(out);
 }
-upL_t println_marginr(upL_t margin, const std::string& x, char color){
+YM_NO_INLINE    upL_t println_marginr(upL_t margin, const std::string& x, char color){
     upL_t ret = 0;
     ret += print_marginr(margin, x, color);
     ret += println();
@@ -58,16 +58,16 @@ upL_t println_marginr(upL_t margin, const std::string& x, char color){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Integer Margins
-upL_t print_marginr(upL_t margin, siL_t x, char color){
+YM_NO_INLINE    upL_t print_marginr(upL_t margin, siL_t x, char color){
     return print_marginr(margin, StringTools::tostr(x, StringTools::NORMAL), color);
 }
-upL_t println_marginr(upL_t margin, siL_t x, char color){
+YM_NO_INLINE    upL_t println_marginr(upL_t margin, siL_t x, char color){
     return println_marginr(margin, StringTools::tostr(x, StringTools::NORMAL), color);
 }
-upL_t print_marginr_commas(upL_t margin, siL_t x, char color){
+YM_NO_INLINE    upL_t print_marginr_commas(upL_t margin, siL_t x, char color){
     return print_marginr(margin, StringTools::tostr(x, StringTools::COMMAS), color);
 }
-upL_t println_marginr_commas(upL_t margin, siL_t x, char color){
+YM_NO_INLINE    upL_t println_marginr_commas(upL_t margin, siL_t x, char color){
     return println_marginr(margin, StringTools::tostr(x, StringTools::COMMAS), color);
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,10 +75,10 @@ upL_t println_marginr_commas(upL_t margin, siL_t x, char color){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Float Margins
-upL_t print_marginl_float(upL_t margin, double x, int precision, char color){
+YM_NO_INLINE    upL_t print_marginl_float(upL_t margin, double x, int precision, char color){
     return print_marginl(margin, StringTools::tostr_float(x, precision), color);
 }
-upL_t println_marginl_float(upL_t margin, double x, int precision, char color){
+YM_NO_INLINE    upL_t println_marginl_float(upL_t margin, double x, int precision, char color){
     return println_marginl(margin, StringTools::tostr_float(x, precision), color);
 }
 ////////////////////////////////////////////////////////////////////////////////

@@ -11,9 +11,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../PublicLibs/CompilerSettings.h"
-#include "../PublicLibs/ConsoleIO/BasicIO.h"
-#include "../PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/ConsoleIO/BasicIO.h"
+#include "PublicLibs/ConsoleIO/Label.h"
 #include "Globals.h"
 #include "DigitReaders/DigitReader.h"
 #include "DigitReaders/TextReader.h"

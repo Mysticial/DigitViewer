@@ -12,9 +12,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <string.h>
-#include "../../PublicLibs/CompilerSettings.h"
-#include "../../PublicLibs/Exception.h"
-#include "../Globals.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/Exception.h"
+#include "DigitViewer/Globals.h"
 #include "DigitReader.h"
 #include "TextReader.h"
 #include "YCDReader.h"

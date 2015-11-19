@@ -19,9 +19,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../../ymb_CVN_headers.h"
-#include "../Default/ymi_CVN_u64b_to_strh_Default.h"
-#include "../Default/ymi_CVN_u64d_to_strd_Default.h"
+#include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
+#include "DigitViewer/DigitConverter/u64_forward/Default/ymi_CVN_u64b_to_strh_Default.h"
+#include "DigitViewer/DigitConverter/u64_forward/Default/ymi_CVN_u64d_to_strd_Default.h"
 #include "ymi_CVN_u64b_to_strh_SSE41.h"
 #include "ymi_CVN_u64d_to_strd_SSE41.h"
 ////////////////////////////////////////////////////////////////////////////////

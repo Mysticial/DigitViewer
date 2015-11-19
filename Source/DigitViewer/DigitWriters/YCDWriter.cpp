@@ -11,10 +11,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../../PublicLibs/CompilerSettings.h"
-#include "../../PublicLibs/AlignedMalloc.h"
-#include "../../PublicLibs/Exception.h"
-#include "../Globals.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/AlignedMalloc.h"
+#include "PublicLibs/Exception.h"
+#include "DigitViewer/Globals.h"
 #include "YCDFileWriter.h"
 #include "YCDWriter.h"
 ////////////////////////////////////////////////////////////////////////////////

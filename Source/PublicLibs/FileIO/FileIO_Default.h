@@ -23,7 +23,7 @@
 #include <sys/stat.h>
 #endif
 #include <string>
-#include "../Types.h"
+#include "PublicLibs/Types.h"
 namespace ymp{
 namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////

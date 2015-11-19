@@ -50,10 +50,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "../../../../PublicLibs/Types.h"
-#include "../../../../PublicLibs/ConsoleIO/Label.h"
-#include "../Default/ymi_CVN_cdi_to_rawh_Default.h"
-#include "../Default/ymi_CVN_cdi_to_rawd_Default.h"
+#include "PublicLibs/Types.h"
+#include "PublicLibs/ConsoleIO/Label.h"
+#include "DigitViewer/DigitConverter/cdi_reverse/Default/ymi_CVN_cdi_to_rawh_Default.h"
+#include "DigitViewer/DigitConverter/cdi_reverse/Default/ymi_CVN_cdi_to_rawd_Default.h"
 #include "ymi_CVN_cdi_to_rawh_SSE41.h"
 #include "ymi_CVN_cdi_to_rawd_SSE41.h"
 namespace DigitViewer{

@@ -12,8 +12,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <cmath>
-#include "../CompilerSettings.h"
-#include "../StringTools/ToString.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/StringTools/ToString.h"
 #include "BasicIO.h"
 ////////////////////////////////////////////////////////////////////////////////
 #ifdef _WIN32
@@ -34,39 +34,50 @@ bool EnableColors = true;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Basic Derived
-upL_t print(const std::string& str, char color){
-    return print(str.c_str(), color);
+YM_NO_INLINE upL_t println(const char* str, char color){
+    upL_t ret = print(str, color);
+    ret += print("\n");
+    return ret;
 }
-upL_t print(const std::wstring& str, char color){
-    return print(str.c_str(), color);
+YM_NO_INLINE upL_t println(const wchar_t* str, char color){
+    upL_t ret = print(str, color);
+    ret += print("\n");
+    return ret;
 }
-upL_t println(){
+YM_NO_INLINE upL_t println(){
     return print("\n");
 }
 ////////////////////////////////////////////////////////////////////////////////
-upL_t println(std::string str, char color){
+YM_NO_INLINE upL_t print(const std::string& str, char color){
+    return print(str.c_str(), color);
+}
+YM_NO_INLINE upL_t print(const std::wstring& str, char color){
+    return print(str.c_str(), color);
+}
+////////////////////////////////////////////////////////////////////////////////
+YM_NO_INLINE upL_t println(std::string str, char color){
     str += '\n';
     return print(str.c_str(), color);
 }
-upL_t println(std::wstring str, char color){
+YM_NO_INLINE upL_t println(std::wstring str, char color){
     str += '\n';
     return print(str.c_str(), color);
 }
 ////////////////////////////////////////////////////////////////////////////////
-void ClearLine(int characters){
+YM_NO_INLINE void ClearLine(int characters){
     std::string x;
     x += '\r';
     x.resize(characters + 1, ' ');
     x += '\r';
     print(x);
 }
-void Warning(std::string str, bool sticky){
+YM_NO_INLINE void Warning(std::string str, bool sticky){
     println();
     println(std::move(str), 'R');
     if (!sticky)
         SetColor('w');
 }
-void Quit(int code){
+YM_NO_INLINE void Quit(int code){
     SetColorDefault();
     Pause();
     exit(code);
@@ -76,43 +87,43 @@ void Quit(int code){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Integer
-upL_t print(uiL_t x, char color){
+YM_NO_INLINE upL_t print(uiL_t x, char color){
     return print(StringTools::tostr(x, StringTools::NORMAL), color);
 }
-upL_t print(siL_t x, char color){
+YM_NO_INLINE upL_t print(siL_t x, char color){
     return print(StringTools::tostr(x, StringTools::NORMAL), color);
 }
-upL_t println(uiL_t x, char color){
+YM_NO_INLINE upL_t println(uiL_t x, char color){
     return println(StringTools::tostr(x, StringTools::NORMAL), color);
 }
-upL_t println(siL_t x, char color){
+YM_NO_INLINE upL_t println(siL_t x, char color){
     return println(StringTools::tostr(x, StringTools::NORMAL), color);
 }
-upL_t print_commas(uiL_t x, char color){
+YM_NO_INLINE upL_t print_commas(uiL_t x, char color){
     return print(StringTools::tostr(x, StringTools::COMMAS), color);
 }
-upL_t print_commas(siL_t x, char color){
+YM_NO_INLINE upL_t print_commas(siL_t x, char color){
     return print(StringTools::tostr(x, StringTools::COMMAS), color);
 }
-upL_t println_commas(uiL_t x, char color){
+YM_NO_INLINE upL_t println_commas(uiL_t x, char color){
     return println(StringTools::tostr(x, StringTools::COMMAS), color);
 }
-upL_t println_commas(siL_t x, char color){
+YM_NO_INLINE upL_t println_commas(siL_t x, char color){
     return println(StringTools::tostr(x, StringTools::COMMAS), color);
 }
-upL_t print_bytes(uiL_t x, char color){
+YM_NO_INLINE upL_t print_bytes(uiL_t x, char color){
     return print(StringTools::tostr(x, StringTools::BYTES), color);
 }
-upL_t println_bytes(uiL_t x, char color){
+YM_NO_INLINE upL_t println_bytes(uiL_t x, char color){
     return println(StringTools::tostr(x, StringTools::BYTES), color);
 }
-upL_t print_ebytes(uiL_t x, char color){
+YM_NO_INLINE upL_t print_ebytes(uiL_t x, char color){
     return print(StringTools::tostr(x, StringTools::BYTES_EXPANDED), color);
 }
-upL_t println_ebytes(uiL_t x, char color){
+YM_NO_INLINE upL_t println_ebytes(uiL_t x, char color){
     return println(StringTools::tostr(x, StringTools::BYTES_EXPANDED), color);
 }
-siL_t scan_siL(char color){
+YM_NO_INLINE siL_t scan_siL(char color){
     auto str = scan_astr(color);
     const char* iter = str.c_str();
 
@@ -137,7 +148,7 @@ siL_t scan_siL(char color){
         out = -out;
     return out;
 }
-uiL_t scan_bytes(char color){
+YM_NO_INLINE uiL_t scan_bytes(char color){
     auto str = scan_astr(color);
 
     uiL_t x = 0;
@@ -192,16 +203,16 @@ uiL_t scan_bytes(char color){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Floating-Point
-upL_t print_float(double x, int precision, char color){
+YM_NO_INLINE upL_t print_float(double x, int precision, char color){
     return print(StringTools::tostr_float(x, precision), color);
 }
-upL_t println_float(double x, int precision, char color){
+YM_NO_INLINE upL_t println_float(double x, int precision, char color){
     return println(StringTools::tostr_float(x, precision), color);
 }
-upL_t print_fixed(double x, int precision, char color){
+YM_NO_INLINE upL_t print_fixed(double x, int precision, char color){
     return print(StringTools::tostr_fixed(x, precision), color);
 }
-upL_t println_fixed(double x, int precision, char color){
+YM_NO_INLINE upL_t println_fixed(double x, int precision, char color){
     return println(StringTools::tostr_fixed(x, precision), color);
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +220,7 @@ upL_t println_fixed(double x, int precision, char color){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Unit Tests
-void print_test(bool x){
+YM_NO_INLINE void print_test(bool x){
     if (x){
         Console::print("Passed", 'G');
     }else{
@@ -217,7 +228,7 @@ void print_test(bool x){
     }
     Console::SetColor('w');
 }
-void println_test(bool x){
+YM_NO_INLINE void println_test(bool x){
     if (x){
         Console::println("Passed", 'G');
     }else{
