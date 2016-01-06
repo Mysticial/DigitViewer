@@ -50,8 +50,8 @@ public:
     //      is preallocated. It will not be called if it is NULL, or if
     //      "buffer" is not preallocated.
     YCDWriter(
-        std::wstring path,
-        std::wstring name,
+        std::string path,   //  UTF-8
+        std::string name,   //  UTF-8
         std::string first_digits,
         uiL_t digits_per_file = (uiL_t)0 - 1,
         uiL_t start_fileid = 0,
@@ -64,8 +64,8 @@ public:
     virtual void    write   (char* str, upL_t digits);
 
 private:
-    std::wstring path;                  //  Full path (including the id #)
-    std::wstring name;                  //  File name
+    std::string path;                   //  Full path (including the id #)
+    std::string name;                   //  File name
 
     int radix;                          //  Radix of the digits. (10 or 16)
     upL_t digits_per_word;

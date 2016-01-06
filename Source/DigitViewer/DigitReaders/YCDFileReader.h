@@ -24,7 +24,7 @@
 //  Dependencies
 #include <string>
 #include "PublicLibs/Types.h"
-#include "PublicLibs/FileIO/FileIO.h"
+#include "PublicLibs/FileIO/BasicFile.h"
 namespace DigitViewer{
     using namespace ymp;
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,18 +32,16 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class YCDFileReader{
-public:
-    //  Movable
-    YCDFileReader(){}
-    YCDFileReader(YCDFileReader&&);
-    void operator=(YCDFileReader&&);
-private:
-    //  But not copyable
-    YCDFileReader(const YCDFileReader&);
-    void operator=(const YCDFileReader&);
+    YCDFileReader(const YCDFileReader&) = delete;
+    void operator=(const YCDFileReader&) = delete;
 
 public:
-    YCDFileReader(std::wstring path);
+    YCDFileReader(YCDFileReader&&);
+    void operator=(YCDFileReader&&);
+
+public:
+    YCDFileReader(){}
+    YCDFileReader(std::string path);    //  UTF-8
 
     void print() const;
     void read_words(ufL_t pos, u64_t* T, upL_t L);
@@ -54,7 +52,7 @@ public:
     );
 
 private:
-    std::wstring path;
+    std::string path;
     FileIO::BasicFile file;
 
     std::string file_version;

@@ -13,6 +13,7 @@
 //  Dependencies
 #include <string.h>
 #include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exception.h"
 #include "DigitViewer/Globals.h"
 #include "YCDFileReader.h"
@@ -34,7 +35,7 @@ std::string grab_until_delim(FileIO::BasicFile* file, char delim){
     char ch;
     do{
         if (file->read(&ch, 1) == 0)
-            throw ym_exception("Unexpected End of File", file->GetPath(), FileIO::GetLastErrorCode());
+            throw ym_exception("Unexpected End of File\n" + file->GetPath(), FileIO::GetLastErrorCode());
         if (ch == '\r')
             continue;
         if (ch == delim)
@@ -65,7 +66,7 @@ uiL_t parse_uL(const char* str){
 ////////////////////////////////////////////////////////////////////////////////
 //  Rule of 5
 void YCDFileReader::operator=(YCDFileReader&& x){
-    file.Close();
+    file.close();
     path                = std::move(x.path);
     file                = std::move(x.file);
     file_version        = std::move(x.file_version);
@@ -81,9 +82,9 @@ void YCDFileReader::operator=(YCDFileReader&& x){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
-YCDFileReader::YCDFileReader(std::wstring path_)
+YCDFileReader::YCDFileReader(std::string path_)
     : path(std::move(path_))
-    , file(path.c_str())
+    , file(path)
 {
     //  Parse the file
 
@@ -93,7 +94,7 @@ YCDFileReader::YCDFileReader(std::wstring path_)
         do{
             if (file.read(&ch, 1) == 0){
                 FileIO::PrintLastError();
-                throw ym_exception("Invalid File Format", std::move(path), FileIO::GetLastErrorCode());
+                throw ym_exception("Invalid File Format\n" + path, FileIO::GetLastErrorCode());
             }
         }while (ch != '\n');
     }
@@ -176,13 +177,13 @@ YCDFileReader::YCDFileReader(std::wstring path_)
 
     //  Check Version
     if (file_version.size() == 0){
-        throw ym_exception("No version # found.", std::move(path), YCR_DIO_ERROR_INVALID_FILE);
+        throw ym_exception("No version # found.\n" + path, YCR_DIO_ERROR_INVALID_FILE);
     }
     if (file_version != "1.0.0" && file_version != "1.1.0"){
         throw ym_exception(
             "This .ycd file is of a later format version.\n"
-            "This version of the digit viewer is unable to view this file.",
-            std::move(path),
+            "This version of the digit viewer is unable to view this file.\n"
+            + path,
             YCR_DIO_ERROR_INVALID_FILE
         );
     }

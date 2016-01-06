@@ -13,6 +13,7 @@
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/AlignedMalloc.h"
+#include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exception.h"
 #include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
 #include "DigitViewer/Globals.h"
@@ -27,7 +28,7 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
-YCDReader::YCDReader(std::wstring path_, bool raw, upL_t buffer_size)
+YCDReader::YCDReader(std::string path_, bool raw, upL_t buffer_size)
     : max_id_length(0)
     , fp_convert(NULL)
 {
@@ -36,21 +37,21 @@ YCDReader::YCDReader(std::wstring path_, bool raw, upL_t buffer_size)
 
     //  Check the file name
     if (path_.size() < 4)
-        throw ym_exception("File name is too short.", path_, YCR_DIO_ERROR_INVALID_FILE);
+        throw ym_exception("File name is too short.\n" + path_, YCR_DIO_ERROR_INVALID_FILE);
 
     //  Check extension
-    if (path_.substr(path_.size() - 4, 4) != L".ycd")
+    if (path_.substr(path_.size() - 4, 4) != ".ycd")
         throw ym_exception("Invalid Extension", YCR_DIO_ERROR_INVALID_EXTENSION);
 
     //  Separate name and path.
     upL_t slash_index = path_.size();
     while (slash_index > 0){
-        wchar_t ch = path_[slash_index - 1];
+        char ch = path_[slash_index - 1];
         if (ch == '/' || ch == '\\')
             break;
         slash_index--;
     }
-    std::wstring base = path_.substr(0, slash_index);
+    std::string base = path_.substr(0, slash_index);
     name = path_.substr(slash_index, path_.size());
 
     //  Add base path to path list.
@@ -59,7 +60,7 @@ YCDReader::YCDReader(std::wstring path_, bool raw, upL_t buffer_size)
     //  Separate name and ID #.
     upL_t id_index = name.size() - 4;
     while (id_index > 0){
-        wchar_t ch = name[id_index - 1];
+        char ch = name[id_index - 1];
         if (ch < '0' || '9' < ch)
             break;
         id_index--;
@@ -98,7 +99,7 @@ void YCDReader::print() const{
 
     //  Search Paths
     Console::println("Search Paths:");
-    for (const std::wstring& str : paths){
+    for (const std::string& str : paths){
         Console::print("    ");
         Console::println(str);
     }
@@ -161,7 +162,7 @@ bool YCDReader::check_range(uiL_t start, uiL_t end){
             if (ret){
                 Console::Warning("The following needed files are missing or inaccessible:");
             }
-            std::wstring path = name + std::to_wstring(file) + L".ycd";
+            std::string path = name + std::to_string(file) + ".ycd";
             Console::println(path);
             ret = false;
         }
@@ -236,23 +237,23 @@ void YCDReader::read(uiL_t pos, char* str, upL_t digits){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void YCDReader::add_search_path(std::wstring path){
+void YCDReader::add_search_path(std::string path){
     //  Make sure path ends in a slash.
     if (path.size() != 0){
-        wchar_t back = path.back();
+        char back = path.back();
         if (back != '/' && back != '\\')
             path += '/';
     }
     paths.push_back(std::move(path));
 }
-const std::wstring& YCDReader::get_name() const{
+const std::string& YCDReader::get_name() const{
     return name;
 }
 ufL_t YCDReader::get_digits_per_file() const{
     return digits_per_file;
 }
 void YCDReader::print_paths() const{
-    for (const std::wstring& str : paths){
+    for (const std::string& str : paths){
         Console::print("    ");
         Console::println(str);
     }
@@ -260,7 +261,7 @@ void YCDReader::print_paths() const{
 upL_t YCDReader::get_num_paths() const{
     return paths.size();
 }
-void YCDReader::load_new_file(std::wstring path, uiL_t id){
+void YCDReader::load_new_file(std::string path, uiL_t id){
     //  Loads a new file, checks all the metadata and updates "total_digits" and
     //  "max_id_length" if possible.
 
@@ -308,18 +309,18 @@ void YCDReader::set_current_file(uiL_t id){
     if (current_file.file_id == id)
         return;
 
-    std::wstring id_string = std::to_wstring(id);
+    std::string id_string = std::to_string(id);
     upL_t query_id_length = id_string.size();
     upL_t limit_id_length = query_id_length > max_id_length ? query_id_length : max_id_length;
 
     //  For each search path:
-    for (std::wstring& path : paths){
+    for (std::string& path : paths){
         //  Try all zero-padded schemes up to the maximum length.
-        std::wstring base_path = path + name;
+        std::string base_path = path + name;
         upL_t id_length = query_id_length;
         while (true){
             //  Build the full path.
-            std::wstring full_path = base_path + id_string + L".ycd";
+            std::string full_path = base_path + id_string + ".ycd";
 
             //  If the file exists, we're done. Open it.
             if (FileIO::FileExists(full_path.c_str())){

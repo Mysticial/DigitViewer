@@ -53,6 +53,9 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 #define YC_DIGITWRITER_DEFAULT_BUFFER   ((upL_t)64 << 20)
 class DigitWriter{
+    DigitWriter(const DigitWriter&);
+    void operator=(const DigitWriter&);
+
 public:
     DigitWriter();
     virtual ~DigitWriter    ();
@@ -97,10 +100,6 @@ public:
      *  is very large.
      */
     virtual void    write   (char* str, upL_t digits) = 0;
-
-private:
-    DigitWriter(const DigitWriter&);
-    void operator=(const DigitWriter&);
 
 protected:
     //  Digit Buffer

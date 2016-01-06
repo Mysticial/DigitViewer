@@ -34,25 +34,8 @@ bool EnableColors = true;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Basic Derived
-YM_NO_INLINE upL_t println(const char* str, char color){
-    upL_t ret = print(str, color);
-    ret += print("\n");
-    return ret;
-}
-YM_NO_INLINE upL_t println(const wchar_t* str, char color){
-    upL_t ret = print(str, color);
-    ret += print("\n");
-    return ret;
-}
 YM_NO_INLINE upL_t println(){
     return print("\n");
-}
-////////////////////////////////////////////////////////////////////////////////
-YM_NO_INLINE upL_t print(const std::string& str, char color){
-    return print(str.c_str(), color);
-}
-YM_NO_INLINE upL_t print(const std::wstring& str, char color){
-    return print(str.c_str(), color);
 }
 ////////////////////////////////////////////////////////////////////////////////
 YM_NO_INLINE upL_t println(std::string str, char color){
@@ -124,7 +107,7 @@ YM_NO_INLINE upL_t println_ebytes(uiL_t x, char color){
     return println(StringTools::tostr(x, StringTools::BYTES_EXPANDED), color);
 }
 YM_NO_INLINE siL_t scan_siL(char color){
-    auto str = scan_astr(color);
+    auto str = scan_utf8(color);
     const char* iter = str.c_str();
 
     siL_t out = 0;
@@ -149,14 +132,14 @@ YM_NO_INLINE siL_t scan_siL(char color){
     return out;
 }
 YM_NO_INLINE uiL_t scan_bytes(char color){
-    auto str = scan_astr(color);
+    auto str = scan_utf8(color);
 
     uiL_t x = 0;
     upL_t c = 0;
-    wchar_t ch = str[c++];
-    while (ch >= L'0' && ch <= L'9'){
+    char ch = str[c++];
+    while (ch >= '0' && ch <= '9'){
         x *= 10;
-        x += ch - L'0';
+        x += ch - '0';
         ch = str[c++];
     }
 
@@ -165,8 +148,8 @@ YM_NO_INLINE uiL_t scan_bytes(char color){
         double f = 0.1;
 
         ch = str[c++];
-        while (ch >= L'0' && ch <= L'9'){
-            frac += f * (ch - L'0');
+        while (ch >= '0' && ch <= '9'){
+            frac += f * (ch - '0');
             f *= 0.1;
             ch = str[c++];
         }
@@ -176,23 +159,23 @@ YM_NO_INLINE uiL_t scan_bytes(char color){
         ch = str[c++];
 
     switch (ch){
-        case L'k':
-        case L'K':
+        case 'k':
+        case 'K':
             return (x << 10) + (uiL_t)std::round(frac * ((uiL_t)1 << 10));
-        case L'm':
-        case L'M':
+        case 'm':
+        case 'M':
             return (x << 20) + (uiL_t)std::round(frac * ((uiL_t)1 << 20));
-        case L'g':
-        case L'G':
+        case 'g':
+        case 'G':
             return (x << 30) + (uiL_t)std::round(frac * ((uiL_t)1 << 30));
-        case L't':
-        case L'T':
+        case 't':
+        case 'T':
             return (x << 40) + (uiL_t)std::round(frac * ((uiL_t)1 << 40));
-        case L'p':
-        case L'P':
+        case 'p':
+        case 'P':
             return (x << 50) + (uiL_t)std::round(frac * ((uiL_t)1 << 50));
-        case L'e':
-        case L'E':
+        case 'e':
+        case 'E':
             return (x << 60) + (uiL_t)std::round(frac * ((uiL_t)1 << 60));
         default:
             return x;

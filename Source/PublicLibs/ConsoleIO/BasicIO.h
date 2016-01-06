@@ -34,23 +34,20 @@ void CompileOptions();
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core
-YM_NO_INLINE    upL_t   print   (const char* str, char color = ' ');
-YM_NO_INLINE    upL_t   print   (const wchar_t* str, char color = ' ');
-YM_NO_INLINE    upL_t   println (const char* str, char color = ' ');
-YM_NO_INLINE    upL_t   println (const wchar_t* str, char color = ' ');
-YM_NO_INLINE    upL_t   println ();
+YM_NO_INLINE    upL_t   print   (const std::string& str, char color = ' ');
+YM_NO_INLINE    upL_t   print   (const std::wstring& str, char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
-YM_NO_INLINE    std::string     scan_astr   (char color = 'T');
+YM_NO_INLINE    std::string     scan_utf8   (char color = 'T');
 YM_NO_INLINE    std::wstring    scan_wstr   (char color = 'T');
 YM_NO_INLINE    void            Pause       (char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
 YM_NO_INLINE    void    SetColor        (char color);
 YM_NO_INLINE    void    SetColorDefault ();
+YM_NO_INLINE    bool    SetConsoleWindowSize(int width = 80, int height = 25);
 extern bool EnableColors;
 ////////////////////////////////////////////////////////////////////////////////
 //  Basic Derived
-YM_NO_INLINE    upL_t   print       (const std::string& str, char color = ' ');
-YM_NO_INLINE    upL_t   print       (const std::wstring& str, char color = ' ');
+YM_NO_INLINE    upL_t   println ();
 YM_NO_INLINE    upL_t   println     (std::string str, char color = ' ');
 YM_NO_INLINE    upL_t   println     (std::wstring str, char color = ' ');
 YM_NO_INLINE    void    ClearLine   (int characters = 79);

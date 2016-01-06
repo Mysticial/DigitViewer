@@ -202,7 +202,11 @@ public:
     //  From there it will take care of the rest.
     //  For ASCII char output, use:   raw = false
     //  For raw integer output, use:  raw = true
-    YCDReader(std::wstring path, bool raw = false, upL_t buffer_size = YC_DIGITREADER_DEFAULT_BUFFER);
+    YCDReader(
+        std::string path,   //  UTF-8
+        bool raw = false,
+        upL_t buffer_size = YC_DIGITREADER_DEFAULT_BUFFER
+    );
     virtual const char* get_extension() const{
         return "ycd";
     }
@@ -218,17 +222,17 @@ public:
 
     //  Add a new search path for which this reader will search in an attempt
     //  to find .ycd files associated with this digit stream.
-    void                add_search_path     (std::wstring path);
+    void                add_search_path     (std::string path);
 
-    const std::wstring& get_name            () const;
+    const std::string&  get_name            () const;
     ufL_t               get_digits_per_file () const;
     void                print_paths         () const;
     upL_t               get_num_paths       () const;
 
 private:
-    std::wstring name;                  //  File name
+    std::string name;                   //  File name
     upL_t max_id_length;                //  Max length of id
-    std::vector<std::wstring> paths;    //  Full path (including the id #)
+    std::vector<std::string> paths;     //  Full path (including the id #)
 
     int radix;                          //  Radix of the digits. (10 or 16)
     void (*fp_convert)(char*, const u64_t*, upL_t);   //  Function pointer for digit conversion.
@@ -251,7 +255,7 @@ private:
     upL_t bin_buffer_L;
 
     virtual void reload();  //  Override
-    void load_new_file(std::wstring path, uiL_t id);
+    void load_new_file(std::string path, uiL_t id);
     void set_current_file(uiL_t id);
 };
 ////////////////////////////////////////////////////////////////////////////////

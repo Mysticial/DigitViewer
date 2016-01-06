@@ -27,7 +27,6 @@
 #include <string>
 #include <memory>
 #include "PublicLibs/Types.h"
-#include "PublicLibs/FileIO/FileIO.h"
 namespace DigitViewer{
     using namespace ymp;
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +35,9 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 #define YC_DIGITREADER_DEFAULT_BUFFER   ((upL_t)64 << 20)
 class DigitReader{
+    DigitReader(const DigitReader&) = delete;
+    void operator=(const DigitReader&) = delete;
+
 public:
     DigitReader();
     virtual ~DigitReader    (){}
@@ -114,10 +116,6 @@ public:
      */
     virtual void        read            (uiL_t pos, char* str, upL_t digits) = 0;
 
-private:
-    DigitReader(const DigitReader&) = delete;
-    void operator=(const DigitReader&) = delete;
-
 protected:
 
     //  Digit Buffer
@@ -159,7 +157,7 @@ YM_FORCE_INLINE char DigitReader::next(){
 //  Digit Viewer Factory
 //      Call this on any digit file and it will return the digit viewer for it.
 std::unique_ptr<DigitReader> OpenDigitFile(
-    std::wstring path,
+    std::string path,
     bool raw = false,
     upL_t buffer_size = YC_DIGITREADER_DEFAULT_BUFFER
 );

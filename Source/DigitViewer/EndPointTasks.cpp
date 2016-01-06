@@ -258,16 +258,16 @@ void ToTextFile(DigitReader* file){
     Console::println("Enter the path of the destination file:");
 
     //  Prompt for path
-    std::wstring path = Console::scan_wstr();
+    std::string path = Console::scan_utf8();
 
     //  Extract the extension
     size_t extension_offset = path.rfind('.');
 
     //  Append extension if needed.
     if (extension_offset >= path.size() ||
-        path.substr(extension_offset) != L".txt"
+        path.substr(extension_offset) != ".txt"
     ){
-        path += L".txt";
+        path += ".txt";
     }
 
     //  Create Writer
@@ -346,11 +346,11 @@ void ToYCDFileAll(DigitReader* file){
     }while (1);
 
     Console::println("Enter a name for the digits:");
-    auto name = Console::scan_labelc_wstr("Name");
+    auto name = Console::scan_labelc_utf8("Name");
 
     Console::println("\nEnter the destination path (SPACE for default):");
-    std::wstring path = Console::scan_wstr();
-    if (path.size() != 0 && path[0] == L' ')
+    std::string path = Console::scan_utf8();
+    if (path.size() != 0 && path[0] == ' ')
         path.clear();
 
     //  Create the writer
@@ -431,12 +431,12 @@ void ToYCDFilePartial(YCDReader* file){
     }
 
     Console::println("\nEnter the destination path (SPACE for default):");
-    std::wstring path = Console::scan_wstr();
-    if (path.size() != 0 && path[0] == L' ')
+    std::string path = Console::scan_utf8();
+    if (path.size() != 0 && path[0] == ' ')
         path.clear();
 
     //  Get the name
-    std::wstring name = file->get_name();
+    std::string name = file->get_name();
 
     //  Strip off the trailing " - ".
     while (name.size() > 0 && (name.back() == ' ' || name.back() == '-')){

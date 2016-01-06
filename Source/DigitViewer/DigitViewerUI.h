@@ -63,7 +63,7 @@ void Menu_Main(){
     Console::println();
 
     Console::print("Copyright ", 'T');
-    Console::print("2008-2016 Alexander J. Yee");
+    Console::print("2008-2017 Alexander J. Yee");
     Console::print("      ");
     Console::print("( a-yee@u.northwestern.edu )");
     Console::println("\n");

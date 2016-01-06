@@ -143,7 +143,7 @@ void Menu_YCDFile(YCDReader* reader){
             case 5:
             {
                 Console::println("\nEnter directory:");
-                reader->add_search_path(Console::scan_wstr());
+                reader->add_search_path(Console::scan_utf8());
                 break;
             }
             default:;
@@ -162,7 +162,7 @@ void Menu_DigitViewer(){
     Console::println("Enter the path of the file (include .txt or .ycd extensions):", 'w');
 
     //  Prompt for path
-    auto path = Console::scan_wstr();
+    auto path = Console::scan_utf8();
 
     auto reader = OpenDigitFile(std::move(path));
 

@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include "PublicLibs/FileIO/BasicFile.h"
 #include "DigitWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,22 +35,20 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 #define YC_DIGITWRITER_MAX_DIGIT_WIDTH     20
 class YCDFileWriter{
-public:
-    //  Movable
-    YCDFileWriter();
-    YCDFileWriter(YCDFileWriter &&);
-    void operator=(YCDFileWriter &&);
-    ~YCDFileWriter();
-private:
-    //  But not copyable
-    YCDFileWriter(const YCDFileWriter &);
-    void operator=(const YCDFileWriter &);
+    YCDFileWriter(const YCDFileWriter&);
+    void operator=(const YCDFileWriter&);
 
 public:
+    YCDFileWriter(YCDFileWriter&&);
+    void operator=(YCDFileWriter&&);
+
+public:
+    YCDFileWriter();
+    ~YCDFileWriter();
 
     //  Create a new writer
     YCDFileWriter(
-        std::wstring path,
+        std::string path,   //  UTF-8
         const std::string& first_digits,
         uiL_t digits_per_file,
         uiL_t fileid = 0,
@@ -66,7 +65,7 @@ public:
     bool isValid() const;
 
 private:
-    std::wstring path;
+    std::string path;
     FileIO::BasicFile file;
 
     int radix;                          //  Radix of the digits. (10 or 16)

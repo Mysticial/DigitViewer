@@ -15,6 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/StringTools/Unicode.h"
 #include "PublicLibs/Exception.h"
 namespace ymp{
 namespace FileIO{
@@ -32,24 +33,34 @@ class FileException : public ym_exception{
         throw *this;
     }
 
-    std::wstring file;
-
 public:
-    FileException(const char* location, const wchar_t* file, const char* message){
+    FileException(const char* location, const std::string& file, const char* message){
         level = YMC_EXCEPTION_FILEIO;
         code = 1;
         this->location = location;
         this->message = message;
-        this->file = file;
-        this->wstr = this->file.c_str();
+        this->wstr = StringTools::utf8_to_wstr(file);
     }
-    FileException(int code, const char* location, const wchar_t* file, const char* message){
+    FileException(const char* location, std::wstring file, const char* message){
+        level = YMC_EXCEPTION_FILEIO;
+        code = 1;
+        this->location = location;
+        this->message = message;
+        this->wstr = std::move(file);
+    }
+    FileException(int code, const char* location, std::string file, const char* message){
         level = YMC_EXCEPTION_FILEIO;
         this->code = code;
         this->location = location;
         this->message = message;
-        this->file = file;
-        this->wstr = this->file.c_str();
+        this->wstr = StringTools::utf8_to_wstr(file);
+    }
+    FileException(int code, const char* location, std::wstring file, const char* message){
+        level = YMC_EXCEPTION_FILEIO;
+        this->code = code;
+        this->location = location;
+        this->message = message;
+        this->wstr = std::move(file);
     }
 };
 ////////////////////////////////////////////////////////////////////////////////

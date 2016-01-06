@@ -26,12 +26,12 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
 TextWriter::TextWriter(
-    const std::wstring& path,
+    const std::string& path,
     const std::string& first_digits,
     bool raw,
     int radix
 )
-    : file(0, path.c_str())
+    : file(0, path)
     , fp_convert(NULL)
 {
     //  Write the first digits.
@@ -77,8 +77,7 @@ void TextWriter::write(char* str, upL_t digits){
     if (file.write(str, digits) != digits){
         FileIO::PrintLastError();
         throw ym_exception(
-            "Error writing to file.",
-            file.GetPath(),
+            "Error writing to file.\n" + file.GetPath(),
             FileIO::GetLastErrorCode()
         );
     }

@@ -126,21 +126,21 @@ YM_NO_INLINE void DigitReader::reload(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Factory
-std::unique_ptr<DigitReader> OpenDigitFile(std::wstring path, bool raw, upL_t buffer_size){
+std::unique_ptr<DigitReader> OpenDigitFile(std::string path, bool raw, upL_t buffer_size){
     //  Extract the extension
     size_t extension_offset = path.rfind('.');
     if (extension_offset >= path.size()){
-        throw ym_exception("No Extension found.", std::move(path));
+        throw ym_exception("No Extension found." + path);
     }
-    std::wstring extension = path.substr(extension_offset);
+    std::string extension = path.substr(extension_offset);
 
     //  Use RTTI.
-    if (extension == L".txt"){
+    if (extension == ".txt"){
         return std::unique_ptr<DigitReader>(new TextReader(path, raw, 0));
-    }else if (extension == L".ycd"){
+    }else if (extension == ".ycd"){
         return std::unique_ptr<DigitReader>(new YCDReader(std::move(path), raw, buffer_size));
     }else{
-        throw ym_exception("Unrecognized Extension", std::move(extension));
+        throw ym_exception("Unrecognized Extension: " + extension);
     }
 }
 ////////////////////////////////////////////////////////////////////////////////

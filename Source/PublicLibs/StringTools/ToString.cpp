@@ -240,48 +240,5 @@ YM_NO_INLINE std::string tostrln_fixed(double x, int precision){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//  char <-> wide
-YM_NO_INLINE std::wstring a_to_w_direct(const std::string& str){
-    //  Direct conversion of string -> wstring.
-    //  No Unicode conversions are done.
-
-    //  This function assumes that char is ASCII.
-    //  It will warn and throw an exception if any character is not ASCII.
-
-    std::wstring out;
-    for (char ch : str){
-        if (ch < 0 || ch > 127){
-            const char* error = "a_to_w_direct(): Direct Conversion of > 127 char to wchar_t.";
-            Console::Warning(error);
-            throw error;
-        }
-        out += ch;
-    }
-
-    return out;
-}
-YM_NO_INLINE std::string w_to_a_direct(const std::wstring& str){
-    //  Direct conversion of wstring -> string.
-    //  No Unicode conversions are done.
-
-    //  This function assumes that values 0 - 127 are the same as in ASCII.
-    //  It will warn and throw an exception if any character is not ASCII.
-
-    std::string out;
-    for (wchar_t ch : str){
-        if ((uiL_t)ch > 127){
-            const char* error = "w_to_a_direct(): Direct Conversion of > 127 wchar_t to char.";
-            Console::Warning(error);
-            throw error;
-        }
-        out += (char)ch;
-    }
-
-    return out;
-}
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 }
 }

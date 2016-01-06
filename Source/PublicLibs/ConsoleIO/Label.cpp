@@ -119,10 +119,10 @@ YM_NO_INLINE upL_t println_labelm(upL_t margin, std::string label, const std::ws
     return ret;
 }
 ////////////////////////////////////////////////////////////////////////////////
-YM_NO_INLINE std::string scan_labelc_astr(std::string label, char color){
+YM_NO_INLINE std::string scan_labelc_utf8(std::string label, char color){
     label += ": ";
     print(label, color != ' ' ? 'w' : ' ');
-    return scan_astr(color);
+    return scan_utf8(color);
 }
 YM_NO_INLINE std::wstring scan_labelc_wstr(std::string label, char color){
     label += ": ";

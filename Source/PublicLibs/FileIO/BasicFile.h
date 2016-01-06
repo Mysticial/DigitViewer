@@ -1,50 +1,64 @@
-/* ToString.h - Conversions to Strings
+/* BasicFile.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 07/07/2013
- * Last Modified    : 08/24/2014
+ * Date Created     : 12/30/2015
+ * Last Modified    : 12/30/2015
+ * 
+ *      std::string paths are assumed to be UTF-8.
  * 
  */
 
 #pragma once
-#ifndef _ymp_ToString_H
-#define _ymp_ToString_H
+#ifndef _ymp_FileIO_BasicFile_H
+#define _ymp_FileIO_BasicFile_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include <string>
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/Types.h"
+#if _WIN32
+#include "BaseFile_Windows.h"
+#else
+#include "BaseFile_Default.h"
+#endif
 namespace ymp{
-namespace StringTools{
+namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-enum NumberFormat{
-    NORMAL = 0,
-    COMMAS = 1,
-    BYTES = 2,
-    BYTES_EXPANDED = 3
+class BasicFile : public BaseFile{
+public:
+    BasicFile(){}
+
+    //  Open for read only.
+    BasicFile(const std::string& path, bool retry = false);
+    BasicFile(const char* path, bool retry = false)
+        : BasicFile(std::string(path), retry)
+    {}
+
+    //  Create for read + write.
+    BasicFile(ufL_t bytes, const std::string& path, bool retry = false);
+    BasicFile(ufL_t bytes, const char* path, bool retry = false)
+        : BasicFile(bytes, std::string(path), retry)
+    {}
+
+public:
+    using BaseFile::read;
+    using BaseFile::write;
+    template <typename ctype> bool write(const std::basic_string<ctype>& str);
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//  Integer
-YM_NO_INLINE    std::string tostr       (uiL_t x, NumberFormat format = NORMAL);
-YM_NO_INLINE    std::string tostr       (siL_t x, NumberFormat format = NORMAL);
-YM_NO_INLINE    std::string tostrln     (uiL_t x, NumberFormat format = NORMAL);
-YM_NO_INLINE    std::string tostrln     (siL_t x, NumberFormat format = NORMAL);
-static          std::string tostrln     (u32_t x, NumberFormat format = NORMAL){ return tostrln((uiL_t)x, format); }
-static          std::string tostrln     (s32_t x, NumberFormat format = NORMAL){ return tostrln((siL_t)x, format); }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//  Float
-YM_NO_INLINE    std::string tostr_float     (double x, int precision = 0);
-YM_NO_INLINE    std::string tostrln_float   (double x, int precision = 0);
-YM_NO_INLINE    std::string tostr_fixed     (double x, int precision = 3);
-YM_NO_INLINE    std::string tostrln_fixed   (double x, int precision = 3);
+//  Templates
+template <typename ctype>
+bool BasicFile::write(const std::basic_string<ctype>& str){
+    upL_t bytes = str.size() * sizeof(ctype);
+    return write(str.c_str(), bytes) == bytes;
+}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

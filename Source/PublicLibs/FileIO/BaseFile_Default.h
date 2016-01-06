@@ -1,19 +1,20 @@
-/* FileIO_WinAPI.h - File IO - WinAPI
+/* BaseFile_Default.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 08/05/2010
- * Last Modified    : 07/26/2011
+ * Date Created     : 12/30/2015
+ * Last Modified    : 12/30/2015
  * 
  */
 
 #pragma once
-#ifndef _ymp_FileIO_WinAPI_H
-#define _ymp_FileIO_WinAPI_H
+#ifndef _ymp_FileIO_BaseFile_Default_H
+#define _ymp_FileIO_BaseFile_Default_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include <stdio.h>
 #include <string>
 #include "PublicLibs/Types.h"
 namespace ymp{
@@ -22,40 +23,46 @@ namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-class BasicFile{
-    std::wstring path;      //  Path of the file
+class BaseFile{
+    std::string path;
+    FILE* filehandle;
 
 public:
-    void* filehandle;       //  File handle
+    BaseFile(const BaseFile&) = delete;
+    void operator=(const BaseFile&) = delete;
+    BaseFile(BaseFile&& x)
+        : path(std::move(x.path))
+        , filehandle(std::move(x.filehandle))
+    {
+        x.path.clear();
+    }
+    void operator=(BaseFile&& x){
+        path = std::move(x.path);
+        filehandle = std::move(x.filehandle);
+        x.path.clear();
+    }
 
 public:
-    BasicFile(const BasicFile&) = delete;
-    void operator=(const BasicFile&) = delete;
-    BasicFile(BasicFile&& x);
-    void operator=(BasicFile&& x);
+    BaseFile(){};
+    virtual ~BaseFile(){ close(); }
+
+    bool is_open() const{
+        return !path.empty();
+    }
+    const std::string& GetPath() const{
+        return path;
+    }
 
 public:
-    BasicFile(){};
-    BasicFile(const wchar_t* path, bool retry = false);                 //  Open for read only.
-    BasicFile(ufL_t bytes, const wchar_t* path, bool retry = false);    //  Create for read + write.
-    ~BasicFile(){ Close(); }
+    bool open(std::string path);
+    bool create(std::string path, ufL_t bytes = 0);
+    void close(bool delete_file = false);
 
-    void Close();
-    void Delete();
-    void ForceDelete();
-
-    const wchar_t* GetPath() const{ return path.c_str(); }
-    bool IsOpen() const{ return !path.empty(); }
-    void Rename(const wchar_t* name);
-
-    void set_ptr(ufL_t offset);
-
-    upL_t write(const void* T, upL_t bytes);
-    upL_t read(void* T, upL_t bytes);
+public:
+    bool set_ptr(ufL_t offset);
     void flush();
-
-    upL_t write_u16(const wchar_t* str);
-    upL_t read_u16(wchar_t* str, upL_t L);
+    upL_t read(void* T, upL_t bytes);
+    upL_t write(const void* T, upL_t bytes);
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

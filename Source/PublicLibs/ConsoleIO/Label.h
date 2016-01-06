@@ -36,7 +36,7 @@ YM_NO_INLINE    upL_t   println_labelm          (std::string label, const std::w
 YM_NO_INLINE    upL_t   print_labelm            (upL_t margin, std::string label, const std::wstring& x, char color = ' ');
 YM_NO_INLINE    upL_t   println_labelm          (upL_t margin, std::string label, const std::wstring& x, char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
-YM_NO_INLINE    std::string     scan_labelc_astr(std::string label, char color = 'T');
+YM_NO_INLINE    std::string     scan_labelc_utf8(std::string label, char color = 'T');
 YM_NO_INLINE    std::wstring    scan_labelc_wstr(std::string label, char color = 'T');
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

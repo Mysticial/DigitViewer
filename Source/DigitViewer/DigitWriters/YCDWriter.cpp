@@ -28,11 +28,11 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 //  Helpers
 void YCDWriter::create_file(uiL_t fileid){
-    std::wstring full_path(path);
+    std::string full_path(path);
     full_path += name;
-    full_path += L" - ";
-    full_path += std::to_wstring(fileid);
-    full_path += L".ycd";
+    full_path += " - ";
+    full_path += std::to_string(fileid);
+    full_path += ".ycd";
 
     file = YCDFileWriter(full_path, first_digits, digits_per_file, fileid, radix);
 }
@@ -41,8 +41,8 @@ void YCDWriter::create_file(uiL_t fileid){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 YCDWriter::YCDWriter(
-    std::wstring path_,
-    std::wstring name_,
+    std::string path_,
+    std::string name_,
     std::string first_digits,
     uiL_t digits_per_file_,
     uiL_t start_fileid,
@@ -71,7 +71,7 @@ YCDWriter::YCDWriter(
 
     //  Make sure path ends in a slash.
     if (path.size() != 0){
-        wchar_t back = path.back();
+        char back = path.back();
         if (back != '/' && back != '\\')
             path += '/';
     }

@@ -4,6 +4,14 @@
  * Date Created     : 08/26/2014
  * Last Modified    : 08/26/2014
  * 
+ *      These print functions try to be agnostic to the stream orientation.
+ *  That is, they will detect the orientation of stdin and stdout and use the
+ *  appropriate function calls to use them.
+ * 
+ *  If a stream orientation hasn't been set yet, they will be set to byte-oriented.
+ *  Interestingly enough, wide-oriented streams seem to have issues with unicode
+ *  glyphs in Linux. (tested on Gnome Terminal)
+ * 
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +22,7 @@
 #include <string.h>
 #include <iostream>
 #include "PublicLibs/StringTools/ToString.h"
+#include "PublicLibs/StringTools/Unicode.h"
 #include "Label.h"
 namespace ymp{
 namespace Console{
@@ -29,29 +38,30 @@ YM_NO_INLINE void CompileOptions(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
-YM_NO_INLINE upL_t print(const char* str, char color){
+YM_NO_INLINE upL_t print(const std::string& str, char color){
     SetColor(color);
     if (fwide(stdout, 0) <= 0){
         std::cout << str;
     }else{
-        std::wcout << str;
+        std::wcout << StringTools::utf8_to_wstr(str);
     }
     fflush(stdout);
-    return strlen(str);
+    return str.size();
 }
-YM_NO_INLINE upL_t print(const wchar_t* str, char color){
+YM_NO_INLINE upL_t print(const std::wstring& str, char color){
     SetColor(color);
     if (fwide(stdout, 0) <= 0){
-        std::cout << StringTools::w_to_a_direct(str);
+        std::cout << StringTools::wstr_to_utf8(str);
     }else{
         std::wcout << str;
     }
     fflush(stdout);
-    return wcslen(str);
+    return str.size();
 }
-YM_NO_INLINE std::string scan_astr(char color){
+////////////////////////////////////////////////////////////////////////////////
+YM_NO_INLINE std::string scan_utf8(char color){
     if (fwide(stdin, 0) > 0)
-        return StringTools::w_to_a_direct(scan_wstr(color));
+        return StringTools::wstr_to_utf8(scan_wstr(color));
 
     SetColor(color);
     std::string out;
@@ -62,7 +72,7 @@ YM_NO_INLINE std::string scan_astr(char color){
 }
 YM_NO_INLINE std::wstring scan_wstr(char color){
     if (fwide(stdin, 0) <= 0)
-        return StringTools::a_to_w_direct(scan_astr(color));
+        return StringTools::utf8_to_wstr(scan_utf8(color));
 
     SetColor(color);
     std::wstring out;
@@ -79,7 +89,7 @@ YM_NO_INLINE std::wstring scan_wstr(char color){
 }
 YM_NO_INLINE void Pause(char color){
     print("Press ENTER to continue . . .", color);
-    scan_astr();
+    scan_utf8();
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +144,15 @@ YM_NO_INLINE void SetColor(char color){
 }
 YM_NO_INLINE void SetColorDefault(){
     print("\033[39;49m");
+}
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//  Console Window
+YM_NO_INLINE bool SetConsoleWindowSize(int width, int height){
+    //  TODO
+    return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

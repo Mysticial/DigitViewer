@@ -1,16 +1,14 @@
-/* FileIO.h - File IO
+/* BaseFile_Windows.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 01/24/2015
+ * Date Created     : 12/30/2015
  * Last Modified    : 12/30/2015
- * 
- *      std::string paths are assumed to be UTF-8.
  * 
  */
 
 #pragma once
-#ifndef _ymp_FileIO_H
-#define _ymp_FileIO_H
+#ifndef _ymp_FileIO_BaseFile_Windows_H
+#define _ymp_FileIO_BaseFile_Windows_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,18 +22,47 @@ namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void    CompileOptions      ();
-////////////////////////////////////////////////////////////////////////////////
-void    MakeDirectory       (const std::string& path);
-void    RenameFile          (const std::string&, const std::string& newname);
-ufL_t   GetFileSize         (const std::string& path);
-bool    FileExists          (const std::string& path);
-void    RemoveFile          (const std::string& path);
-bool    DirectoryIsWritable (const std::string& directory);
-////////////////////////////////////////////////////////////////////////////////
-int     GetLastErrorCode    ();
-void    PrintLastError      ();
-extern  upL_t   SetFileLengthFailures;
+class BaseFile{
+    std::string path;
+    void* filehandle;
+
+public:
+    BaseFile(const BaseFile&) = delete;
+    void operator=(const BaseFile&) = delete;
+    BaseFile::BaseFile(BaseFile&& x)
+        : path(std::move(x.path))
+        , filehandle(std::move(x.filehandle))
+    {
+        x.path.clear();
+    }
+    void BaseFile::operator=(BaseFile&& x){
+        path = std::move(x.path);
+        filehandle = std::move(x.filehandle);
+        x.path.clear();
+    }
+
+public:
+    BaseFile(){};
+    virtual ~BaseFile(){ close(); }
+
+    bool is_open() const{
+        return !path.empty();
+    }
+    const std::string& GetPath() const{
+        return path;
+    }
+
+public:
+    bool open(std::string path);
+    bool create(std::string path, ufL_t bytes = 0);
+    void close(bool delete_file = false);
+
+public:
+    bool set_ptr(ufL_t offset);
+    void flush();
+    upL_t read(void* T, upL_t bytes);
+    upL_t write(const void* T, upL_t bytes);
+};
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

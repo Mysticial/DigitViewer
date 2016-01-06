@@ -7,6 +7,7 @@
  */
 
 #include "StringTools/ToString.cpp"
+#include "StringTools/Unicode.cpp"
 
 #include "ConsoleIO/BasicIO.cpp"
 #include "ConsoleIO/Margin.cpp"
@@ -17,6 +18,7 @@
 //#include "Time/StopWatch.cpp"
 
 #include "FileIO/FileIO.cpp"
+#include "FileIO/BasicFile.cpp"
 //#include "Serialization/Serialization.cpp"
 
 //#include "Environment/Environment.cpp"

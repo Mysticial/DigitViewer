@@ -47,7 +47,7 @@ std::string to_string_max(uiL_t x){
 YCDFileWriter::YCDFileWriter()
     : buffered(0)
 {}
-void YCDFileWriter::operator=(YCDFileWriter &&x){
+void YCDFileWriter::operator=(YCDFileWriter&& x){
     close();
 
     path                = std::move(x.path);
@@ -71,14 +71,14 @@ YCDFileWriter::~YCDFileWriter(){
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
 YCDFileWriter::YCDFileWriter(
-    std::wstring path_,
+    std::string path_,
     const std::string& first_digits,
     uiL_t digits_per_file_,
     uiL_t fileid_,
     int radix_
 )
     : path(std::move(path_))
-    , file(0, path.c_str())
+    , file(0, path)
     , radix(radix_)
     , digits_per_file(digits_per_file_)
     , file_id(fileid_)
@@ -130,8 +130,7 @@ YCDFileWriter::YCDFileWriter(
     if (file.write(&header[0], size) != size){
         FileIO::PrintLastError();
         throw ym_exception(
-            "Error writing to file.",
-            std::move(path_),
+            "Error writing to file.\n" + path_,
             FileIO::GetLastErrorCode()
         );
     }
@@ -155,7 +154,7 @@ YCDFileWriter::YCDFileWriter(
 }
 void YCDFileWriter::close(){
     //  The object isn't valid anyway.
-    if (!file.IsOpen())
+    if (!file.is_open())
         return;
 
     //  Flush buffer
@@ -174,18 +173,17 @@ void YCDFileWriter::close(){
             //  call this function before you destruct.
             FileIO::PrintLastError();
             throw ym_exception(
-                "Error writing to file.",
-                path,
+                "Error writing to file.\n" + path,
                 FileIO::GetLastErrorCode()
             );
         }
     }
 
     //  Close the file
-    file.Close();
+    file.close();
 }
 bool YCDFileWriter::isValid() const{
-    return file.IsOpen();
+    return file.is_open();
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,8 +195,7 @@ void YCDFileWriter::write_words(u64_t* T, upL_t L){
     if (file.write(T, bytes) != bytes){
         FileIO::PrintLastError();
         throw ym_exception(
-            "Error writing to file.",
-            path,
+            "Error writing to file.\n" + path,
             FileIO::GetLastErrorCode()
         );
     }
@@ -215,7 +212,7 @@ upL_t YCDFileWriter::write_chars(
 
     //  If the end of the file is reached, the file is closed.
 
-    if (!file.IsOpen())
+    if (!file.is_open())
         throw ym_exception("This file is already closed.", YCR_DIO_ERROR_INTERNAL);
 
     upL_t start_digits = digits;

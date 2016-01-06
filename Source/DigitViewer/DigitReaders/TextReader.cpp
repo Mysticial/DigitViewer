@@ -12,6 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exception.h"
 #include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
 #include "DigitViewer/Globals.h"
@@ -27,11 +28,11 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
 TextReader::TextReader(
-    const std::wstring& path,
+    const std::string& path,
     bool raw,
     int radix_
 )
-    : file(path.c_str())
+    : file(path)
     , radix(radix_)
     , fp_convert(NULL)
 {
@@ -47,7 +48,7 @@ TextReader::TextReader(
     while (1){
         char ch;
         if (file.read(&ch, 1) != 1){
-            throw ym_exception("Unexpected End of File", path, FileIO::GetLastErrorCode());
+            throw ym_exception("Unexpected End of File\n" + path, FileIO::GetLastErrorCode());
         }
 
         c++;
