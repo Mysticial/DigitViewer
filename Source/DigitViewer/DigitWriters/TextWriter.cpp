@@ -12,7 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/Exception.h"
-#include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
+#include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
 #include "TextWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,10 +45,10 @@ TextWriter::TextWriter(
     if (raw){
         switch (radix){
             case 10:
-                fp_convert = ymb_CVN_rawd_to_strd_f;
+                fp_convert = raw_to_dec;
                 break;
             case 16:
-                fp_convert = ymb_CVN_rawh_to_strh_f;
+                fp_convert = raw_to_hex;
                 break;
             default:
                 throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);

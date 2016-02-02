@@ -1,8 +1,6 @@
-#include <iostream>
-using namespace std;
-
 #include "PublicLibs/Exception.h"
 #include "DigitViewerUI.h"
+using namespace ymp;
 
 int main(){
     try{

@@ -44,7 +44,7 @@ YCDWriter::YCDWriter(
     std::string path_,
     std::string name_,
     std::string first_digits,
-    uiL_t digits_per_file_,
+    ufL_t digits_per_file_,
     uiL_t start_fileid,
     int radix_,
     upL_t buffer_size,

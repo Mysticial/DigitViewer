@@ -14,7 +14,7 @@
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exception.h"
-#include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
+#include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
 #include "TextReader.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +44,7 @@ TextReader::TextReader(
 
     //  Find the decimal place
     file.set_ptr(0);
-    uiL_t c = 0;
+    ufL_t c = 0;
     while (1){
         char ch;
         if (file.read(&ch, 1) != 1){
@@ -98,7 +98,7 @@ void TextReader::print() const{
 int TextReader::get_radix() const{
     return radix;
 }
-ufL_t TextReader::get_digits() const{
+uiL_t TextReader::get_digits() const{
     return total_digits;
 }
 void TextReader::set_raw(bool raw){
@@ -109,10 +109,10 @@ void TextReader::set_raw(bool raw){
         //  User wants output to be raw.
         switch (radix){
             case 10:
-                fp_convert = ymb_CVN_strd_to_rawd_f;
+                fp_convert = dec_to_raw;
                 break;
             case 16:
-                fp_convert = ymb_CVN_strh_to_rawh_f;
+                fp_convert = hex_to_raw;
                 break;
             default:
                 throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
@@ -161,7 +161,7 @@ void TextReader::read(uiL_t pos, char* str, upL_t digits){
     if (end > total_digits)
         throw ym_exception("Out of range.", YCR_DIO_ERROR_OUT_OF_RANGE);
 
-    file.set_ptr(dp_offset + pos);
+    file.set_ptr(dp_offset + static_cast<ufL_t>(pos));
     if (file.read(str, digits) != digits){
         throw ym_exception("Error Reading from File", FileIO::GetLastErrorCode());
     }

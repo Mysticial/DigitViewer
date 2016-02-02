@@ -73,7 +73,7 @@ public:
     virtual int         get_radix       () const = 0;
 
     //  Returns the # of digits in this digit stream. (0 = unknown)
-    virtual ufL_t       get_digits      () const = 0;
+    virtual uiL_t       get_digits      () const = 0;
 
     //  Enable/Disable raw output.
     virtual void        set_raw         (bool raw) = 0;
@@ -121,7 +121,7 @@ protected:
     //  Digit Buffer
     std::unique_ptr<char[]> buffer;
     upL_t buffer_L;
-    
+
     //  Iterator
     uiL_t iter_f_offset;
     upL_t iter_b_offset;

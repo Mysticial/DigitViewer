@@ -5,12 +5,24 @@ This is the full self-contained source code for y-cruncher's integrated Digit Vi
 It includes everything including the heavily optimized back-end conversion code.
 
 To Compile (Windows):
- - Open the Visual Studio project and compile from within the IDE. The options are x86/Release, x86/SSE3, x64/SSE3, x64/SSE4.1.
- - Visual Studio 2013 is required.
+ - Open the Visual Studio project and compile from within the IDE.
+ - Visual Studio 2015 is required.
 
 To Compile (Linux):
- - Run `VSS - DigitViewer/Compile-Linux.sh` from the directory it is in. It will create a folder `Binaries` with the two executables.
+ - Run `VSS - DigitViewer/Compile-Linux.sh` from the directory it is in. It will create a folder `Binaries` with the three executables.
  - x64 and a sufficiently new version of GCC is required.
+
+-----
+
+The supported build modes are:
+
+ - x86 : Release
+ - x86 : 04-SSE3
+ - x64 : 04-SSE3
+ - x64 : 07-Penryn (SSE4.1)
+ - x64 : 13-Haswell (AVX2)
+
+The x86 modes are not supported in Linux.
 
 -----
 

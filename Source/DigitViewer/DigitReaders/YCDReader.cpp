@@ -15,7 +15,7 @@
 #include "PublicLibs/AlignedMalloc.h"
 #include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exception.h"
-#include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
+#include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
 #include "YCDReader.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ void YCDReader::print() const{
 int YCDReader::get_radix() const{
     return radix;
 }
-ufL_t YCDReader::get_digits() const{
+uiL_t YCDReader::get_digits() const{
     return total_digits;
 }
 void YCDReader::set_raw(bool raw){
@@ -129,10 +129,10 @@ void YCDReader::set_raw(bool raw){
 
     switch (radix){
         case 10:
-            fp_convert = raw ? ymb_CVN_u64d_to_rawd_f : ymb_CVN_u64d_to_strd_f;
+            fp_convert = raw ? u64f_to_d19r : u64f_to_d19a;
             break;
         case 16:
-            fp_convert = raw ? ymb_CVN_u64b_to_rawh_f : ymb_CVN_u64b_to_strh_f;
+            fp_convert = raw ? u64f_to_h16r : u64f_to_h16a;
             break;
         default:;
     }

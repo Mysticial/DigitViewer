@@ -53,7 +53,7 @@ public:
         std::string path,   //  UTF-8
         std::string name,   //  UTF-8
         std::string first_digits,
-        uiL_t digits_per_file = (uiL_t)0 - 1,
+        ufL_t digits_per_file = (ufL_t)0 - 1,
         uiL_t start_fileid = 0,
         int radix = 10,
         upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER,

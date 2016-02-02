@@ -214,7 +214,7 @@ public:
     //  Refer to the abstract class for documentation of these virtual functions.
     virtual void        print           () const;
     virtual int         get_radix       () const;
-    virtual ufL_t       get_digits      () const;
+    virtual uiL_t       get_digits      () const;
     virtual void        set_raw         (bool raw);
     virtual bool        check_range     (uiL_t start, uiL_t end);
     virtual std::string get_first_digits(upL_t L);

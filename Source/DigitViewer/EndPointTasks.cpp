@@ -332,14 +332,14 @@ void ToYCDFileAll(DigitReader* file){
     //  Use plain-text output. This is faster for the text writer.
     file->set_raw(true);
     
-    uiL_t digits_per_file;
+    ufL_t digits_per_file;
     do{
-        digits_per_file = Console::scan_label_uiL_range("Digits per file (0 for single file): ", 0, digits);
+        digits_per_file = static_cast<ufL_t>(Console::scan_label_uiL_range("Digits per file (0 for single file): ", 0, digits));
         Console::println();
         if (digits_per_file == 0)
-            digits_per_file = (uiL_t)0 - 1;
+            digits_per_file = (ufL_t)0 - 1;
         if (digits_per_file < 1000000){
-            Console::Warning("Must be at least 1, 000, 000.\n");
+            Console::Warning("Must be at least 1,000,000.\n");
             continue;
         }
         break;
@@ -409,7 +409,7 @@ void ToYCDFilePartial(YCDReader* file){
     //  Use raw output.
     file->set_raw(true);
     
-    uiL_t digits_per_file = Console::scan_label_uiL_range("Digits per file: ", 0, limit);
+    ufL_t digits_per_file = static_cast<ufL_t>(Console::scan_label_uiL_range("Digits per file: ", 0, limit));
 
     Console::println();
     uiL_t start_id = Console::scan_label_uiL_range("Start ID: ", 0);

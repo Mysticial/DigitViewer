@@ -17,6 +17,14 @@
       <Configuration>07-Penryn</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="13-Haswell|Win32">
+      <Configuration>13-Haswell</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="13-Haswell|x64">
+      <Configuration>13-Haswell</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -80,6 +88,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -88,6 +103,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
@@ -115,10 +137,16 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -140,10 +168,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -264,6 +298,26 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -305,9 +359,29 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='13-Haswell|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_13_Haswell;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.cpp" />
-    <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\ym_CVN.cpp" />
+    <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\DigitConverter.cpp" />
     <ClCompile Include="..\..\Source\DigitViewer\DigitReaders\DigitReader.cpp" />
     <ClCompile Include="..\..\Source\DigitViewer\DigitReaders\TextReader.cpp" />
     <ClCompile Include="..\..\Source\DigitViewer\DigitReaders\YCDFileReader.cpp" />
@@ -324,57 +398,49 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='04-SSE3|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='07-Penryn|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='13-Haswell|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='04-SSE3|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='07-Penryn|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='13-Haswell|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\PublicLibs\SMC_PublicLibs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.ipp" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawd_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawh_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.ipp" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawd_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawh_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default32.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default64.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_u64_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_str_to_raw_Default32.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_str_to_raw_Default64.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_u64_to_raw_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_u64_to_str_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawd_to_strd_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawd_to_ud_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawh_to_strh_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawh_to_ub_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_strd_to_rawd_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_strh_to_rawh_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64b_to_rawh_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64b_to_strh_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64d_to_rawd_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64d_to_strd_Default.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_str_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_str_to_raw_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_u64_to_raw_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_u64_to_str_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawd_to_strd_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawd_to_ud_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawh_to_strh_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawh_to_ub_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_strd_to_rawd_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_strh_to_rawh_SSE2.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_rawh_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_strh_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_rawd_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_strd_SSE41.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_headers.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_internals.h" />
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_u64_forward.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_intrinsics_AVX2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_intrinsics_SSE2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_intrinsics_AVX2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_intrinsics_SSE2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_intrinsics_AVX2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_intrinsics_SSE2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_AVX2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_SSE2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_intrinsics_SSE41.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_intrinsics_SSE41.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_AVX2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_SSE41.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_intrinsics_SSE41.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_intrinsics_SSE41.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_intrinsics_Default.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_intrinsics_SSE2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\DigitConverter.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitReaders\DigitReader.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitReaders\TextReader.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitReaders\YCDFileReader.h" />
@@ -389,6 +455,33 @@
     <ClInclude Include="..\..\Source\DigitViewer\Menu_DigitViewer.h" />
     <ClInclude Include="..\..\Source\DigitViewer\PrintHelpers.h" />
     <ClInclude Include="..\..\Source\DigitViewer\x86_SSE2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_AVX2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_SSE2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_convert_AVX2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_convert_SSE2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_convert_AVX2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_convert_SSE2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_AVX2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_SSE2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_convert_SSE41.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_convert_SSE41.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_AVX2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_SSE41.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_convert_SSE41.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_convert_SSE41.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_convert_Default.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_convert_SSE2.ipp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

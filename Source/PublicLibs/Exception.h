@@ -50,6 +50,7 @@ public:
     int code;
 
 private:
+    //  COMPILER-BUG-VS:    //  Throw using move-semantecs.
     //  Visual Studio is unable to throw objects using move-semantecs.
     //  https://connect.microsoft.com/VisualStudio/feedback/details/688012/vc10-compiler-cannot-throw-move-only-objects
 

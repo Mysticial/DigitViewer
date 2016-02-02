@@ -8,24 +8,6 @@
     <Filter Include="Source\DigitConverter">
       <UniqueIdentifier>{40a20c54-b772-4e37-a07a-7060dc68e125}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DigitConverter\cdi_reverse">
-      <UniqueIdentifier>{e6be16c9-268f-487f-a368-447f78314735}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DigitConverter\cdi_reverse\Default">
-      <UniqueIdentifier>{be9c2c58-b450-4247-b4a8-9cf48a64fbf8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DigitConverter\cdi_reverse\SSE">
-      <UniqueIdentifier>{b92c8c43-5a65-43a6-8198-de45d3ebd1bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DigitConverter\u64_forward">
-      <UniqueIdentifier>{cac0d23e-92f8-4ac1-831e-ad2bdbf5adf8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DigitConverter\u64_forward\Default">
-      <UniqueIdentifier>{d9e00f9f-ee06-4e13-a4a4-a0f70eabf80f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DigitConverter\u64_forward\SSE">
-      <UniqueIdentifier>{dc1f680e-1f3a-4ccb-9461-810153ce787e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DigitReaders">
       <UniqueIdentifier>{5c57dc46-7ee1-4065-857f-64f812038e2c}</UniqueIdentifier>
     </Filter>
@@ -35,6 +17,24 @@
     <Filter Include="External Modules">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source\DigitConverter\u64d19">
+      <UniqueIdentifier>{37410d8c-b48f-4f24-889b-9b701c6346da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DigitConverter\u32d9">
+      <UniqueIdentifier>{b6c70925-2106-4d7e-8828-ddb287e462aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DigitConverter\u64h16">
+      <UniqueIdentifier>{dcf94a20-cb80-4236-8ace-d80f52249a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DigitConverter\u32h8">
+      <UniqueIdentifier>{fb6c7ad5-7208-45e8-b9f2-a37a3297d1cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DigitConverter\rawdec">
+      <UniqueIdentifier>{b4d82b24-4dac-4952-bbef-76b7ff61e6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DigitConverter\rawhex">
+      <UniqueIdentifier>{15c36d69-a8d0-488d-b57b-b1e2febd6f92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -62,14 +62,8 @@
     <ClCompile Include="..\..\Source\DigitViewer\DigitWriters\YCDWriter.cpp">
       <Filter>Source\DigitWriters</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\ym_CVN.cpp">
-      <Filter>Source\DigitConverter</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\DigitViewer\Main.cpp">
       <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_cdi_reverse.cpp">
-      <Filter>Source\DigitConverter</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DigitViewer\SMC_DigitViewer.cpp">
       <Filter>Source</Filter>
@@ -85,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\PublicLibs\SMC_PublicLibs.cpp">
       <Filter>External Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\DigitConverter.cpp">
+      <Filter>Source\DigitConverter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,132 +109,6 @@
     <ClInclude Include="..\..\Source\DigitViewer\DigitWriters\YCDWriter.h">
       <Filter>Source\DigitWriters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_headers.h">
-      <Filter>Source\DigitConverter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_internals.h">
-      <Filter>Source\DigitConverter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\ymb_CVN_u64_forward.h">
-      <Filter>Source\DigitConverter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawd_Default.h">
-      <Filter>Source\DigitConverter\cdi_reverse\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\Default\ymi_CVN_cdi_to_rawh_Default.h">
-      <Filter>Source\DigitConverter\cdi_reverse\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawd_SSE41.h">
-      <Filter>Source\DigitConverter\cdi_reverse\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\SSE\ymi_CVN_cdi_to_rawh_SSE41.h">
-      <Filter>Source\DigitConverter\cdi_reverse\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default32.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_str_Default64.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_raw_to_u64_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_str_to_raw_Default32.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_str_to_raw_Default64.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_u64_to_raw_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymh_CVN_u64_to_str_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawd_to_strd_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawd_to_ud_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawh_to_strh_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_rawh_to_ub_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_strd_to_rawd_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_strh_to_rawh_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64b_to_rawh_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64b_to_strh_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64d_to_rawd_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\Default\ymi_CVN_u64d_to_strd_Default.h">
-      <Filter>Source\DigitConverter\u64_forward\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_str_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_raw_to_u64_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_str_to_raw_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_u64_to_raw_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymh_CVN_u64_to_str_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawd_to_strd_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawd_to_ud_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawh_to_strh_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_rawh_to_ub_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_strd_to_rawd_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_strh_to_rawh_SSE2.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_rawh_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64b_to_strh_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_rawd_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64_forward\SSE\ymi_CVN_u64d_to_strd_SSE41.h">
-      <Filter>Source\DigitConverter\u64_forward\SSE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\Default\ymh_CVN_cdi_to_raw_Default.ipp">
-      <Filter>Source\DigitConverter\cdi_reverse\Default</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\cdi_reverse\SSE\ymh_CVN_cdi_to_raw_SSE41.ipp">
-      <Filter>Source\DigitConverter\cdi_reverse\SSE</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\DigitViewer\x86_SSE2.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -256,5 +127,178 @@
     <ClInclude Include="..\..\Source\DigitViewer\PrintHelpers.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_AVX2.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_SSE41.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_intrinsics_SSE41.h">
+      <Filter>Source\DigitConverter\u32d9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\u32d9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9.h">
+      <Filter>Source\DigitConverter\u32d9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_intrinsics_SSE41.h">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16.h">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\u32h8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8.h">
+      <Filter>Source\DigitConverter\u32h8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_intrinsics_SSE41.h">
+      <Filter>Source\DigitConverter\u32h8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_intrinsics_SSE2.h">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_intrinsics_SSE41.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\DigitConverter.h">
+      <Filter>Source\DigitConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_intrinsics_SSE2.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_intrinsics_AVX2.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_intrinsics_SSE2.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_intrinsics_AVX2.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_intrinsics_SSE2.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_intrinsics_AVX2.h">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_Default.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_SSE2.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_AVX2.h">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_Default.ipp">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_SSE41.ipp">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_AVX2.ipp">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_convert_Default.ipp">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_convert_SSE41.ipp">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_convert_SSE41.ipp">
+      <Filter>Source\DigitConverter\u32d9</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32d9\u32d9_forward_convert_Default.ipp">
+      <Filter>Source\DigitConverter\u32d9</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_convert_Default.ipp">
+      <Filter>Source\DigitConverter\u32h8</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_convert_SSE41.ipp">
+      <Filter>Source\DigitConverter\u32h8</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_convert_Default.ipp">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_convert_SSE2.ipp">
+      <Filter>Source\DigitConverter\u64h16</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_convert_Default.ipp">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_convert_SSE41.ipp">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_Default.ipp">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_SSE2.ipp">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_AVX2.ipp">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_convert_Default.ipp">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_convert_SSE2.ipp">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_forward_convert_AVX2.ipp">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_convert_Default.ipp">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_convert_SSE2.ipp">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_inverse_convert_AVX2.ipp">
+      <Filter>Source\DigitConverter\rawdec</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_Default.ipp">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_SSE2.ipp">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_AVX2.ipp">
+      <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
   </ItemGroup>
 </Project>

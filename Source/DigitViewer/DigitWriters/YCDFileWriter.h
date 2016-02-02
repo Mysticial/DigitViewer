@@ -50,7 +50,7 @@ public:
     YCDFileWriter(
         std::string path,   //  UTF-8
         const std::string& first_digits,
-        uiL_t digits_per_file,
+        ufL_t digits_per_file,
         uiL_t fileid = 0,
         int radix = 10
     );
@@ -70,7 +70,7 @@ private:
 
     int radix;                          //  Radix of the digits. (10 or 16)
     upL_t digits_per_word;
-    void (*fp_convert)(u64_t*, const char*, upL_t);
+    void (*fp_convert)(const char*, u64_t*, upL_t);
 
     ufL_t words_per_file;
     ufL_t digits_per_file;
@@ -81,7 +81,7 @@ private:
     //  closed. That's when the value is written. So we need to know where to
     //  seek back to. This is also the reason why this is the only zero-padded
     //  field in the compressed digit format.
-    uiL_t offset_total_digits;
+    ufL_t offset_total_digits;
 
     ufL_t pos_word;         //  Current words written (and flushed) to the file.
     ufL_t pos_char;         //  Current digits written to the file. (including unflushed digits)

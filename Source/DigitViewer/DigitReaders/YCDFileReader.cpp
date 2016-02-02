@@ -164,7 +164,7 @@ YCDFileReader::YCDFileReader(std::string path_)
     //  to the first null character.
     file.set_ptr(0);
     char ch;
-    uiL_t c = 0;
+    ufL_t c = 0;
     while (1){
         if (file.read(&ch, 1) == 0){
             throw ym_exception("Error Reading File", FileIO::GetLastErrorCode());
@@ -194,7 +194,7 @@ YCDFileReader::YCDFileReader(std::string path_)
     }
 
     if (total_digits != 0 && digits_per_file > total_digits)
-        digits_per_file = total_digits;
+        digits_per_file = static_cast<ufL_t>(total_digits);
 
     //  Boundaries
     uiL_t block_start = file_id * digits_per_file;

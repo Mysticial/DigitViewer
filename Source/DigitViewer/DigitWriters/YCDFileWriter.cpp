@@ -12,7 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/Exception.h"
-#include "DigitViewer/DigitConverter/ymb_CVN_headers.h"
+#include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
 #include "YCDFileWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ YCDFileWriter::~YCDFileWriter(){
 YCDFileWriter::YCDFileWriter(
     std::string path_,
     const std::string& first_digits,
-    uiL_t digits_per_file_,
+    ufL_t digits_per_file_,
     uiL_t fileid_,
     int radix_
 )
@@ -104,7 +104,7 @@ YCDFileWriter::YCDFileWriter(
     header += '\t';
     header += first_digits;
     header += "\r\n\r\n";
-    
+
     header += YCF_CDF_TOKEN_TotalDigits;
     header += '\t';
     offset_total_digits = header.size();
@@ -139,11 +139,11 @@ YCDFileWriter::YCDFileWriter(
     switch (radix){
         case 10:
             digits_per_word = 19;
-            fp_convert = ymb_CVN_rawd_to_u64d_f;
+            fp_convert = d19r_to_u64r;
             break;
         case 16:
             digits_per_word = 16;
-            fp_convert = ymb_CVN_rawh_to_u64b_f;
+            fp_convert = h16r_to_u64r;
             break;
         default:
             throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
@@ -239,7 +239,7 @@ upL_t YCDFileWriter::write_chars(
             //  Buffer is full. Flush it.
             if (buffered == digits_per_word){
                 u64_t tmp;
-                fp_convert(&tmp, str_buffer, 1);
+                fp_convert(str_buffer, &tmp, 1);
                 write_words(&tmp, 1);
                 buffered = 0;
             }
@@ -268,7 +268,7 @@ upL_t YCDFileWriter::write_chars(
         current_digits = words * digits_per_word;
 
         //  Convert
-        fp_convert(buffer, str, words);
+        fp_convert(str, buffer, words);
         write_words(buffer, words);
 
         str      += current_digits;
@@ -291,7 +291,7 @@ void YCDFileWriter::flush(){
 
     //  Flush
     u64_t tmp;
-    fp_convert(&tmp, str_buffer, 1);
+    fp_convert(str_buffer, &tmp, 1);
     write_words(&tmp, 1);
     buffered = 0;
 }
