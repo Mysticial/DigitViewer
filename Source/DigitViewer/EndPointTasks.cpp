@@ -143,7 +143,7 @@ void CountDigits(DigitReader* file){
         Console::print(" - ");
         Console::print_commas(pos);
         Console::print(" :\t");
-        Console::print_af(digit, file->get_radix());
+        Console::println_af(digit, file->get_radix());
     }
 }
 void ComputeHash(DigitReader* file){
