@@ -8,9 +8,9 @@
  *      convert_d19x1_forward_Default():    84.0    cycles/word
  *      convert_d19x2_forward_Default():    59.5    cycles/word
  *      convert_d19x2_forward_SSE41():      110     cycles/word
- *      convert_d19x4_forward_AVX2():       40.0    cycles/word
- *      convert_d19x8_forward_AVX2():       25.6    cycles/word
- *  
+ *      convert_d19x4_forward_AVX2():       35.1    cycles/word
+ *      convert_d19x8_forward_AVX2():       22.9    cycles/word
+ * 
  */
 
 ////////////////////////////////////////////////////////////////////////////////

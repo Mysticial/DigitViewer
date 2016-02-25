@@ -61,25 +61,23 @@ YM_FORCE_INLINE void split10_split_words(__m256d& L, __m256d& H, __m256i x){
 
     const __m256d WORD = _mm256_set1_pd(4294967296.);
 
-    __m256d r;
-
     //  Split x into upper and lower 32-bits.
     //  x = {0L, 0H, 1L, 1H, 2L, 2H, 3L, 3H}
-    //  L = {0L, 0H, 1L, 1H}
-    //  H = {2L, 2H, 3L, 3H}
-    x = _mm256_permute4x64_epi64(x, 216);
-    r = _mm256_cvtepi32_pd(_mm256_castsi256_si128(x));
-    H = _mm256_cvtepi32_pd(_mm256_extracti128_si256(x, 1));
-    L = _mm256_unpacklo_pd(r, H);
-    H = _mm256_unpackhi_pd(r, H);
+    //  L = {0L, 1L, 2L, 3L}
+    //  H = {0H, 1H, 2H, 3H}
 
-    r = _mm256_cmp_pd(L, _mm256_setzero_pd(), _CMP_LT_OS);
-    r = _mm256_and_pd(r, WORD);
-    L = _mm256_add_pd(L, r);
+    const __m256d CONVERT = _mm256_set1_pd(4503599627370496.);
 
-    r = _mm256_cmp_pd(H, _mm256_setzero_pd(), _CMP_LT_OS);
-    r = _mm256_and_pd(r, WORD);
-    H = _mm256_add_pd(H, r);
+    __m256i y;
+    y = _mm256_srli_epi64(x, 32);
+    x = _mm256_blend_epi16(x, _mm256_setzero_si256(), 0xcc);
+
+    H = _mm256_castsi256_pd(y);
+    L = _mm256_castsi256_pd(x);
+    H = _mm256_or_pd(H, CONVERT);
+    L = _mm256_or_pd(L, CONVERT);
+    H = _mm256_sub_pd(H, CONVERT);
+    L = _mm256_sub_pd(L, CONVERT);
     H = _mm256_mul_pd(H, WORD);
 }
 YM_FORCE_INLINE void split10_finish(__m256d& L, __m256d& H, __m256d wL, __m256d wH){
@@ -151,6 +149,9 @@ YM_FORCE_INLINE void split5_finish(__m256& H, __m256& L, __m256 fL, __m256 fH){
     fH = _mm256_permutevar8x32_ps(fH, _mm256_setr_epi32(4, 5, 0, 1, 6, 7, 2, 3));
     H = _mm256_unpacklo_ps(fH, fL);
     L = _mm256_unpackhi_ps(fH, fL);
+
+    //  L = {fH[0], fL[0], fH[1], fL[1], fH[2], fL[2], fH[3], fL[3]}
+    //  H = {fH[4], fL[4], fH[5], fL[5], fH[6], fL[6], fH[7], fL[7]}
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -228,7 +229,7 @@ YM_FORCE_INLINE void extract_digit4(__m256i& s0, __m256i& s1, __m256i& s2, __m25
 }
 template <bool forward, bool ascii> YM_FORCE_INLINE
 void convert_d19x4_forward_AVX2(char str[19*4], const u64_t dec[4]){
-    __m256  fL0, fH0;
+    __m256 fL0, fH0;
 
     {
         __m256d a0, b0, c0, d0;
