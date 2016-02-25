@@ -62,6 +62,7 @@ template <typename type> using c_ref = type const&__restrict;
 #if defined __INTEL_COMPILER
 #pragma warning disable 186     //  Unsigned comparison with zero
 #pragma warning disable 532     //  No Definition for Template Instantiation
+#pragma warning disable 803     //  Multiple template instantiations (COMPILER-BUG-ICC: https://software.intel.com/en-us/articles/compiler-reports-error-803-when-compiling-chromium-os-code/)
 #pragma warning disable 1125    //  Virtual function hiding
 #pragma warning disable 3280    //  Member hiding
 #endif

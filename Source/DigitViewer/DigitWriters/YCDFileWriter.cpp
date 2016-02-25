@@ -139,11 +139,11 @@ YCDFileWriter::YCDFileWriter(
     switch (radix){
         case 10:
             digits_per_word = 19;
-            fp_convert = d19r_to_u64r;
+            fp_convert = d19f_to_u64r;
             break;
         case 16:
             digits_per_word = 16;
-            fp_convert = h16r_to_u64r;
+            fp_convert = h16f_to_u64r;
             break;
         default:
             throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);

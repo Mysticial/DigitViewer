@@ -26,6 +26,7 @@
 //  Dependencies
 #include <string>
 #include <memory>
+#include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/Types.h"
 namespace DigitViewer{
     using namespace ymp;
@@ -40,7 +41,7 @@ class DigitReader{
 
 public:
     DigitReader();
-    virtual ~DigitReader    (){}
+    virtual ~DigitReader(){}
 
     virtual const char* get_extension() const = 0;
 
@@ -55,31 +56,31 @@ public:
      */
 
     //  Sets the digit position of this reader.
-    void    set_pos     (uiL_t offset);
+    void set_pos(uiL_t offset);
 
     //  Returns the next digit.
-    char    next        ();
+    char next();
 
     //  Returns the next N digits. (Reads "digits" digits and stores them into "str".)
     //  For large N, this function is faster than calling "next()" N times.
-    void    read        (char* str, upL_t digits);
+    void read(char* str, upL_t digits);
 
 
 
     //  Prints out the contents of the reader. (For debugging)
-    virtual void        print           () const = 0;
+    virtual void print() const = 0;
 
     //  Returns the radix of the digits. (10 or 16)
-    virtual int         get_radix       () const = 0;
+    virtual int get_radix() const = 0;
 
     //  Returns the # of digits in this digit stream. (0 = unknown)
-    virtual uiL_t       get_digits      () const = 0;
+    virtual uiL_t get_digits() const = 0;
 
     //  Enable/Disable raw output.
-    virtual void        set_raw         (bool raw) = 0;
+    virtual void set_raw(bool raw) = 0;
 
     //  Checks to see if the range [start, end) is accessible.
-    virtual bool        check_range     (uiL_t start, uiL_t end) = 0;
+    virtual bool check_range(uiL_t start, uiL_t end) = 0;
 
     //  Returns the first few digits.
     virtual std::string get_first_digits(upL_t L) = 0;
@@ -97,7 +98,7 @@ public:
      *  For performance reasons, the best way to use this function is:
      *      -   Grab the entire desired region of digits with a single call.
      *      -   Stream a very large number of digits with multiple calls where
-     *          "digits" is large. (> ~50, 000, 000)
+     *          "digits" is large. (> ~50,000,000)
      * 
      *  This function should NOT be used to stream digits a little at a time.
      *  Use the other read() function for that purpose.
@@ -111,10 +112,10 @@ public:
      *  stream a very large number of digits.
      * 
      *  While this function will work correctly for any value "digits", it is
-     *  most efficient when "digits > ~50, 000, 000" - subject to the latency
+     *  most efficient when "digits > ~50,000,000" - subject to the latency
      *  and sequential bandwidth of the hard drive.
      */
-    virtual void        read            (uiL_t pos, char* str, upL_t digits) = 0;
+    virtual void read(uiL_t pos, char* str, upL_t digits) = 0;
 
 protected:
 

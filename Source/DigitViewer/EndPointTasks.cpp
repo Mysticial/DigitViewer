@@ -1,4 +1,4 @@
-/* EndPointTask.h
+/* EndPointTasks.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 04/02/2012
