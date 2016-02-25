@@ -286,7 +286,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_07_Penryn;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -306,7 +306,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_13_Haswell;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -431,6 +431,7 @@
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_intrinsics_SSE41.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_AVX2.h" />
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_AVX512.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_Default.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_SSE41.h" />
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_intrinsics_Default.h" />
@@ -474,6 +475,7 @@
     <None Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_convert_Default.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u32h8\u32h8_forward_convert_SSE41.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_AVX2.ipp" />
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_AVX512.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_Default.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_SSE41.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_inverse_convert_Default.ipp" />

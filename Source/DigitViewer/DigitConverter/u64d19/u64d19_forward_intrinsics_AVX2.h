@@ -10,6 +10,11 @@
  *  into 5-digit floats rather than doing a sequential scaled remainder tree on
  *  10-digit doubles.
  * 
+ *  On Haswell, this kernel appears to be latency-bound and gets slightly less
+ *  than 2 instructions/cycle. Unfortunately, there are not enough registers
+ *  to unroll more than 2 iterations without resorting to more complicated
+ *  transformations.
+ * 
  */
 
 #ifndef _ydv_u64d19_forward_intrinsics_AVX2_H

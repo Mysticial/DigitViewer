@@ -223,6 +223,9 @@
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_intrinsics_AVX2.h">
       <Filter>Source\DigitConverter\rawhex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_AVX512.h">
+      <Filter>Source\DigitConverter\u64d19</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_Default.ipp">
@@ -299,6 +302,9 @@
     </None>
     <None Include="..\..\Source\DigitViewer\DigitConverter\rawhex\rawhex_inverse_convert_AVX2.ipp">
       <Filter>Source\DigitConverter\rawhex</Filter>
+    </None>
+    <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_AVX512.ipp">
+      <Filter>Source\DigitConverter\u64d19</Filter>
     </None>
   </ItemGroup>
 </Project>
