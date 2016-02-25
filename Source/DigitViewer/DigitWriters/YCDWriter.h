@@ -35,6 +35,7 @@ namespace DigitViewer{
 class YCDWriter : public DigitWriter{
 public:
     virtual ~YCDWriter();
+    virtual std::unique_ptr<DigitReader> close_and_get_reader(upL_t buffer_size) override;
 
     //  Create a new writer.
 
@@ -57,11 +58,11 @@ public:
         uiL_t start_fileid = 0,
         int radix = 10,
         upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER,
-        u64_t* buffer = NULL,
-        void (*deallocator)(void*) = NULL
+        u64_t* buffer = nullptr,
+        void (*deallocator)(void*) = nullptr
     );
 
-    virtual void    write   (char* str, upL_t digits);
+    virtual void write(char* str, upL_t digits) override;
 
 private:
     std::string path;                   //  Full path (including the id #)
@@ -69,6 +70,7 @@ private:
 
     int radix;                          //  Radix of the digits. (10 or 16)
     upL_t digits_per_word;
+    uiL_t start_fileid;
 
     std::string first_digits;           //  First digits
 
@@ -84,6 +86,8 @@ private:
     upL_t bin_buffer_L;
     void (*fp_free)(void*);
 
+    void free_buffer();
+    std::string make_filename(uiL_t fileid);
     void create_file(uiL_t fileid);
 };
 ////////////////////////////////////////////////////////////////////////////////

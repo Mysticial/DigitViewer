@@ -47,18 +47,20 @@
 #include "PublicLibs/FileIO/FileIO.h"
 namespace DigitViewer{
     using namespace ymp;
+    class DigitReader;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #define YC_DIGITWRITER_DEFAULT_BUFFER   ((upL_t)64 << 20)
 class DigitWriter{
-    DigitWriter(const DigitWriter&);
-    void operator=(const DigitWriter&);
+    DigitWriter(const DigitWriter&) = delete;
+    void operator=(const DigitWriter&) = delete;
 
 public:
     DigitWriter();
-    virtual ~DigitWriter    ();
+    virtual ~DigitWriter();
+    virtual std::unique_ptr<DigitReader> close_and_get_reader(upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER) = 0;
 
     /*  Buffered Stream Methods
      * 
@@ -73,13 +75,14 @@ public:
      */
 
     //  Write 1 digit to the file.
-    void    push    (char digit);
+    void push(char digit);
 
     //  Write N digits to the file.
-    void    push    (const char* str, upL_t digits);
+    void push(const char* str, upL_t digits);
 
     //  Flush the internal buffer.
-    void    flush   ();
+    void flush_buffer();
+    void make_or_flush_buffer();
 
 
     /*  Writes N digits to the file without buffering.
@@ -99,7 +102,10 @@ public:
      *  So the same performance guidelines apply. Use this only when "digits"
      *  is very large.
      */
-    virtual void    write   (char* str, upL_t digits) = 0;
+    virtual void write(char* str, upL_t digits) = 0;
+
+private:
+    void make_buffer();
 
 protected:
     //  Digit Buffer
@@ -121,7 +127,7 @@ inline void DigitWriter::push(char digit){
 
     //  Buffer is full
     if (iter_b_offset == buffer_L){
-        flush();
+        make_or_flush_buffer();
     }
 
     iter_f_offset++;

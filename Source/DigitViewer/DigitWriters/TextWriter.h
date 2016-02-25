@@ -28,6 +28,7 @@ namespace DigitViewer{
 class TextWriter : public DigitWriter{
 public:
     virtual ~TextWriter();
+    virtual std::unique_ptr<DigitReader> close_and_get_reader(upL_t buffer_size) override;
 
     //  Create a new writer.
     //  If "first_digits" is not an empty string, all digits before the first
@@ -41,9 +42,11 @@ public:
         int radix = 10
     );
 
-    virtual void    write   (char* str, upL_t digits);
+    virtual void write(char* str, upL_t digits) override;
 
 private:
+    const int radix;
+
     //  File handle
     FileIO::BasicFile file;
 

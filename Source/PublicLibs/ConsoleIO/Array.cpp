@@ -44,6 +44,7 @@ void println_af(const wtype* A, upL_t L, char color){
     println();
 }
 ////////////////////////////////////////////////////////////////////////////////
+template void println_af<char>(const char* A, upL_t L, char color);
 template void println_af<u16_t>(const u16_t* A, upL_t L, char color);
 template void println_af<u32_t>(const u32_t* A, upL_t L, char color);
 template void println_af<s32_t>(const s32_t* A, upL_t L, char color);

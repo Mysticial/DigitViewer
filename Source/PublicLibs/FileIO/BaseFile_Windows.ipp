@@ -74,6 +74,7 @@ void BaseFile::close(bool delete_file){
         return;
 
     CloseHandle(filehandle);
+    filehandle = nullptr;
 
     if (delete_file){
         _wremove(StringTools::utf8_to_wstr(path).c_str());

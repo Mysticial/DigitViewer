@@ -12,8 +12,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/Exception.h"
-#include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
+#include "DigitViewer/DigitConverter/DigitConverter.h"
+#include "DigitViewer/DigitReaders/TextReader.h"
 #include "TextWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +32,8 @@ TextWriter::TextWriter(
     bool raw,
     int radix
 )
-    : file(0, path)
+    : radix(radix)
+    , file(0, path)
     , fp_convert(NULL)
 {
     //  Write the first digits.
@@ -56,7 +58,16 @@ TextWriter::TextWriter(
     }
 }
 TextWriter::~TextWriter(){
-    flush();
+    flush_buffer();
+}
+std::unique_ptr<DigitReader> TextWriter::close_and_get_reader(upL_t buffer_size){
+    if (iter_b_offset != 0){
+        write(buffer, iter_b_offset);
+        iter_b_offset = 0;
+    }
+    std::string path = file.GetPath();
+    file.close();
+    return std::make_unique<TextReader>(path, false, radix);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +77,7 @@ void TextWriter::write(char* str, upL_t digits){
     //  If the buffer isn't empty and "str" isn't the buffer itself, then we
     //  must flush the buffer first.
     if (iter_b_offset != 0 && str != buffer){
-        flush();
+        make_or_flush_buffer();
     }
 
     //  If the input isn't raw, convert it.

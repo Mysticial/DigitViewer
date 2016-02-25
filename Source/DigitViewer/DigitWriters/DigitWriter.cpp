@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/AlignedMalloc.h"
 #include "DigitWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,12 +24,11 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 DigitWriter::DigitWriter()
-    : buffer(NULL)
+    : buffer(nullptr)
     , buffer_L(0)
     , iter_f_offset(0)
     , iter_b_offset(buffer_L)
-{
-}
+{}
 DigitWriter::~DigitWriter(){
     AlignedFree(buffer);
 }
@@ -36,7 +36,7 @@ void DigitWriter::push(const char* str, upL_t digits){
     while (digits > 0){
         //  Buffer is full
         if (iter_b_offset == buffer_L){
-            flush();
+            make_or_flush_buffer();
         }
 
         upL_t block = buffer_L - iter_b_offset;
@@ -51,21 +51,26 @@ void DigitWriter::push(const char* str, upL_t digits){
         digits -= block;
     }
 }
-void DigitWriter::flush(){
-    //  Buffer isn't initialized yet.
+void DigitWriter::make_buffer(){
+    upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER;
+    buffer = (char*)AlignedMalloc(buffer_size, 2*sizeof(u64_t));
+
+    //  Do this assignment last - just in case the above throws.
+    buffer_L = buffer_size;
+}
+YM_NO_INLINE void DigitWriter::make_or_flush_buffer(){
     if (buffer_L == 0){
-        upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER;
-        buffer = (char*)AlignedMalloc(buffer_size, 2*sizeof(u64_t));
-
-        //  Do this assignment last - just in case the above throws.
-        buffer_L = buffer_size;
+        make_buffer();
     }else{
-        //  Write
         write(buffer, iter_b_offset);
+        iter_b_offset = 0;
     }
-
-    //  Clear the buffer
-    iter_b_offset = 0;
+}
+void DigitWriter::flush_buffer(){
+    if (buffer_L != 0){
+        write(buffer, iter_b_offset);
+        iter_b_offset = 0;
+    }
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

@@ -37,10 +37,11 @@ TextReader::TextReader(
     , fp_convert(NULL)
 {
     //  Auto-detect radix
-    if (radix == 0)
+    if (radix == 0){
         auto_detect_radix();
-    else
+    }else{
         set_raw(raw);
+    }
 
     //  Find the decimal place
     file.set_ptr(0);

@@ -51,6 +51,7 @@ void BaseFile::close(bool delete_file){
         return;
 
     fclose(filehandle);
+    filehandle = nullptr;
 
     if (delete_file){
         remove(path.c_str());

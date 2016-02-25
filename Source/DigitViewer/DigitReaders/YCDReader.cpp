@@ -30,10 +30,10 @@ namespace DigitViewer{
 //  Constructors
 YCDReader::YCDReader(std::string path_, bool raw, upL_t buffer_size)
     : max_id_length(0)
-    , fp_convert(NULL)
+    , fp_convert(nullptr)
 {
     if (buffer_size < 4096)
-        throw ym_exception("Requested buffer size is too small.", YCR_DIO_ERROR_INVALID_PARAMETERS);
+        buffer_size = 4096;
 
     //  Check the file name
     if (path_.size() < 4)

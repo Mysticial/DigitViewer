@@ -35,8 +35,8 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 #define YC_DIGITWRITER_MAX_DIGIT_WIDTH     20
 class YCDFileWriter{
-    YCDFileWriter(const YCDFileWriter&);
-    void operator=(const YCDFileWriter&);
+    YCDFileWriter(const YCDFileWriter&) = delete;
+    void operator=(const YCDFileWriter&) = delete;
 
 public:
     YCDFileWriter(YCDFileWriter&&);
