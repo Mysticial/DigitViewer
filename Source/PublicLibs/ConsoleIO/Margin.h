@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ymp_Console_Margin_H
-#define _ymp_Console_Margin_H
+#ifndef ymp_Console_Margin_H
+#define ymp_Console_Margin_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +42,8 @@ YM_NO_INLINE    upL_t println_marginr_commas(upL_t margin, siL_t x, char color =
 //  Float Margins
 YM_NO_INLINE    upL_t print_marginl_float   (upL_t margin, double x, int precision = DEFAULT_PRECISION, char color = ' ');
 YM_NO_INLINE    upL_t println_marginl_float (upL_t margin, double x, int precision = DEFAULT_PRECISION, char color = ' ');
+YM_NO_INLINE    upL_t print_marginr_fixed   (upL_t margin, double x, int precision = DEFAULT_PRECISION, char color = ' ');
+YM_NO_INLINE    upL_t println_marginr_fixed (upL_t margin, double x, int precision = DEFAULT_PRECISION, char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

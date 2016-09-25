@@ -17,8 +17,8 @@
  * 
  */
 
-#ifndef _ydv_u64d19_forward_intrinsics_AVX2_H
-#define _ydv_u64d19_forward_intrinsics_AVX2_H
+#ifndef ydv_u64d19_forward_intrinsics_AVX2_H
+#define ydv_u64d19_forward_intrinsics_AVX2_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,10 +133,13 @@ YM_FORCE_INLINE void split5_to_floats(__m256& L, __m256& H, __m256d a, __m256d b
 
     //  Convert to floats
     //  COMPILER-BUG-GCC: Missing AVX intrinsic: "_mm256_setr_m128()"
+#ifndef __GNUC__
+    L = _mm256_setr_m128(_mm256_cvtpd_ps(a0), _mm256_cvtpd_ps(b0));
+    H = _mm256_setr_m128(_mm256_cvtpd_ps(a1), _mm256_cvtpd_ps(b1));
+#else
     L = _mm256_insertf128_ps(_mm256_castps128_ps256(_mm256_cvtpd_ps(a0)), _mm256_cvtpd_ps(b0), 1);
     H = _mm256_insertf128_ps(_mm256_castps128_ps256(_mm256_cvtpd_ps(a1)), _mm256_cvtpd_ps(b1), 1);
-//    L = _mm256_setr_m128(_mm256_cvtpd_ps(a0), _mm256_cvtpd_ps(b0));
-//    H = _mm256_setr_m128(_mm256_cvtpd_ps(a1), _mm256_cvtpd_ps(b1));
+#endif
 }
 YM_FORCE_INLINE void split5_finish(__m256& H, __m256& L, __m256 fL, __m256 fH){
     const __m256 ONE = _mm256_set1_ps(1.f);

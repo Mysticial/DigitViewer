@@ -32,8 +32,8 @@ TextWriter::TextWriter(
     bool raw,
     int radix
 )
-    : radix(radix)
-    , file(0, path)
+    : m_radix(radix)
+    , m_file(0, path)
     , fp_convert(NULL)
 {
     //  Write the first digits.
@@ -41,7 +41,7 @@ TextWriter::TextWriter(
         upL_t decimal_offset = first_digits.find('.');
         if (decimal_offset == std::string::npos)
             throw ym_exception("No decimal place was found.", YCR_DIO_ERROR_INVALID_PARAMETERS);
-        file.write(first_digits.c_str(), decimal_offset + 1);
+        m_file.write(first_digits.c_str(), decimal_offset + 1);
     }
 
     if (raw){
@@ -61,13 +61,13 @@ TextWriter::~TextWriter(){
     flush_buffer();
 }
 std::unique_ptr<DigitReader> TextWriter::close_and_get_reader(upL_t buffer_size){
-    if (iter_b_offset != 0){
-        write(buffer, iter_b_offset);
-        iter_b_offset = 0;
+    if (m_iter_b_offset != 0){
+        write(m_buffer, m_iter_b_offset);
+        m_iter_b_offset = 0;
     }
-    std::string path = file.GetPath();
-    file.close();
-    return std::make_unique<TextReader>(path, false, radix);
+    std::string path = m_file.GetPath();
+    m_file.close();
+    return std::make_unique<TextReader>(path, false, m_radix);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,19 +76,20 @@ std::unique_ptr<DigitReader> TextWriter::close_and_get_reader(upL_t buffer_size)
 void TextWriter::write(char* str, upL_t digits){
     //  If the buffer isn't empty and "str" isn't the buffer itself, then we
     //  must flush the buffer first.
-    if (iter_b_offset != 0 && str != buffer){
+    if (m_iter_b_offset != 0 && str != m_buffer){
         make_or_flush_buffer();
     }
 
     //  If the input isn't raw, convert it.
-    if (fp_convert != NULL)
+    if (fp_convert != nullptr){
         fp_convert(str, digits);
+    }
 
     //  Write to disk.
-    if (file.write(str, digits) != digits){
+    if (m_file.write(str, digits) != digits){
         FileIO::PrintLastError();
         throw ym_exception(
-            "Error writing to file.\n" + file.GetPath(),
+            "Error writing to file.\n" + m_file.GetPath(),
             FileIO::GetLastErrorCode()
         );
     }

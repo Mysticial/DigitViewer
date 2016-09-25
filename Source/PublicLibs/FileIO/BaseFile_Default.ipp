@@ -25,55 +25,55 @@ namespace FileIO{
 bool BaseFile::open(std::string path){
     close();
 
-    filehandle = fopen(path.c_str(), "rb");
-    if (filehandle == nullptr)
+    m_filehandle = fopen(path.c_str(), "rb");
+    if (m_filehandle == nullptr)
         return false;
 
-    this->path = std::move(path);
+    m_path = std::move(path);
     return true;
 }
 bool BaseFile::create(std::string path, ufL_t bytes){
     close();
 
-    filehandle = fopen(path.c_str(), "wb+");
-    if (filehandle == nullptr)
+    m_filehandle = fopen(path.c_str(), "wb+");
+    if (m_filehandle == nullptr)
         return false;
 
     if (bytes != 0){
         //  TODO
     }
 
-    this->path = std::move(path);
+    m_path = std::move(path);
     return true;
 }
 void BaseFile::close(bool delete_file){
-    if (path.empty())
+    if (m_path.empty())
         return;
 
-    fclose(filehandle);
-    filehandle = nullptr;
+    fclose(m_filehandle);
+    m_filehandle = nullptr;
 
     if (delete_file){
-        remove(path.c_str());
+        remove(m_path.c_str());
     }
 
-    path.clear();
+    m_path.clear();
 }
 bool BaseFile::set_ptr(ufL_t offset){
 #ifdef _MSC_VER
-    return _fseeki64(filehandle, offset, SEEK_SET) == 0;
+    return _fseeki64(m_filehandle, offset, SEEK_SET) == 0;
 #else
-    return fseeko(filehandle, offset, SEEK_SET) == 0;
+    return fseeko(m_filehandle, offset, SEEK_SET) == 0;
 #endif
 }
 void BaseFile::flush(){
-    fflush(filehandle);
+    fflush(m_filehandle);
 }
 upL_t BaseFile::read(void* T, upL_t bytes){
-    return fread(T, 1, (size_t)bytes, filehandle);
+    return fread(T, 1, (size_t)bytes, m_filehandle);
 }
 upL_t BaseFile::write(const void* T, upL_t bytes){
-    return fwrite(T, 1, (size_t)bytes, filehandle);
+    return fwrite(T, 1, (size_t)bytes, m_filehandle);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

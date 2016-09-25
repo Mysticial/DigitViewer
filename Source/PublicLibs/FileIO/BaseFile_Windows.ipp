@@ -31,7 +31,7 @@ const upL_t BLOCK_SIZE = (upL_t)1 << 30;
 bool BaseFile::open(std::string path){
     close();
 
-    filehandle = CreateFileW(
+    m_filehandle = CreateFileW(
         StringTools::utf8_to_wstr(path).c_str(),
         GENERIC_READ,
         FILE_SHARE_READ,
@@ -40,16 +40,16 @@ bool BaseFile::open(std::string path){
         NULL,
         NULL
     );
-    if (filehandle == INVALID_HANDLE_VALUE)
+    if (m_filehandle == INVALID_HANDLE_VALUE)
         return false;
 
-    this->path = std::move(path);
+    m_path = std::move(path);
     return true;
 }
 bool BaseFile::create(std::string path, ufL_t bytes){
     close();
 
-    filehandle = CreateFileW(
+    m_filehandle = CreateFileW(
         StringTools::utf8_to_wstr(path).c_str(),
         GENERIC_READ | GENERIC_WRITE,
         0,
@@ -58,44 +58,44 @@ bool BaseFile::create(std::string path, ufL_t bytes){
         FILE_FLAG_WRITE_THROUGH,
         NULL
     );
-    if (filehandle == INVALID_HANDLE_VALUE)
+    if (m_filehandle == INVALID_HANDLE_VALUE)
         return false;
 
     LARGE_INTEGER t;
     t.QuadPart = (LONGLONG)bytes;
-    SetFilePointerEx(filehandle, t, NULL, FILE_BEGIN);
-    SetEndOfFile(filehandle);
+    SetFilePointerEx(m_filehandle, t, NULL, FILE_BEGIN);
+    SetEndOfFile(m_filehandle);
 
-    this->path = std::move(path);
+    m_path = std::move(path);
     return true;
 }
 void BaseFile::close(bool delete_file){
-    if (path.empty())
+    if (m_path.empty())
         return;
 
-    CloseHandle(filehandle);
-    filehandle = nullptr;
+    CloseHandle(m_filehandle);
+    m_filehandle = nullptr;
 
     if (delete_file){
-        _wremove(StringTools::utf8_to_wstr(path).c_str());
+        _wremove(StringTools::utf8_to_wstr(m_path).c_str());
     }
 
-    path.clear();
+    m_path.clear();
 }
 bool BaseFile::set_ptr(ufL_t offset){
     LARGE_INTEGER t;
     t.QuadPart = (LONGLONG)offset;
-    return SetFilePointerEx(filehandle, t, NULL, FILE_BEGIN) != 0;
+    return SetFilePointerEx(m_filehandle, t, NULL, FILE_BEGIN) != 0;
 }
 void BaseFile::flush(){
-    FlushFileBuffers(filehandle);
+    FlushFileBuffers(m_filehandle);
 }
 upL_t BaseFile::read(void* T, upL_t bytes){
     upL_t total_read = 0;
 
     DWORD bytes_read;
     while (bytes > BLOCK_SIZE){
-        int ret = !ReadFile(filehandle, T, (DWORD)BLOCK_SIZE, &bytes_read, NULL);
+        int ret = !ReadFile(m_filehandle, T, (DWORD)BLOCK_SIZE, &bytes_read, NULL);
         if (ret || bytes_read != BLOCK_SIZE){
             total_read += bytes_read;
             return total_read;
@@ -105,7 +105,7 @@ upL_t BaseFile::read(void* T, upL_t bytes){
         T = (void*)((upL_t)T + BLOCK_SIZE);
     }
 
-    ReadFile(filehandle, T, (DWORD)bytes, &bytes_read, NULL);
+    ReadFile(m_filehandle, T, (DWORD)bytes, &bytes_read, NULL);
     total_read += bytes_read;
     return total_read;
 }
@@ -114,7 +114,7 @@ upL_t BaseFile::write(const void* T, upL_t bytes){
 
     DWORD bytes_written;
     while (bytes > BLOCK_SIZE){
-        int ret = !WriteFile(filehandle, T, (DWORD)BLOCK_SIZE, &bytes_written, NULL);
+        int ret = !WriteFile(m_filehandle, T, (DWORD)BLOCK_SIZE, &bytes_written, NULL);
         if (ret || bytes_written != BLOCK_SIZE){
             total_written += bytes_written;
             return total_written;
@@ -124,7 +124,7 @@ upL_t BaseFile::write(const void* T, upL_t bytes){
         T = (void*)((upL_t)T + BLOCK_SIZE);
     }
 
-    WriteFile(filehandle, T, (DWORD)bytes, &bytes_written, NULL);
+    WriteFile(m_filehandle, T, (DWORD)bytes, &bytes_written, NULL);
     total_written += bytes_written;
     return total_written;
 }

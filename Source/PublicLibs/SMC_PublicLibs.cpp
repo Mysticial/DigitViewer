@@ -17,12 +17,12 @@
 //#include "Time/Time.cpp"
 //#include "Time/StopWatch.cpp"
 
+#include "Memory/AlignedMalloc.cpp"
 #include "FileIO/FileIO.cpp"
 #include "FileIO/BasicFile.cpp"
 //#include "Serialization/Serialization.cpp"
 
 //#include "Environment/Environment.cpp"
-//#include "ProcessorCapability/cpu_x86.cpp"
 
 //#include "CompileOptions_PublicLibs.cpp"
 

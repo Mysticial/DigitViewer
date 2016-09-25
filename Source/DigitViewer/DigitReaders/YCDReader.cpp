@@ -12,7 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/AlignedMalloc.h"
+#include "PublicLibs/Memory/AlignedMalloc.h"
 #include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exception.h"
 #include "DigitViewer/DigitConverter/DigitConverter.h"
@@ -151,7 +151,7 @@ bool YCDReader::check_range(uiL_t start, uiL_t end){
         try{
             set_current_file(file);
         }catch (ym_exception& e){
-            if (e.code == YCR_DIO_ERROR_INCONSISTENT){
+            if (e.m_code == YCR_DIO_ERROR_INCONSISTENT){
                 Console::Warning("Corrupt or inconsistent file:");
             }
 

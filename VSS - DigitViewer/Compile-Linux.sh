@@ -5,7 +5,7 @@ dir=$(pwd)/$(dirname $0) #
 echo ${dir} #
 #
 #
-gccflags="-std=c++0x -static -Wall -Wno-unused-function -O2" #
+gccflags="-std=c++14 -static -Wall -Wno-unused-function -O2" #
 includepath="${dir}/../Source" #
 source0="../Source/DigitViewer/Main.cpp" #
 source1="../Source/DigitViewer/SMC_DigitViewer.cpp" #

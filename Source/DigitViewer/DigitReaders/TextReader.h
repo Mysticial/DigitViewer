@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ycr_TextReader_H
-#define _ycr_TextReader_H
+#ifndef ycr_TextReader_H
+#define ycr_TextReader_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,12 +51,12 @@ public:
     void                set_radix       (int radix);
 
 private:
-    FileIO::BasicFile file;             //  File handle
-    int radix;                          //  Radix of the digits. (10 or 16)
+    FileIO::BasicFile m_file;           //  File handle
+    int m_radix;                        //  Radix of the digits. (10 or 16)
 
     bool (*fp_convert)(char*, upL_t);   //  Function pointer for digit conversion.
-    ufL_t dp_offset;                    //  Offset in the file of the first digit after the decimal place.
-    ufL_t total_digits;                 //  Digits after the decimal place.
+    ufL_t m_dp_offset;                  //  Offset in the file of the first digit after the decimal place.
+    ufL_t m_total_digits;               //  Digits after the decimal place.
 
     void auto_detect_radix  ();
 };

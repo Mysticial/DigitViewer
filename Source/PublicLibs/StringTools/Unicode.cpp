@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include <stdint.h>
+#include "PublicLibs/Types.h"
 #include "Unicode.h"
 namespace ymp{
 namespace StringTools{
@@ -24,8 +24,8 @@ namespace StringTools{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-const uint32_t MAX_CODEPOINT = 0x10ffff;
-const uint32_t REPLACEMENT = 0xfffd;
+const u32_t MAX_CODEPOINT = 0x10ffff;
+const u32_t REPLACEMENT = 0xfffd;
 const char REPLACEMENT_UTF8[] = "\xef\xbf\xbd";
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,14 +34,14 @@ void utf8_skip_to_next_codepoint(const char*& str){
         str++;
     }
 }
-uint32_t utf8_to_unicode(const char*& str){
+u32_t utf8_to_unicode(const char*& str){
     unsigned char ch = str[0];
     if (ch <= 0x7f){
         str++;
         return ch;
     }
 
-    uint32_t codepoint;
+    u32_t codepoint;
 
     if (ch < 0xc0){
         utf8_skip_to_next_codepoint(str);
@@ -79,7 +79,7 @@ uint32_t utf8_to_unicode(const char*& str){
     str += bytes;
     return codepoint;
 }
-void append_to_utf8(std::string& str, uint32_t codepoint){
+void append_to_utf8(std::string& str, u32_t codepoint){
     if (codepoint <= 0x7f){
         str += (char)codepoint;
         return;
@@ -113,8 +113,8 @@ void append_to_utf8(std::string& str, uint32_t codepoint){
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-uint32_t utf16_to_unicode(const char16_t*& str){
-    uint32_t H = str[0];
+u32_t utf16_to_unicode(const char16_t*& str){
+    u32_t H = str[0];
     if (H < 0xd800 || H > 0xdfff){
         str++;
         return H;
@@ -125,19 +125,19 @@ uint32_t utf16_to_unicode(const char16_t*& str){
         return REPLACEMENT;
     }
 
-    uint32_t L = str[1];
+    u32_t L = str[1];
     if (L < 0xdc00 || 0xe000 <= L){
         str++;
         return REPLACEMENT;
     }
 
-    H = (uint32_t)(H - 0xd800) << 10;
+    H = (u32_t)(H - 0xd800) << 10;
     L = str[1] - 0xdc00;
 
     str += 2;
     return (L | H) + 0x10000;
 }
-void append_to_utf16(std::u16string& str, uint32_t codepoint){
+void append_to_utf16(std::u16string& str, u32_t codepoint){
     if (codepoint < 0xffff){
         str += (char16_t)codepoint;
         return;

@@ -334,7 +334,7 @@ void ToYCDFileAll(DigitReader* file){
     
     ufL_t digits_per_file;
     do{
-        digits_per_file = static_cast<ufL_t>(Console::scan_label_uiL_range("Digits per file (0 for single file): ", 0, digits));
+        digits_per_file = static_cast<ufL_t>(Console::scan_label_uiL_suffix_range("Digits per file (0 for single file): ", 0, digits));
         Console::println();
         if (digits_per_file == 0)
             digits_per_file = (ufL_t)0 - 1;

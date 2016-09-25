@@ -1,79 +1,74 @@
-/* AlignedMalloc.h
+/* AlignedSmartPointers.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 01/25/2015
- * Last Modified    : 01/25/2015
+ * Date Created     : 09/06/2016
+ * Last Modified    : 09/23/2016
  * 
  */
 
 #pragma once
-#ifndef _ymp_AlignedMalloc_H
-#define _ymp_AlignedMalloc_H
+#ifndef ymp_Memory_SmartBuffer_H
+#define ymp_Memory_SmartBuffer_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include <stdlib.h>
 #include <memory>
-#include "Types.h"
+#include "AlignedMalloc.h"
 namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-const upL_t DEFAULT_ALIGNMENT = 64;
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-inline void* AlignedMalloc(upL_t bytes, upL_t align = DEFAULT_ALIGNMENT){
-    if (align < sizeof(upL_t))
-        align = sizeof(upL_t);
-
-    void *ptr = malloc((size_t)(bytes + align + sizeof(upL_t)));
-    if (ptr == nullptr){
-        return nullptr;
-    }
-
-    upL_t *ret = (upL_t*)((((upL_t)ptr + sizeof(upL_t)) & ~(upL_t)(align - 1)) + align);
-
-    ret[-1] = (upL_t)ptr;
-
-    return ret;
-}
-inline void AlignedFree(void *ptr){
-    if (ptr == nullptr)
-        return;
-
-    ptr = (void*)(((upL_t*)ptr)[-1]);
-
-    free(ptr);
-}
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-template <typename wtype = void>
-struct SmartPointer{
-    typedef std::unique_ptr<wtype, SmartPointer> type;
-    void operator()(void* ptr) const{
+template <typename T>
+struct SmartBufferDeleter{
+    void operator()(T* ptr) const{
         AlignedFree(ptr);
     }
-    static type malloc_uptr(upL_t size, upL_t align = 0){
-        return type((wtype*)AlignedMalloc(size * sizeof(wtype), align));
-    }
 };
-template <>
-struct SmartPointer<void>{
-    typedef std::unique_ptr<void, SmartPointer> type;
-    void operator()(void* ptr) const{
-        AlignedFree(ptr);
-    }
-    static type malloc_uptr(upL_t size, upL_t align = 0){
-        return type((void*)AlignedMalloc(size, align));
-    }
-};
+template <typename T>
+using SmartBuffer = std::unique_ptr<T, SmartBufferDeleter<T>>;
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//  Typeless Buffer
+template <upL_t alignment = DEFAULT_ALIGNMENT>
+SmartBuffer<void> make_raw_buffer(upL_t bytes){
+    void* ptr = AlignedMalloc(bytes, alignment);
+    return SmartBuffer<void>(ptr);
+}
+////////////////////////////////////////////////////////////////////////////////
+//  Typed Array
+template <typename T, upL_t alignment = alignof(T)>
+SmartBuffer<T> make_trivial_array(upL_t size){
+    static_assert(
+        std::is_trivially_constructible<T>::value,
+        "Object must be trivially constructible."
+    );
+    static_assert(
+        std::is_trivially_destructible<T>::value,
+        "Object must be trivially destructible."
+    );
+    T* ptr = (T*)AlignedMalloc(size * sizeof(T), alignment);
+//    for (upL_t c = 0; c < size; c++){
+//        ::new (ptr + c) T();
+//    }
+    return SmartBuffer<T>(ptr);
+}
+////////////////////////////////////////////////////////////////////////////////
+//  Object with user-specified size.
+template <typename T, upL_t alignment = alignof(T), class... Args>
+SmartBuffer<T> make_raw_object_buffer(upL_t bytes, Args&&... args){
+    static_assert(
+        std::is_trivially_destructible<T>::value,
+        "Object must be trivially destructible."
+    );
+    T* ptr = (T*)AlignedMalloc(bytes, alignment);
+    ::new (ptr) T(std::forward<Args>(args)...);
+    return SmartBuffer<T>(ptr);
+}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

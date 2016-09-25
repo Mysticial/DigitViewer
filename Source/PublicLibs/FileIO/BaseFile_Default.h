@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ymp_FileIO_BaseFile_Default_H
-#define _ymp_FileIO_BaseFile_Default_H
+#ifndef ymp_FileIO_BaseFile_Default_H
+#define ymp_FileIO_BaseFile_Default_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,38 +24,38 @@ namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class BaseFile{
-    std::string path;
-    FILE* filehandle;
+    std::string m_path;
+    FILE* m_filehandle;
 
 public:
     BaseFile(const BaseFile&) = delete;
     void operator=(const BaseFile&) = delete;
     BaseFile(BaseFile&& x)
-        : path(std::move(x.path))
-        , filehandle(std::move(x.filehandle))
+        : m_path(std::move(x.m_path))
+        , m_filehandle(std::move(x.m_filehandle))
     {
-        x.path.clear();
+        x.m_path.clear();
     }
     void operator=(BaseFile&& x){
-        path = std::move(x.path);
-        filehandle = std::move(x.filehandle);
-        x.path.clear();
+        m_path = std::move(x.m_path);
+        m_filehandle = std::move(x.m_filehandle);
+        x.m_path.clear();
     }
 
 public:
-    BaseFile(){};
+    BaseFile() = default;
     virtual ~BaseFile(){ close(); }
 
     bool is_open() const{
-        return !path.empty();
+        return !m_path.empty();
     }
     const std::string& GetPath() const{
-        return path;
+        return m_path;
     }
 
 public:
-    bool open(std::string path);
-    bool create(std::string path, ufL_t bytes = 0);
+    bool open(std::string m_path);
+    bool create(std::string m_path, ufL_t bytes = 0);
     void close(bool delete_file = false);
 
 public:

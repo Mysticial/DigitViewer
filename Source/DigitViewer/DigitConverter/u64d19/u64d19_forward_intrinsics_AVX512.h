@@ -12,8 +12,8 @@
  * 
  */
 
-#ifndef _ydv_u64d19_forward_intrinsics_AVX512_H
-#define _ydv_u64d19_forward_intrinsics_AVX512_H
+#ifndef ydv_u64d19_forward_intrinsics_AVX512_H
+#define ydv_u64d19_forward_intrinsics_AVX512_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@
 #include <immintrin.h>
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/Types.h"
-#include "PublicLibs/ProcessorCapability/cpu_x86_Macros.h"
+#include "PublicLibs/ProcessorCapability/ProcessorCapability.h"
 namespace DigitViewer{
 namespace u64d19{
     using namespace ymp;
@@ -263,11 +263,19 @@ void convert_d19x8_forward_AVX512(char str[19*8], const u64_t dec[8]){
 
     if (ascii){
         const __m512i DECSHIFT = _mm512_set1_epi8('0');
+#ifdef YMP_Arch_2017_x64_Skylake
         s0 = _mm512_add_epi8(s0, DECSHIFT);
         s1 = _mm512_add_epi8(s1, DECSHIFT);
         s2 = _mm512_add_epi8(s2, DECSHIFT);
+#else
+        s0 = _mm512_add_epi32(s0, DECSHIFT);
+        s1 = _mm512_add_epi32(s1, DECSHIFT);
+        s2 = _mm512_add_epi32(s2, DECSHIFT);
+#endif
     }
 
+    //  COMPILER-BUG-GCC: AVX512 Pointer type
+#ifndef __GNUC__
     if (forward){
         const __m512i INDEX = _mm512_setr_epi64(19*0, 19*1, 19*2, 19*3, 19*4, 19*5, 19*6, 19*7);
         _mm512_i64scatter_epi64(str + 11, INDEX, s2, 1);
@@ -279,6 +287,19 @@ void convert_d19x8_forward_AVX512(char str[19*8], const u64_t dec[8]){
         _mm512_i64scatter_epi64(str +  0, INDEX, s0, 1);
         _mm512_i64scatter_epi64(str +  8, INDEX, s1, 1);
     }
+#else
+    if (forward){
+        const __m512i INDEX = _mm512_setr_epi64(19*0, 19*1, 19*2, 19*3, 19*4, 19*5, 19*6, 19*7);
+        _mm512_i64scatter_epi64((long long*)(str + 11), INDEX, s2, 1);
+        _mm512_i64scatter_epi64((long long*)(str +  0), INDEX, s0, 1);
+        _mm512_i64scatter_epi64((long long*)(str +  8), INDEX, s1, 1);
+    }else{
+        const __m512i INDEX = _mm512_setr_epi64(19*7, 19*6, 19*5, 19*4, 19*3, 19*2, 19*1, 19*0);
+        _mm512_i64scatter_epi64((long long*)(str + 11), INDEX, s2, 1);
+        _mm512_i64scatter_epi64((long long*)(str +  0), INDEX, s0, 1);
+        _mm512_i64scatter_epi64((long long*)(str +  8), INDEX, s1, 1);
+    }
+#endif
 }
 template <bool forward, bool ascii> YM_FORCE_INLINE
 void convert_d19x16_forward_AVX512(char str[19*16], const u64_t dec[16]){
@@ -331,14 +352,25 @@ void convert_d19x16_forward_AVX512(char str[19*16], const u64_t dec[16]){
 
     if (ascii){
         const __m512i DECSHIFT = _mm512_set1_epi8('0');
+#ifdef YMP_Arch_2017_x64_Skylake
         a0 = _mm512_add_epi8(a0, DECSHIFT);
         b0 = _mm512_add_epi8(b0, DECSHIFT);
         c0 = _mm512_add_epi8(c0, DECSHIFT);
         a1 = _mm512_add_epi8(a1, DECSHIFT);
         b1 = _mm512_add_epi8(b1, DECSHIFT);
         c1 = _mm512_add_epi8(c1, DECSHIFT);
+#else
+        a0 = _mm512_add_epi32(a0, DECSHIFT);
+        b0 = _mm512_add_epi32(b0, DECSHIFT);
+        c0 = _mm512_add_epi32(c0, DECSHIFT);
+        a1 = _mm512_add_epi32(a1, DECSHIFT);
+        b1 = _mm512_add_epi32(b1, DECSHIFT);
+        c1 = _mm512_add_epi32(c1, DECSHIFT);
+#endif
     }
 
+    //  COMPILER-BUG-GCC: AVX512 Pointer type
+#ifndef __GNUC__
     if (forward){
         const __m512i INDEX = _mm512_setr_epi64(19*0, 19*1, 19*2, 19*3, 19*4, 19*5, 19*6, 19*7);
         _mm512_i64scatter_epi64(str +  11, INDEX, c0, 1);
@@ -356,6 +388,25 @@ void convert_d19x16_forward_AVX512(char str[19*16], const u64_t dec[16]){
         _mm512_i64scatter_epi64(str +   0, INDEX, a1, 1);
         _mm512_i64scatter_epi64(str +   8, INDEX, b1, 1);
     }
+#else
+    if (forward){
+        const __m512i INDEX = _mm512_setr_epi64(19*0, 19*1, 19*2, 19*3, 19*4, 19*5, 19*6, 19*7);
+        _mm512_i64scatter_epi64((long long*)(str +  11), INDEX, c0, 1);
+        _mm512_i64scatter_epi64((long long*)(str +   0), INDEX, a0, 1);
+        _mm512_i64scatter_epi64((long long*)(str +   8), INDEX, b0, 1);
+        _mm512_i64scatter_epi64((long long*)(str + 163), INDEX, c1, 1);
+        _mm512_i64scatter_epi64((long long*)(str + 152), INDEX, a1, 1);
+        _mm512_i64scatter_epi64((long long*)(str + 160), INDEX, b1, 1);
+    }else{
+        const __m512i INDEX = _mm512_setr_epi64(19*7, 19*6, 19*5, 19*4, 19*3, 19*2, 19*1, 19*0);
+        _mm512_i64scatter_epi64((long long*)(str + 163), INDEX, c0, 1);
+        _mm512_i64scatter_epi64((long long*)(str + 152), INDEX, a0, 1);
+        _mm512_i64scatter_epi64((long long*)(str + 160), INDEX, b0, 1);
+        _mm512_i64scatter_epi64((long long*)(str +  11), INDEX, c1, 1);
+        _mm512_i64scatter_epi64((long long*)(str +   0), INDEX, a1, 1);
+        _mm512_i64scatter_epi64((long long*)(str +   8), INDEX, b1, 1);
+    }
+#endif
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

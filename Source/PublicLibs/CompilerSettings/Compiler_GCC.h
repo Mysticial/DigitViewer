@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ymp_Compiler_GCC_H
-#define _ymp_Compiler_GCC_H
+#ifndef ymp_Compiler_GCC_H
+#define ymp_Compiler_GCC_H
 namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,10 +20,11 @@ namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Restrict
-template <typename type> using r_ptr = type *__restrict__;
-template <typename type> using c_ptr = type const*__restrict__;
-template <typename type> using r_ref = type &__restrict__;
-template <typename type> using c_ref = type const&__restrict__;
+template <typename type> using r_ptr  = type *__restrict__;
+template <typename type> using c_ptr  = type const*__restrict__;
+template <typename type> using r_ref  = type &__restrict__;
+template <typename type> using c_ref  = type const&__restrict__;
+template <typename type> using r_rref = type &&__restrict__;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dynamic Linking

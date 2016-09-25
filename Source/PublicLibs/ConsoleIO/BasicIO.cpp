@@ -60,7 +60,7 @@ YM_NO_INLINE void Warning(std::string str, bool sticky){
     if (!sticky)
         SetColor('w');
 }
-YM_NO_INLINE void Quit(int code){
+[[noreturn]] YM_NO_INLINE void Quit(int code){
     SetColorDefault();
     Pause();
     exit(code);
@@ -131,6 +131,57 @@ YM_NO_INLINE siL_t scan_siL(char color){
         out = -out;
     return out;
 }
+YM_NO_INLINE siL_t scan_siL_suffix(char color){
+    auto str = scan_utf8(color);
+    const char* iter = str.c_str();
+
+    siL_t x = 0;
+    bool negative = false;
+
+    if (iter[0] == '-'){
+        negative = true;
+        iter++;
+    }
+
+    char ch;
+    do{
+        ch = *iter++;
+
+        //  Skip commas
+        if (ch == ','){
+            continue;
+        }
+
+        //  Stop when we hit a non-digit.
+        if ('0' > ch || ch > '9'){
+            break;
+        }
+
+        x *= 10;
+        x += ch - '0';
+    }while (true);
+
+    //  Skip spaces.
+    while (ch == ' '){
+        ch = *iter++;
+    }
+
+    if (negative)
+        x = -x;
+
+    switch (ch){
+    case 'K': return x << 10;   //  Kilo
+    case 'M': return x << 20;   //  Mega
+    case 'G': return x << 30;   //  Giga
+    case 'T': return x << 40;   //  Tera
+    case 'P': return x << 50;   //  Peta
+    case 'E': return x << 60;   //  Exa
+    case 'm': return x * 1000000;           //  Million
+    case 'b': return x * 1000000000;        //  Billion
+    case 't': return x * 1000000000000;     //  Trillion
+    };
+    return x;
+}
 YM_NO_INLINE uiL_t scan_bytes(char color){
     auto str = scan_utf8(color);
 
@@ -155,30 +206,32 @@ YM_NO_INLINE uiL_t scan_bytes(char color){
         }
     }
 
-    while (ch == ' ')
+    //  Skip spaces.
+    while (ch == ' '){
         ch = str[c++];
+    }
 
     switch (ch){
-        case 'k':
-        case 'K':
-            return (x << 10) + (uiL_t)std::round(frac * ((uiL_t)1 << 10));
-        case 'm':
-        case 'M':
-            return (x << 20) + (uiL_t)std::round(frac * ((uiL_t)1 << 20));
-        case 'g':
-        case 'G':
-            return (x << 30) + (uiL_t)std::round(frac * ((uiL_t)1 << 30));
-        case 't':
-        case 'T':
-            return (x << 40) + (uiL_t)std::round(frac * ((uiL_t)1 << 40));
-        case 'p':
-        case 'P':
-            return (x << 50) + (uiL_t)std::round(frac * ((uiL_t)1 << 50));
-        case 'e':
-        case 'E':
-            return (x << 60) + (uiL_t)std::round(frac * ((uiL_t)1 << 60));
-        default:
-            return x;
+    case 'k':
+    case 'K':
+        return (x << 10) + (uiL_t)std::round(frac * ((uiL_t)1 << 10));
+    case 'm':
+    case 'M':
+        return (x << 20) + (uiL_t)std::round(frac * ((uiL_t)1 << 20));
+    case 'g':
+    case 'G':
+        return (x << 30) + (uiL_t)std::round(frac * ((uiL_t)1 << 30));
+    case 't':
+    case 'T':
+        return (x << 40) + (uiL_t)std::round(frac * ((uiL_t)1 << 40));
+    case 'p':
+    case 'P':
+        return (x << 50) + (uiL_t)std::round(frac * ((uiL_t)1 << 50));
+    case 'e':
+    case 'E':
+        return (x << 60) + (uiL_t)std::round(frac * ((uiL_t)1 << 60));
+    default:
+        return x;
     };
 }
 ////////////////////////////////////////////////////////////////////////////////

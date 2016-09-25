@@ -81,6 +81,12 @@ YM_NO_INLINE    upL_t print_marginl_float(upL_t margin, double x, int precision,
 YM_NO_INLINE    upL_t println_marginl_float(upL_t margin, double x, int precision, char color){
     return println_marginl(margin, StringTools::tostr_float(x, precision), color);
 }
+YM_NO_INLINE    upL_t print_marginr_fixed(upL_t margin, double x, int precision, char color){
+    return print_marginr(margin, StringTools::tostr_fixed(x, precision), color);
+}
+YM_NO_INLINE    upL_t println_marginr_fixed(upL_t margin, double x, int precision, char color){
+    return println_marginr(margin, StringTools::tostr_fixed(x, precision), color);
+}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

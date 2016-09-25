@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ymp_File_FileException_H
-#define _ymp_File_FileException_H
+#ifndef ymp_File_FileException_H
+#define ymp_File_FileException_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,32 +35,32 @@ class FileException : public ym_exception{
 
 public:
     FileException(const char* location, const std::string& file, const char* message){
-        level = YMC_EXCEPTION_FILEIO;
-        code = 1;
-        this->location = location;
-        this->message = message;
-        this->wstr = StringTools::utf8_to_wstr(file);
+        m_level = YMC_EXCEPTION_FILEIO;
+        m_code = 1;
+        m_location = location;
+        m_message = message;
+        m_wstr = StringTools::utf8_to_wstr(file);
     }
     FileException(const char* location, std::wstring file, const char* message){
-        level = YMC_EXCEPTION_FILEIO;
-        code = 1;
-        this->location = location;
-        this->message = message;
-        this->wstr = std::move(file);
+        m_level = YMC_EXCEPTION_FILEIO;
+        m_code = 1;
+        m_location = location;
+        m_message = message;
+        m_wstr = std::move(file);
     }
     FileException(int code, const char* location, std::string file, const char* message){
-        level = YMC_EXCEPTION_FILEIO;
-        this->code = code;
-        this->location = location;
-        this->message = message;
-        this->wstr = StringTools::utf8_to_wstr(file);
+        m_level = YMC_EXCEPTION_FILEIO;
+        m_code = code;
+        m_location = location;
+        m_message = message;
+        m_wstr = StringTools::utf8_to_wstr(file);
     }
     FileException(int code, const char* location, std::wstring file, const char* message){
-        level = YMC_EXCEPTION_FILEIO;
-        this->code = code;
-        this->location = location;
-        this->message = message;
-        this->wstr = std::move(file);
+        m_level = YMC_EXCEPTION_FILEIO;
+        m_code = code;
+        m_location = location;
+        m_message = message;
+        m_wstr = std::move(file);
     }
 };
 ////////////////////////////////////////////////////////////////////////////////

@@ -34,8 +34,8 @@
  */
 
 #pragma once
-#ifndef _ycr_DigitWriter_H
-#define _ycr_DigitWriter_H
+#ifndef ycr_DigitWriter_H
+#define ycr_DigitWriter_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,12 +110,12 @@ private:
 protected:
     //  Digit Buffer
     //  Can't use std::vector here. We need this to be properly aligned.
-    char* buffer;
-    upL_t buffer_L;
+    char* m_buffer;
+    upL_t m_buffer_L;
 
     //  Iterator
-    ufL_t iter_f_offset;
-    upL_t iter_b_offset;
+    ufL_t m_iter_f_offset;
+    upL_t m_iter_b_offset;
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,12 +126,12 @@ inline void DigitWriter::push(char digit){
     //  So put the implementation here to help the compiler inline it.
 
     //  Buffer is full
-    if (iter_b_offset == buffer_L){
+    if (m_iter_b_offset == m_buffer_L){
         make_or_flush_buffer();
     }
 
-    iter_f_offset++;
-    buffer[iter_b_offset++] = digit;
+    m_iter_f_offset++;
+    m_buffer[m_iter_b_offset++] = digit;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

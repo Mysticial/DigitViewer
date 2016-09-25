@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ycr_TextWriter_H
-#define _ycr_TextWriter_H
+#ifndef ycr_TextWriter_H
+#define ycr_TextWriter_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,10 +45,10 @@ public:
     virtual void write(char* str, upL_t digits) override;
 
 private:
-    const int radix;
+    const int m_radix;
 
     //  File handle
-    FileIO::BasicFile file;
+    FileIO::BasicFile m_file;
 
     //  Function pointer for digit conversion.
     void (*fp_convert)(char*, upL_t);

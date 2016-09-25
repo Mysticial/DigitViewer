@@ -24,7 +24,7 @@ void print_af(const wtype* A, upL_t L, char color){
     SetColor(color);
 
     if (L == 0){
-        print(L"{}");
+        print("{}");
         return;
     }
 

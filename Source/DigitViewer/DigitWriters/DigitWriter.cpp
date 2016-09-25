@@ -12,7 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/AlignedMalloc.h"
+#include "PublicLibs/Memory/AlignedMalloc.h"
 #include "DigitWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,52 +24,52 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 DigitWriter::DigitWriter()
-    : buffer(nullptr)
-    , buffer_L(0)
-    , iter_f_offset(0)
-    , iter_b_offset(buffer_L)
+    : m_buffer(nullptr)
+    , m_buffer_L(0)
+    , m_iter_f_offset(0)
+    , m_iter_b_offset(m_buffer_L)
 {}
 DigitWriter::~DigitWriter(){
-    AlignedFree(buffer);
+    AlignedFree(m_buffer);
 }
 void DigitWriter::push(const char* str, upL_t digits){
     while (digits > 0){
         //  Buffer is full
-        if (iter_b_offset == buffer_L){
+        if (m_iter_b_offset == m_buffer_L){
             make_or_flush_buffer();
         }
 
-        upL_t block = buffer_L - iter_b_offset;
+        upL_t block = m_buffer_L - m_iter_b_offset;
         if (block > digits)
             block = digits;
 
-        memcpy(&buffer[0] + iter_b_offset, str, block);
+        memcpy(&m_buffer[0] + m_iter_b_offset, str, block);
 
-        iter_f_offset += block;
-        iter_b_offset += block;
+        m_iter_f_offset += block;
+        m_iter_b_offset += block;
         str += block;
         digits -= block;
     }
 }
 void DigitWriter::make_buffer(){
     upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER;
-    buffer = (char*)AlignedMalloc(buffer_size, 2*sizeof(u64_t));
+    m_buffer = (char*)AlignedMalloc(buffer_size, 2*sizeof(u64_t));
 
     //  Do this assignment last - just in case the above throws.
-    buffer_L = buffer_size;
+    m_buffer_L = buffer_size;
 }
 YM_NO_INLINE void DigitWriter::make_or_flush_buffer(){
-    if (buffer_L == 0){
+    if (m_buffer_L == 0){
         make_buffer();
     }else{
-        write(buffer, iter_b_offset);
-        iter_b_offset = 0;
+        write(m_buffer, m_iter_b_offset);
+        m_iter_b_offset = 0;
     }
 }
 void DigitWriter::flush_buffer(){
-    if (buffer_L != 0){
-        write(buffer, iter_b_offset);
-        iter_b_offset = 0;
+    if (m_buffer_L != 0){
+        write(m_buffer, m_iter_b_offset);
+        m_iter_b_offset = 0;
     }
 }
 ////////////////////////////////////////////////////////////////////////////////

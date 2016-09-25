@@ -14,8 +14,8 @@
  */
 
 #pragma once
-#ifndef _ycr_YCDWriter_H
-#define _ycr_YCDWriter_H
+#ifndef ycr_YCDWriter_H
+#define ycr_YCDWriter_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,25 +65,25 @@ public:
     virtual void write(char* str, upL_t digits) override;
 
 private:
-    std::string path;                   //  Full path (including the id #)
-    std::string name;                   //  File name
+    std::string m_path;                 //  Full path (including the id #)
+    std::string m_name;                 //  File name
 
-    int radix;                          //  Radix of the digits. (10 or 16)
-    upL_t digits_per_word;
-    uiL_t start_fileid;
+    int m_radix;                        //  Radix of the digits. (10 or 16)
+//    upL_t m_digits_per_word;
+    uiL_t m_start_fileid;
 
-    std::string first_digits;           //  First digits
+    std::string m_first_digits;         //  First digits
 
-    ufL_t digits_per_file;              //  # of digits per compressed file
+    ufL_t m_digits_per_file;            //  # of digits per compressed file
 
     //  File handle
-    uiL_t fileid;
-    YCDFileWriter file;
+    uiL_t m_fileid;
+    YCDFileWriter m_file;
 
     //  Binary Buffer
-    bool external_buffer;
-    u64_t* bin_buffer;
-    upL_t bin_buffer_L;
+    bool m_external_buffer;
+    u64_t* m_bin_buffer;
+    upL_t m_bin_buffer_L;
     void (*fp_free)(void*);
 
     void free_buffer();

@@ -1,4 +1,6 @@
 del "Digit Viewer.sdf"
+del "Digit Viewer.VC.db"
+rd /s /q ".vs\"
 rd /s /q "ipch\"
 rd /s /q "x64\"
 rd /s /q "Digit Viewer\x64\"

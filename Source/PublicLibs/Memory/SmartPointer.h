@@ -1,47 +1,51 @@
-/* DigitConverter.h
+/* SmartPointer.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 11/09/2011
- * Last Modified    : 01/24/2016
+ * Date Created     : 09/06/2016
+ * Last Modified    : 09/23/2016
  * 
  */
 
 #pragma once
-#ifndef ymb_CVN_headers_H
-#define ymb_CVN_headers_H
+#ifndef ymp_Memory_SmartPointer_H
+#define ymp_Memory_SmartPointer_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "PublicLibs/Types.h"
-#include "rawhex/rawhex.h"
-#include "rawdec/rawdec.h"
-#include "u32h8/u32h8.h"
-#include "u32d9/u32d9.h"
-#include "u64h16/u64h16.h"
-#include "u64d19/u64d19.h"
-namespace DigitViewer{
-    using namespace ymp;
+#include <memory>
+#include "AlignedMalloc.h"
+namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void CompileOptions_DigitConverter();
+template <typename T>
+struct AlignedObjectDeleter{
+    void operator()(T* ptr) const{
+        ptr->~T();
+        AlignedFree(ptr);
+    }
+};
+template <typename T>
+using AlignedPointer = std::unique_ptr<T, AlignedObjectDeleter<T>>;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//  Wrap these with overloads for template deduction. (used by y-cruncher)
-inline void words_to_hex(char* T, const u32_t* A, upL_t AL){
-    u32r_to_h8r(T, A, AL);
+//  Normal Object
+template <typename T, upL_t alignment = alignof(T), class... Args>
+AlignedPointer<T> make_object(Args&&... args){
+    T* ptr = (T*)AlignedMalloc(sizeof(T), alignment);
+    ::new (ptr) T(std::forward<Args>(args)...);
+    return AlignedPointer<T>(ptr);
 }
-inline void words_to_hex(char* T, const u64_t* A, upL_t AL){
-    u64r_to_h16r(T, A, AL);
-}
-inline void words_to_dec(char* T, const u32_t* A, upL_t AL){
-    u32r_to_d9r(T, A, AL);
-}
-inline void words_to_dec(char* T, const u64_t* A, upL_t AL){
-    u64r_to_d19r(T, A, AL);
+////////////////////////////////////////////////////////////////////////////////
+//  Object with user-specified size.
+template <typename T, upL_t alignment = alignof(T), class... Args>
+AlignedPointer<T> make_extended_object(upL_t bytes, Args&&... args){
+    T* ptr = (T*)AlignedMalloc(bytes, alignment);
+    ::new (ptr) T(std::forward<Args>(args)...);
+    return AlignedPointer<T>(ptr);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

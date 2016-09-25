@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ymp_Console_Label_H
-#define _ymp_Console_Label_H
+#ifndef ymp_Console_Label_H
+#define ymp_Console_Label_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,10 +52,13 @@ YM_NO_INLINE    upL_t   println_labelc_bytes    (std::string label, siL_t x, cha
 YM_NO_INLINE    upL_t   print_labelc_ebytes     (std::string label, siL_t x, char color = ' ');
 YM_NO_INLINE    upL_t   println_labelc_ebytes   (std::string label, siL_t x, char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
-YM_NO_INLINE    siL_t   scan_label_siL          (const std::string& label, char color = 'T');
-YM_NO_INLINE    upL_t   scan_label_upL_range    (const std::string& label, upL_t low = 0, upL_t high = (upL_t)0 - 1, char color = 'T');
-YM_NO_INLINE    uiL_t   scan_label_uiL_range    (const std::string& label, uiL_t low = 0, uiL_t high = (uiL_t)0 - 1, char color = 'T');
-YM_NO_INLINE    uiL_t   scan_label_bytes        (const std::string& label = "Bytes: ", char color = 'T');
+YM_NO_INLINE    siL_t   scan_label_siL                  (const std::string& label, char color = 'T');
+YM_NO_INLINE    upL_t   scan_label_upL_range            (const std::string& label, upL_t low = 0, upL_t high = (upL_t)0 - 1, char color = 'T');
+YM_NO_INLINE    uiL_t   scan_label_uiL_range            (const std::string& label, uiL_t low = 0, uiL_t high = (uiL_t)0 - 1, char color = 'T');
+YM_NO_INLINE    siL_t   scan_label_siL_suffix           (const std::string& label, char color = 'T');
+YM_NO_INLINE    upL_t   scan_label_upL_suffix_range     (const std::string& label, upL_t low = 0, upL_t high = (upL_t)0 - 1, char color = 'T');
+YM_NO_INLINE    uiL_t   scan_label_uiL_suffix_range     (const std::string& label, uiL_t low = 0, uiL_t high = (uiL_t)0 - 1, char color = 'T');
+YM_NO_INLINE    uiL_t   scan_label_bytes                (const std::string& label = "Bytes: ", char color = 'T');
 ////////////////////////////////////////////////////////////////////////////////
 //  Integer Labels with Margin
 YM_NO_INLINE    upL_t   print_labelm            (std::string label, siL_t x, char color = ' ');

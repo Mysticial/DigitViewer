@@ -10,9 +10,21 @@
  */
 
 #pragma once
-#ifndef _ymp_Compiler_VSC_H
-#define _ymp_Compiler_VSC_H
+#ifndef ymp_Compiler_VSC_H
+#define ymp_Compiler_VSC_H
 namespace ymp{
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+#if (defined _MSC_VER) && (_MSC_VER < 1900)
+#error "MSVC++ 14.0 or later is required."
+#endif 
+#ifdef __INTEL_COMPILER
+#if (__INTEL_COMPILER < 1600) || (__INTEL_COMPILER == 1600 && __INTEL_COMPILER_UPDATE < 4)
+#error "ICC 16.4 or later is required.""
+#endif
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,10 +35,11 @@ namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Restrict
-template <typename type> using r_ptr = type *__restrict;
-template <typename type> using c_ptr = type const*__restrict;
-template <typename type> using r_ref = type &__restrict;
-template <typename type> using c_ref = type const&__restrict;
+template <typename type> using r_ptr  = type *__restrict;
+template <typename type> using c_ptr  = type const*__restrict;
+template <typename type> using r_ref  = type &__restrict;
+template <typename type> using c_ref  = type const&__restrict;
+template <typename type> using r_rref = type &&__restrict;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dynamic Linking
@@ -48,23 +61,26 @@ template <typename type> using c_ref = type const&__restrict;
 #pragma warning(disable:4324)   //  Structure Padding
 #pragma warning(disable:4456)   //  Variable Shadowing
 //#pragma warning(disable:4457)   //  Variable Hides Parameter
-#pragma warning(disable:4458)   //  Member Hiding
+//#pragma warning(disable:4458)   //  Member Hiding
 //#pragma warning(disable:4459)   //  Parameter Hides Global
 #pragma warning(disable:4505)   //  Unused Static Function
 #pragma warning(disable:4661)   //  No Definition for Template Instantiation
 
 //  Analysis Warnings
-#pragma warning(disable:6011)   //  Dereference NULL pointer
+//#pragma warning(disable:6011)   //  Dereference NULL pointer
 #pragma warning(disable:6246)   //  Variable Shadowing
+#pragma warning(disable:6285)   //  Always Non-Zero Constant
+#pragma warning(disable:6294)   //  Loop body never executed
 #pragma warning(disable:6326)   //  Constant Comparison
 
 //  Disable specific ICC warnings
 #if defined __INTEL_COMPILER
 #pragma warning disable 186     //  Unsigned comparison with zero
+//#pragma warning disable 411     //  No default constructor
 #pragma warning disable 532     //  No Definition for Template Instantiation
-#pragma warning disable 803     //  Multiple template instantiations (COMPILER-BUG-ICC: https://software.intel.com/en-us/articles/compiler-reports-error-803-when-compiling-chromium-os-code/)
 #pragma warning disable 1125    //  Virtual function hiding
-#pragma warning disable 3280    //  Member hiding
+//#pragma warning disable 3280    //  Member hiding
+#pragma warning disable 2553    //  wmain()
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

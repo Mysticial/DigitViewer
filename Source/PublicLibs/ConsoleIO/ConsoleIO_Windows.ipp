@@ -83,7 +83,7 @@ YM_NO_INLINE std::wstring scan_wstr(char color){
         //  Strip off control characters.
         while (read > 0){
             wchar_t ch = buffer[read - 1];
-            if ((uint32_t)ch >= 32){
+            if ((u32_t)ch >= 32){
                 break;
             }
             if (ch == 10){

@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#ifndef _ymp_CompilerSettings_H
-#define _ymp_CompilerSettings_H
+#ifndef ymp_CompilerSettings_H
+#define ymp_CompilerSettings_H
 
 #if defined _MSC_VER
 #include "CompilerSettings/Compiler_VSC.h"

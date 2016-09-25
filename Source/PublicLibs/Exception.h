@@ -24,8 +24,8 @@
  */
 
 #pragma once
-#ifndef _ymp_Exception_H
-#define _ymp_Exception_H
+#ifndef ymp_Exception_H
+#define ymp_Exception_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ namespace ymp{
 #define YM_EXCEPTION_GENERIC_EXCEPTION  "Generic Exception"
 class ym_exception : public std::exception{
 public:
-    int code;
+    int m_code;
 
 private:
     //  COMPILER-BUG-VS:    //  Throw using move-semantecs.
@@ -68,93 +68,93 @@ public:
     //ym_exception& operator=(ym_exception&& x);
     virtual ~ym_exception() noexcept{}
 
-    ym_exception(int code_, const char* str_ = NULL)
-        : code(code_)
-        , str(str_)
-        , message(YM_EXCEPTION_GENERIC_EXCEPTION)
+    ym_exception(int code, const char* str = NULL)
+        : m_code(code)
+        , m_str(str)
+        , m_message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(const char* str_)
-        : code(0)
-        , str(str_)
-        , message(YM_EXCEPTION_GENERIC_EXCEPTION)
+    ym_exception(const char* str)
+        : m_code(0)
+        , m_str(str)
+        , m_message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(std::string str_, int code_ = 0)
-        : code (code_)
-        , str(NULL)
-        , astr(std::move(str_))
-        , message(YM_EXCEPTION_GENERIC_EXCEPTION)
+    ym_exception(std::string str, int code = 0)
+        : m_code(code)
+        , m_str(nullptr)
+        , m_astr(std::move(str))
+        , m_message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(std::wstring str_, int code_ = 0)
-        : code (code_)
-        , str(NULL)
-        , wstr(std::move(str_))
-        , message(YM_EXCEPTION_GENERIC_EXCEPTION)
+    ym_exception(std::wstring str, int code = 0)
+        : m_code(code)
+        , m_str(nullptr)
+        , m_wstr(std::move(str))
+        , m_message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(const char* astr_, std::wstring wstr_, int code_ = 0)
-        : code (code_)
-        , str(astr_)
-        , wstr(std::move(wstr_))
-        , message(YM_EXCEPTION_GENERIC_EXCEPTION)
+    ym_exception(const char* astr, std::wstring wstr, int code = 0)
+        : m_code(code)
+        , m_str(astr)
+        , m_wstr(std::move(wstr))
+        , m_message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
-    ym_exception(std::string astr_, std::wstring wstr_, int code_ = 0)
-        : code (code_)
-        , str(NULL)
-        , astr(std::move(astr_))
-        , wstr(std::move(wstr_))
-        , message(YM_EXCEPTION_GENERIC_EXCEPTION)
+    ym_exception(std::string astr, std::wstring wstr, int code = 0)
+        : m_code(code)
+        , m_str(nullptr)
+        , m_astr(std::move(astr))
+        , m_wstr(std::move(wstr))
+        , m_message(YM_EXCEPTION_GENERIC_EXCEPTION)
     {}
 
     void print() const{
         Console::println("\n");
-        Console::println_labelc("Exception Encountered", message, 'R');
+        Console::println_labelc("Exception Encountered", m_message, 'R');
         Console::print("Error Code: ");
-        Console::println(std::to_string(code));
-        if (location != nullptr){
+        Console::println(std::to_string(m_code));
+        if (m_location != nullptr){
             Console::print("Location: ");
-            Console::println(location);
+            Console::println(m_location);
         }
-        if (str != NULL){
-            Console::println(str);
+        if (m_str != NULL){
+            Console::println(m_str);
         }
-        if (astr.size() != 0){
-            Console::println(astr);
+        if (m_astr.size() != 0){
+            Console::println(m_astr);
         }
-        if (wstr.size() != 0){
-            Console::println(wstr);
+        if (m_wstr.size() != 0){
+            Console::println(m_wstr);
         }
         Console::println("\n");
         Console::SetColor('w');
     }
 
     virtual const char* what() const noexcept override{
-        if (str != nullptr)
-            return str;
-        return astr.c_str();
+        if (m_str != nullptr)
+            return m_str;
+        return m_astr.c_str();
     }
 
 protected:
-    const char* str;
-    std::string astr;
-    std::wstring wstr;
+    const char* m_str;
+    std::string m_astr;
+    std::wstring m_wstr;
 
 protected:
-    int level = 3;
+    int m_level = 3;
 
-    const char* message;
-    const char* location = nullptr;
+    const char* m_message;
+    const char* m_location = nullptr;
 
     ym_exception()
-        : str(nullptr)
+        : m_str(nullptr)
     {}
 
 public:
     void fire() const{
-        if (level >= 3){
+        if (m_level >= 3){
             print();
             fire_this();
-        }if (level >= 2){
+        }if (m_level >= 2){
             fire_this();
-        }else if (level >= 1){
+        }else if (m_level >= 1){
             print();
             Console::Quit(1);
         }

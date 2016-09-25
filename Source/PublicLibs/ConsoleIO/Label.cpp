@@ -20,7 +20,7 @@ namespace Console{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-const upL_t DEFAULT_MARGIN = 16;
+const upL_t DEFAULT_MARGIN = 20;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,13 +198,32 @@ YM_NO_INLINE siL_t scan_label_siL(const std::string& label, char color){
         SetColor('w');
     return out;
 }
+YM_NO_INLINE siL_t scan_label_siL_suffix(const std::string& label, char color){
+    print(label, color != ' ' ? 'w' : ' ');
+    siL_t out = scan_siL_suffix(color);
+    if (color != ' ')
+        SetColor('w');
+    return out;
+}
 YM_NO_INLINE upL_t scan_label_upL_range(const std::string& label, upL_t low, upL_t high, char color){
     return (upL_t)scan_label_uiL_range(label, low, high, color);
+}
+YM_NO_INLINE upL_t scan_label_upL_suffix_range(const std::string& label, upL_t low, upL_t high, char color){
+    return (upL_t)scan_label_uiL_suffix_range(label, low, high, color);
 }
 YM_NO_INLINE uiL_t scan_label_uiL_range(const std::string& label, uiL_t low, uiL_t high, char color){
     uiL_t out;
     do{
         out = scan_label_siL(label, color);
+    }while (low > out || out > high);
+    if (color != ' ')
+        SetColor('w');
+    return out;
+}
+YM_NO_INLINE uiL_t scan_label_uiL_suffix_range(const std::string& label, uiL_t low, uiL_t high, char color){
+    uiL_t out;
+    do{
+        out = scan_label_siL_suffix(label, color);
     }while (low > out || out > high);
     if (color != ' ')
         SetColor('w');

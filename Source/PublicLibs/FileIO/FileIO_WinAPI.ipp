@@ -38,7 +38,8 @@ int GetLastErrorCode(){
 }
 void PrintLastError(){
     DWORD errorcode = GetLastError();
-    Console::print_labelc("Windows Error Code", errorcode);
+    Console::println("", 'R');
+    Console::println_labelc("Windows Error Code", errorcode);
     Console::print("    ");
     switch (errorcode){
         case ERROR_ACCESS_DENIED:
@@ -64,7 +65,7 @@ void PrintLastError(){
         default:
             Console::print("Unknown Error, See:\nhttp://msdn.microsoft.com/en-us/library/ms681381(VS.85).aspx");
     }
-    Console::println();
+    Console::println("", 'w');
 }
 ////////////////////////////////////////////////////////////////////////////////
 void MakeDirectory(const std::string& path){
