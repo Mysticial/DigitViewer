@@ -1,60 +1,27 @@
-/* FileException.h
+/* ArithmeticException.cpp
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 09/17/2014
- * Last Modified    : 04/11/2017
+ * Date Created     : 04/09/2017
+ * Last Modified    : 04/09/2017
  * 
  */
 
-#pragma once
-#ifndef ymp_FileIO_FileException_H
-#define ymp_FileIO_FileException_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include <string>
-#include "PublicLibs/Exceptions/Exception.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "ArithmeticException.h"
 namespace ymp{
-namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-class FileException : public Exception{
-public:
-    static const char TYPENAME[];
-
-    FileException(const char* function, std::string path, std::string message);
-    FileException(int code, const char* function, std::string path, std::string message);
-
-public:
-    [[noreturn]] virtual void fire() const override{
-        throw *this;
-    }
-    virtual const char* get_typename() const override{
-        return TYPENAME;
-    }
-    virtual Exception* clone() const override{
-        return new FileException(*this);
-    }
-    virtual void print() const override;
-
-public:
-    FileException(const DllSafeStream& data);
-    virtual DllSafeStream serialize() const override;
-
-protected:
-    std::string m_function;
-    std::string m_message;
-    std::string m_path;
-    int m_code;
-};
+const char ArithmeticException::TYPENAME[] = "ArithmeticException";
+ExceptionFactoryT<ArithmeticException> ArithmeticException_Instance;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 }
-}
-#endif

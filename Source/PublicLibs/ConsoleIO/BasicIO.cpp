@@ -57,8 +57,9 @@ YM_NO_INLINE void ClearLine(int characters){
 YM_NO_INLINE void Warning(std::string str, bool sticky){
     println();
     println(std::move(str), 'R');
-    if (!sticky)
+    if (!sticky){
         SetColor('w');
+    }
 }
 [[noreturn]] YM_NO_INLINE void Quit(int code){
     SetColorDefault();

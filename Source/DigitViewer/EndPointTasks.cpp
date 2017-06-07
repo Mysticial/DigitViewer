@@ -17,7 +17,7 @@
 #include "PublicLibs/ConsoleIO/BasicIO.h"
 #include "PublicLibs/ConsoleIO/Label.h"
 #include "PublicLibs/ConsoleIO/Array.h"
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/Exceptions/StringException.h"
 
 #include "Globals.h"
 #include "PrintHelpers.h"
@@ -54,8 +54,9 @@ void ViewRange(DigitReader* file){
     Console::println("\n\nView a Range of Digits\n");
 
     uiL_t limit = file->get_digits();
-    if (limit == 0)
+    if (limit == 0){
         limit = (uiL_t)0 - 1;
+    }
 
     Console::println();
 
@@ -65,8 +66,9 @@ void ViewRange(DigitReader* file){
     limit -= start;
 
     //  Don't print out more than 100k digits.
-    if (limit > 100000)
+    if (limit > 100000){
         limit = 100000;
+    }
 
     upL_t digits = Console::scan_label_upL_range("Digits to View: ", 1, (upL_t)limit);
     Console::println();
@@ -103,8 +105,9 @@ void CountDigits(DigitReader* file){
     //  Count up the # of instances of each digit.
 
     uiL_t limit = file->get_digits();
-    if (limit == 0)
+    if (limit == 0){
         limit = (uiL_t)0 - 1;
+    }
 
     Console::println();
 
@@ -130,11 +133,13 @@ void CountDigits(DigitReader* file){
     while (pos < end){
         upL_t block = 1000000000;
         uiL_t left = end - pos;
-        if (block > left)
+        if (block > left){
             block = (upL_t)left;
+        }
 
-        for (upL_t c = 0; c < block; c++)
+        for (upL_t c = 0; c < block; c++){
             digit[(int)file->next()]++;
+        }
 
         pos += block;
 
@@ -150,8 +155,9 @@ void ComputeHash(DigitReader* file){
     //  Count up the # of instances of each digit.
 
     uiL_t limit = file->get_digits();
-    if (limit == 0)
+    if (limit == 0){
         limit = (uiL_t)0 - 1;
+    }
 
     Console::println();
 
@@ -185,9 +191,9 @@ void ComputeHash(DigitReader* file){
             hash += ch - '0';
         }
         if (!decimal_found){
-            throw ym_exception(
-                "A decimal place was not found within the first 63 bytes of the file.",
-                YCR_DIO_ERROR_NO_DECIMAL_PLACE
+            throw StringException(
+                "ComputeHash()",
+                "A decimal place was not found within the first 63 bytes of the file."
             );
         }
     }
@@ -218,8 +224,9 @@ void ComputeHash(DigitReader* file){
         }
 
         //  Make final correction before printing it out.
-        if (hash > 0x1fffffffffffffffull)
+        if (hash > 0x1fffffffffffffffull){
             hash -= 0x1fffffffffffffffull;
+        }
 
         pos += block;
 
@@ -233,8 +240,9 @@ void ToTextFile(DigitReader* file){
     Console::println("\n\nWrite to Text File.\n");
 
     uiL_t limit = file->get_digits();
-    if (limit == 0)
+    if (limit == 0){
         limit = (uiL_t)0 - 1;
+    }
 
     Console::println();
 
@@ -290,8 +298,9 @@ void ToTextFile(DigitReader* file){
     uiL_t written = 0;
     while (digits > 0){
         upL_t current_digits = buffer_L;
-        if (current_digits > digits)
+        if (current_digits > digits){
             current_digits = (upL_t)digits;
+        }
 
         //  Read digits
         file->read(start, str.get(), current_digits);
@@ -315,8 +324,9 @@ void ToYCDFileAll(DigitReader* file){
     Console::println("\n\nWrite to Compressed File.\n");
 
     uiL_t limit = file->get_digits();
-    if (limit == 0)
+    if (limit == 0){
         limit = (uiL_t)0 - 1;
+    }
 
     Console::println();
 
@@ -336,8 +346,9 @@ void ToYCDFileAll(DigitReader* file){
     do{
         digits_per_file = static_cast<ufL_t>(Console::scan_label_uiL_suffix_range("Digits per file (0 for single file): ", 0, digits));
         Console::println();
-        if (digits_per_file == 0)
+        if (digits_per_file == 0){
             digits_per_file = (ufL_t)0 - 1;
+        }
         if (digits_per_file < 1000000){
             Console::Warning("Must be at least 1,000,000.\n");
             continue;
@@ -350,8 +361,9 @@ void ToYCDFileAll(DigitReader* file){
 
     Console::println("\nEnter the destination path (SPACE for default):");
     std::string path = Console::scan_utf8();
-    if (path.size() != 0 && path[0] == ' ')
+    if (path.size() != 0 && path[0] == ' '){
         path.clear();
+    }
 
     //  Create the writer
     YCDWriter writer(
@@ -376,8 +388,9 @@ void ToYCDFileAll(DigitReader* file){
     uiL_t written = 0;
     while (digits > 0){
         upL_t current_digits = buffer_L;
-        if (current_digits > digits)
+        if (current_digits > digits){
             current_digits = (upL_t)digits;
+        }
 
         //  Read digits
         file->read(current_position, str.get(), current_digits);
@@ -401,8 +414,9 @@ void ToYCDFilePartial(YCDReader* file){
     Console::println("\n\nRecompress to Partial Compressed File.\n");
 
     uiL_t limit = file->get_digits();
-    if (limit == 0)
+    if (limit == 0){
         limit = (uiL_t)0 - 1;
+    }
 
     Console::println();
 
@@ -421,8 +435,9 @@ void ToYCDFilePartial(YCDReader* file){
         Console::Warning("\nNo Digits to Recompress.");
         return;
     }
-    if (end_pos > limit)
+    if (end_pos > limit){
         end_pos = limit;
+    }
 
     //  Check range
     if (!file->check_range(start_pos, end_pos)){
@@ -432,8 +447,9 @@ void ToYCDFilePartial(YCDReader* file){
 
     Console::println("\nEnter the destination path (SPACE for default):");
     std::string path = Console::scan_utf8();
-    if (path.size() != 0 && path[0] == ' ')
+    if (path.size() != 0 && path[0] == ' '){
         path.clear();
+    }
 
     //  Get the name
     std::string name = file->get_name();
@@ -468,8 +484,9 @@ void ToYCDFilePartial(YCDReader* file){
     uiL_t written = 0;
     while (digits > 0){
         upL_t current_digits = buffer_L;
-        if (current_digits > digits)
+        if (current_digits > digits){
             current_digits = (upL_t)digits;
+        }
 
         //  Read digits
         file->read(current_position, str.get(), current_digits);

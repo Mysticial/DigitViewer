@@ -6,6 +6,20 @@
  * 
  */
 
+#ifdef YMP_DIGITVIEWER_STANDALONE
+#include "PublicLibs/StringTools/ToString.cpp"
+#include "PublicLibs/StringTools/Unicode.cpp"
+#include "PublicLibs/ConsoleIO/BasicIO.cpp"
+#include "PublicLibs/ConsoleIO/Margin.h"
+#include "PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/ConsoleIO/Array.h"
+#include "PublicLibs/Exceptions/SMC_Exceptions.cpp"
+#include "PublicLibs/Memory/AlignedMalloc.cpp"
+#include "PublicLibs/FileIO/FileException.cpp"
+#include "PublicLibs/FileIO/BasicFile.cpp"
+#include "PublicLibs/FileIO/FileIO.cpp"
+#endif
+
 #include "DigitConverter/DigitConverter.cpp"
 
 #include "DigitReaders/DigitReader.cpp"

@@ -87,7 +87,7 @@
  *          Pi - Dec - 2.ycd  (extended format, total_digits = 0)
  *          Pi - Dec - 3.ycd  (extended format, total_digits = 0)
  *          Pi - Dec - 4.ycd  (extended format, total_digits = 0)
- *          Pi - Dec - 5.ycd  (normal format  , total_digits = 51000000000)
+ *          Pi - Dec - 5.ycd  (normal format  , total_digits = 51000000)
  *      
  * 
  * 

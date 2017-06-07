@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include <atomic>
 #include <Windows.h>
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/StringTools/Unicode.h"
@@ -35,6 +36,11 @@ YM_NO_INLINE void CompileOptions(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
+std::atomic<uiL_t> sequence(0);
+uiL_t sequence_number(){
+    return sequence.load(std::memory_order_acquire);
+}
+////////////////////////////////////////////////////////////////////////////////
 YM_NO_INLINE upL_t print(const std::string& str, char color){
     return print(StringTools::utf8_to_wstr(str), color);
 }
@@ -48,7 +54,6 @@ YM_NO_INLINE upL_t print(const std::wstring& str, char color){
     const wchar_t* data = str.c_str();
 
     //  Split it up into blocks of no more than MAX_BLOCK characters.
-    //  TODO: What happens if we split a surrogate pair?
     while (bytes > 0){
         DWORD block = bytes < MAX_BLOCK ? (DWORD)bytes : MAX_BLOCK;
         DWORD written;
@@ -57,6 +62,7 @@ YM_NO_INLINE upL_t print(const std::wstring& str, char color){
         bytes -= block;
     }
 
+    sequence++;
     return str.size();
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,13 +101,15 @@ YM_NO_INLINE std::wstring scan_wstr(char color){
         out.append(buffer, read);
     }
 
-    if (color != ' ')
+    if (color != ' '){
         SetColor('w');
+    }
 
     return out;
 }
 YM_NO_INLINE void Pause(char color){
     SetColor(color);
+    sequence++;
     system("pause");
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +118,9 @@ YM_NO_INLINE void Pause(char color){
 ////////////////////////////////////////////////////////////////////////////////
 //  Console Colors
 YM_NO_INLINE void SetColor(char color){
-    if (!EnableColors || color == ' ')
+    if (!EnableColors || color == ' '){
         return;
+    }
     WORD attributes;
     switch (color){
         case 'R':

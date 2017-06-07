@@ -1,33 +1,33 @@
-/* FileException.h
+/* BufferTooSmallException.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 09/17/2014
- * Last Modified    : 04/11/2017
+ * Date Created     : 04/09/2017
+ * Last Modified    : 04/09/2017
  * 
  */
 
 #pragma once
-#ifndef ymp_FileIO_FileException_H
-#define ymp_FileIO_FileException_H
+#ifndef ymp_Exceptions_BufferTooSmallException_H
+#define ymp_Exceptions_BufferTooSmallException_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <string>
-#include "PublicLibs/Exceptions/Exception.h"
+#include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/Types.h"
+#include "Exception.h"
 namespace ymp{
-namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-class FileException : public Exception{
+class BufferTooSmallException : public Exception{
 public:
     static const char TYPENAME[];
 
-    FileException(const char* function, std::string path, std::string message);
-    FileException(int code, const char* function, std::string path, std::string message);
+    YM_NO_INLINE BufferTooSmallException(const char* function, uiL_t buffer_size, uiL_t required_size);
 
 public:
     [[noreturn]] virtual void fire() const override{
@@ -37,24 +37,22 @@ public:
         return TYPENAME;
     }
     virtual Exception* clone() const override{
-        return new FileException(*this);
+        return new BufferTooSmallException(*this);
     }
     virtual void print() const override;
 
 public:
-    FileException(const DllSafeStream& data);
+    BufferTooSmallException(const DllSafeStream& data);
     virtual DllSafeStream serialize() const override;
 
-protected:
+private:
     std::string m_function;
-    std::string m_message;
-    std::string m_path;
-    int m_code;
+    ufL_t m_buffer_size;
+    sfL_t m_required_size;
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-}
 }
 #endif

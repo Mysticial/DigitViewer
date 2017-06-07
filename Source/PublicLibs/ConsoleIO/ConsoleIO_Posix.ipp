@@ -20,6 +20,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <string.h>
+#include <atomic>
 #include <iostream>
 #include "PublicLibs/StringTools/ToString.h"
 #include "PublicLibs/StringTools/Unicode.h"
@@ -38,6 +39,11 @@ YM_NO_INLINE void CompileOptions(){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core I/O
+std::atomic<uiL_t> sequence(0);
+uiL_t sequence_number(){
+    return sequence.load(std::memory_order_acquire);
+}
+////////////////////////////////////////////////////////////////////////////////
 YM_NO_INLINE upL_t print(const std::string& str, char color){
     SetColor(color);
     if (fwide(stdout, 0) <= 0){
@@ -46,6 +52,7 @@ YM_NO_INLINE upL_t print(const std::string& str, char color){
         std::wcout << StringTools::utf8_to_wstr(str);
     }
     fflush(stdout);
+    sequence++;
     return str.size();
 }
 YM_NO_INLINE upL_t print(const std::wstring& str, char color){
@@ -56,23 +63,27 @@ YM_NO_INLINE upL_t print(const std::wstring& str, char color){
         std::wcout << str;
     }
     fflush(stdout);
+    sequence++;
     return str.size();
 }
 ////////////////////////////////////////////////////////////////////////////////
 YM_NO_INLINE std::string scan_utf8(char color){
-    if (fwide(stdin, 0) > 0)
+    if (fwide(stdin, 0) > 0){
         return StringTools::wstr_to_utf8(scan_wstr(color));
+    }
 
     SetColor(color);
     std::string out;
     std::getline(std::cin, out);
-    if (color != ' ')
+    if (color != ' '){
         SetColor('w');
+    }
     return out;
 }
 YM_NO_INLINE std::wstring scan_wstr(char color){
-    if (fwide(stdin, 0) <= 0)
+    if (fwide(stdin, 0) <= 0){
         return StringTools::utf8_to_wstr(scan_utf8(color));
+    }
 
     SetColor(color);
     std::wstring out;
@@ -83,8 +94,9 @@ YM_NO_INLINE std::wstring scan_wstr(char color){
             break;
         out.push_back(ch);
     }
-    if (color != ' ')
+    if (color != ' '){
         SetColor('w');
+    }
     return out;
 }
 YM_NO_INLINE void Pause(char color){

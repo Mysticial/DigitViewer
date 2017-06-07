@@ -78,7 +78,7 @@ template <typename type> using r_rref = type &&__restrict;
 #pragma warning disable 186     //  Unsigned comparison with zero
 //#pragma warning disable 411     //  No default constructor
 #pragma warning disable 532     //  No Definition for Template Instantiation
-#pragma warning disable 1125    //  Virtual function hiding
+//#pragma warning disable 1125    //  Virtual function hiding
 //#pragma warning disable 3280    //  Member hiding
 #pragma warning disable 2553    //  wmain()
 #endif

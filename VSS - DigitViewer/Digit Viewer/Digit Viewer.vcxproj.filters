@@ -14,10 +14,6 @@
     <Filter Include="Source\DigitWriters">
       <UniqueIdentifier>{8579ac4c-91fe-433d-9cd4-9e76e3ff61d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="External Modules">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Source\DigitConverter\u64d19">
       <UniqueIdentifier>{37410d8c-b48f-4f24-889b-9b701c6346da}</UniqueIdentifier>
     </Filter>
@@ -35,6 +31,31 @@
     </Filter>
     <Filter Include="Source\DigitConverter\rawhex">
       <UniqueIdentifier>{15c36d69-a8d0-488d-b57b-b1e2febd6f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="PublicLibs\CompilerSettings">
+      <UniqueIdentifier>{3f3fa30c-a4fb-4270-b85d-177e182aaa96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs\ConsoleIO">
+      <UniqueIdentifier>{7489bb9e-cfd0-4c2b-9e06-7e4a79d518ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs\Exceptions">
+      <UniqueIdentifier>{74200959-da1c-4532-a774-d6c1f2f9a667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs\ExportSafeLibs">
+      <UniqueIdentifier>{149e2b5a-920d-4b06-bbfc-bc9a5de7b266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs\FileIO">
+      <UniqueIdentifier>{8b991ccc-fcdb-4894-ba6e-d2058f6d4f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs\Memory">
+      <UniqueIdentifier>{1c61b0b8-b6e4-4462-99f6-6ca3a6f15440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PublicLibs\StringTools">
+      <UniqueIdentifier>{8bf58b5f-eb7d-4254-bf25-9dc5184f8d52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,11 +98,71 @@
     <ClCompile Include="..\..\Source\DigitViewer\PrintHelpers.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\PublicLibs\SMC_PublicLibs.cpp">
-      <Filter>External Modules</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\DigitViewer\DigitConverter\DigitConverter.cpp">
       <Filter>Source\DigitConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\CompileOptions_PublicLibs.cpp">
+      <Filter>PublicLibs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\BasicIO.cpp">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Label.cpp">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Margin.cpp">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Array.cpp">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\BufferTooSmallException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\Exception.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\InvalidParametersException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\LimitExceededException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\ParseException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\StdException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\StringException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\SystemException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\FileIO\BasicFile.cpp">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\FileIO\FileException.cpp">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\FileIO\FileIO.cpp">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Memory\AlignedMalloc.cpp">
+      <Filter>PublicLibs\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\StringTools\Unicode.cpp">
+      <Filter>PublicLibs\StringTools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\StringTools\ToString.cpp">
+      <Filter>PublicLibs\StringTools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\ArithmeticException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\AlgorithmFailedException.cpp">
+      <Filter>PublicLibs\Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +307,84 @@
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_intrinsics_AVX512.h">
       <Filter>Source\DigitConverter\u64d19</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\CompilerSettings\Compiler_GCC.h">
+      <Filter>PublicLibs\CompilerSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\CompilerSettings\Compiler_VSC.h">
+      <Filter>PublicLibs\CompilerSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\BasicIO.h">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\Label.h">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\Margin.h">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\Array.h">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\BufferTooSmallException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\BufferTooSmallThrower.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\Exception.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\InvalidParametersException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\LimitExceededException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\ParseException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\StdException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\StringException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\SystemException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ExportSafeLibs\Stream.h">
+      <Filter>PublicLibs\ExportSafeLibs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\BasicFile.h">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\FileException.h">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\FileIO.h">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\BaseFile_Default.h">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\BaseFile_Windows.h">
+      <Filter>PublicLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Memory\AlignedMalloc.h">
+      <Filter>PublicLibs\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\StringTools\ToString.h">
+      <Filter>PublicLibs\StringTools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\StringTools\Unicode.h">
+      <Filter>PublicLibs\StringTools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\ArithmeticException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\AlgorithmFailedException.h">
+      <Filter>PublicLibs\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_Default.ipp">
@@ -305,6 +464,24 @@
     </None>
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64d19\u64d19_forward_convert_AVX512.ipp">
       <Filter>Source\DigitConverter\u64d19</Filter>
+    </None>
+    <None Include="..\..\Source\PublicLibs\ConsoleIO\ConsoleIO_Posix.ipp">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </None>
+    <None Include="..\..\Source\PublicLibs\ConsoleIO\ConsoleIO_Windows.ipp">
+      <Filter>PublicLibs\ConsoleIO</Filter>
+    </None>
+    <None Include="..\..\Source\PublicLibs\FileIO\BaseFile_Windows.ipp">
+      <Filter>PublicLibs\FileIO</Filter>
+    </None>
+    <None Include="..\..\Source\PublicLibs\FileIO\FileIO_Default.ipp">
+      <Filter>PublicLibs\FileIO</Filter>
+    </None>
+    <None Include="..\..\Source\PublicLibs\FileIO\FileIO_WinAPI.ipp">
+      <Filter>PublicLibs\FileIO</Filter>
+    </None>
+    <None Include="..\..\Source\PublicLibs\FileIO\BaseFile_Default.ipp">
+      <Filter>PublicLibs\FileIO</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/FileIO/FileException.h"
 #include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
 #include "YCDFileWriter.h"
@@ -129,9 +129,10 @@ YCDFileWriter::YCDFileWriter(
     upL_t size = header.size();
     if (file.write(&header[0], size) != size){
         FileIO::PrintLastError();
-        throw ym_exception(
-            "Error writing to file.\n" + path_,
-            FileIO::GetLastErrorCode()
+        throw FileIO::FileException(
+            "YCDFileWriter::YCDFileWriter()",
+            path,
+            "Error writing to file."
         );
     }
 
@@ -146,7 +147,7 @@ YCDFileWriter::YCDFileWriter(
             fp_convert = h16f_to_u64r;
             break;
         default:
-            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+            throw FileIO::FileException("YCDFileWriter::YCDFileWriter()", path_, "Unsupported Radix");
     }
 
     words_per_file = (digits_per_file - 1) / digits_per_word + 1;
@@ -154,8 +155,9 @@ YCDFileWriter::YCDFileWriter(
 }
 void YCDFileWriter::close(){
     //  The object isn't valid anyway.
-    if (!file.is_open())
+    if (!file.is_open()){
         return;
+    }
 
     //  Flush buffer
     flush();
@@ -172,9 +174,10 @@ void YCDFileWriter::close(){
             //  Normally you can't recover from it anyway, but you can always
             //  call this function before you destruct.
             FileIO::PrintLastError();
-            throw ym_exception(
-                "Error writing to file.\n" + path,
-                FileIO::GetLastErrorCode()
+            throw FileIO::FileException(
+                "YCDFileWriter::close()",
+                path,
+                "Error writing to file."
             );
         }
     }
@@ -189,14 +192,19 @@ bool YCDFileWriter::isValid() const{
 ////////////////////////////////////////////////////////////////////////////////
 void YCDFileWriter::write_words(u64_t* T, upL_t L){
     if (pos_word + L > words_per_file)
-        throw ym_exception("Attempted to write beyond the range of this file.", YCR_DIO_ERROR_INTERNAL);
+        throw FileIO::FileException(
+            "YCDFileWriter::write_words()",
+            file.GetPath(),
+            "Attempted to write beyond the range of this file."
+        );
 
     upL_t bytes = L * sizeof(u64_t);
     if (file.write(T, bytes) != bytes){
         FileIO::PrintLastError();
-        throw ym_exception(
-            "Error writing to file.\n" + path,
-            FileIO::GetLastErrorCode()
+        throw FileIO::FileException(
+            "YCDFileWriter::write_words()",
+            path,
+            "Error writing to file."
         );
     }
 }
@@ -213,7 +221,11 @@ upL_t YCDFileWriter::write_chars(
     //  If the end of the file is reached, the file is closed.
 
     if (!file.is_open())
-        throw ym_exception("This file is already closed.", YCR_DIO_ERROR_INTERNAL);
+        throw FileIO::FileException(
+            "YCDFileWriter::write_chars()",
+            path,
+            "This file is already closed."
+        );
 
     upL_t start_digits = digits;
 
@@ -255,15 +267,17 @@ upL_t YCDFileWriter::write_chars(
         upL_t current_digits = digits;
 
         //  Don't overrun the file.
-        if (current_digits > file_left)
+        if (current_digits > file_left){
             current_digits = (upL_t)file_left;
+        }
 
         //  Get # of words.
         upL_t words = current_digits / digits_per_word;
 
         //  Don't overrun the buffer.
-        if (words > buffer_L)
+        if (words > buffer_L){
             words = buffer_L;
+        }
 
         current_digits = words * digits_per_word;
 
@@ -282,12 +296,14 @@ void YCDFileWriter::flush(){
     //  Should only be called at the end of a file.
 
     //  Nothing buffered
-    if (buffered == 0)
+    if (buffered == 0){
         return;
+    }
 
     //  Write zeros to rest of buffer
-    while (buffered < digits_per_word)
+    while (buffered < digits_per_word){
         str_buffer[buffered++] = 0;
+    }
 
     //  Flush
     u64_t tmp;

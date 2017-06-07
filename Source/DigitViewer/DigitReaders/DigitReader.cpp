@@ -13,7 +13,8 @@
 //  Dependencies
 #include <string.h>
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/Exceptions/StringException.h"
+#include "PublicLibs/FileIO/FileException.h"
 #include "DigitViewer/Globals.h"
 #include "DigitReader.h"
 #include "TextReader.h"
@@ -43,7 +44,7 @@ void DigitReader::clear_buffer(){
 void DigitReader::set_pos(uiL_t offset){
     uiL_t total_digits = get_digits();
     if (total_digits != 0 && offset > total_digits){
-        throw ym_exception("Out of range.", YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw StringException("DigitReader::set_pos()", "Out of range.");
     }
 
     //  Set the offset
@@ -92,10 +93,10 @@ YM_NO_INLINE void DigitReader::reload(){
 
     uiL_t total_digits = get_digits();
     if (total_digits == 0){
-        throw ym_exception(
+        throw StringException(
+            "DigitReader::reload()", 
             "DigitReader::reload() does not support unknown sizes.\n"
-            "You must override this function when total_digits could be 0.",
-            YCR_DIO_ERROR_INTERNAL
+            "You must override this function when total_digits could be 0."
         );
     }
 
@@ -105,7 +106,7 @@ YM_NO_INLINE void DigitReader::reload(){
     if (start >= total_digits){
         std::string error("No more digits left: ");
         error += std::to_string(total_digits);
-        throw ym_exception(std::move(error), YCR_DIO_ERROR_NO_DIGITS_LEFT);
+        throw StringException("DigitReader::reload()", std::move(error));
     }
 
     //  Near the end. Read the rest and fill only part of the buffer.
@@ -130,7 +131,7 @@ std::unique_ptr<DigitReader> OpenDigitFile(std::string path, bool raw, upL_t buf
     //  Extract the extension
     size_t extension_offset = path.rfind('.');
     if (extension_offset >= path.size()){
-        throw ym_exception("No Extension found." + path);
+        throw FileIO::FileException("OpenDigitFile()", path, "No Extension found.");
     }
     std::string extension = path.substr(extension_offset);
 
@@ -140,7 +141,7 @@ std::unique_ptr<DigitReader> OpenDigitFile(std::string path, bool raw, upL_t buf
     }else if (extension == ".ycd"){
         return std::unique_ptr<DigitReader>(new YCDReader(std::move(path), raw, buffer_size));
     }else{
-        throw ym_exception("Unrecognized Extension: " + extension);
+        throw FileIO::FileException("OpenDigitFile()", path, "Unrecognized Extension: " + extension);
     }
 }
 ////////////////////////////////////////////////////////////////////////////////

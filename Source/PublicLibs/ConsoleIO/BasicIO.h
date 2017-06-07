@@ -34,6 +34,7 @@ void CompileOptions();
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Core
+uiL_t sequence_number();
 YM_NO_INLINE    upL_t   print   (const std::string& str, char color = ' ');
 YM_NO_INLINE    upL_t   print   (const std::wstring& str, char color = ' ');
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,12 +48,12 @@ YM_NO_INLINE    bool    SetConsoleWindowSize(int width = 80, int height = 25);
 extern bool EnableColors;
 ////////////////////////////////////////////////////////////////////////////////
 //  Basic Derived
-YM_NO_INLINE    upL_t   println ();
+YM_NO_INLINE    upL_t   println     ();
 YM_NO_INLINE    upL_t   println     (std::string str, char color = ' ');
 YM_NO_INLINE    upL_t   println     (std::wstring str, char color = ' ');
 YM_NO_INLINE    void    ClearLine   (int characters = 79);
 YM_NO_INLINE    void    Warning     (std::string str, bool sticky = false);
-[[noreturn]] YM_NO_INLINE void Quit(int code);
+[[noreturn]] YM_NO_INLINE void Quit (int code);
 ////////////////////////////////////////////////////////////////////////////////
 //  Integer
 YM_NO_INLINE    upL_t   print           (uiL_t x, char color = ' ');

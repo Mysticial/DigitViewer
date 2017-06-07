@@ -186,7 +186,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -204,7 +204,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -224,7 +224,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
@@ -245,7 +245,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -266,7 +266,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_04_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;X64_04_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -286,7 +286,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_07_Penryn;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;X64_07_Penryn;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -306,7 +306,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_13_Haswell;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;X64_13_Haswell;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -326,7 +326,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_04_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;X64_04_SSE3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -347,7 +347,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_07_Penryn;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;X64_07_Penryn;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -367,7 +367,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;X64_13_Haswell;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;YMP_DIGITVIEWER_STANDALONE;NDEBUG;_CONSOLE;_LIB;X64_13_Haswell;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Source</AdditionalIncludeDirectories>
@@ -406,7 +406,27 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='13-Haswell|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Source\PublicLibs\SMC_PublicLibs.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\CompileOptions_PublicLibs.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Array.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\BasicIO.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Label.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Margin.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\AlgorithmFailedException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\ArithmeticException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\BufferTooSmallException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\Exception.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\InvalidParametersException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\LimitExceededException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\ParseException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\StdException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\StringException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Exceptions\SystemException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\FileIO\BasicFile.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\FileIO\FileException.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\FileIO\FileIO.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\Memory\AlignedMalloc.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\StringTools\ToString.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\StringTools\Unicode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec.h" />
@@ -456,6 +476,32 @@
     <ClInclude Include="..\..\Source\DigitViewer\Menu_DigitViewer.h" />
     <ClInclude Include="..\..\Source\DigitViewer\PrintHelpers.h" />
     <ClInclude Include="..\..\Source\DigitViewer\x86_SSE2.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\CompilerSettings\Compiler_GCC.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\CompilerSettings\Compiler_VSC.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\Array.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\BasicIO.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\Label.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ConsoleIO\Margin.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\AlgorithmFailedException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\ArithmeticException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\BufferTooSmallException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\BufferTooSmallThrower.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\Exception.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\InvalidParametersException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\LimitExceededException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\ParseException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\StdException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\StringException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Exceptions\SystemException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ExportSafeLibs\Stream.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\BaseFile_Default.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\BaseFile_Windows.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\BasicFile.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\FileException.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\FileIO\FileIO.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\Memory\AlignedMalloc.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\StringTools\ToString.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\StringTools\Unicode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\DigitViewer\DigitConverter\rawdec\rawdec_forward_convert_AVX2.ipp" />
@@ -484,6 +530,12 @@
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_forward_convert_SSE41.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_convert_Default.ipp" />
     <None Include="..\..\Source\DigitViewer\DigitConverter\u64h16\u64h16_inverse_convert_SSE2.ipp" />
+    <None Include="..\..\Source\PublicLibs\ConsoleIO\ConsoleIO_Posix.ipp" />
+    <None Include="..\..\Source\PublicLibs\ConsoleIO\ConsoleIO_Windows.ipp" />
+    <None Include="..\..\Source\PublicLibs\FileIO\BaseFile_Default.ipp" />
+    <None Include="..\..\Source\PublicLibs\FileIO\BaseFile_Windows.ipp" />
+    <None Include="..\..\Source\PublicLibs\FileIO\FileIO_Default.ipp" />
+    <None Include="..\..\Source\PublicLibs\FileIO\FileIO_WinAPI.ipp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

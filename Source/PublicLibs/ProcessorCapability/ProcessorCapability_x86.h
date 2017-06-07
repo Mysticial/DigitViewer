@@ -14,10 +14,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #if 0
-#elif defined X64_17_Cannonlake
-#define YMP_Arch_2017_x64_Cannonlake
+#elif defined X64_18_Cannonlake
+#define YMP_Arch_2018_x64_Cannonlake
 #elif defined X64_17_Skylake
 #define YMP_Arch_2017_x64_Skylake
+#elif defined X64_17_Zen
+#define YMP_Arch_2014_x64_Broadwell
 #elif defined X64_16_KnightsLanding
 #define YMP_Arch_2016_x64_KnightsLanding
 #elif defined X64_14_Broadwell
@@ -39,7 +41,7 @@
 #endif
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef YMP_Arch_2017_x64_Cannonlake
+#ifdef YMP_Arch_2018_x64_Cannonlake
 #define YMP_Arch_2017_x64_Skylake
 #endif
 

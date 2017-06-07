@@ -1,4 +1,4 @@
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/Exceptions/Exception.h"
 #include "DigitViewerUI.h"
 using namespace ymp;
 
@@ -8,7 +8,7 @@ int main(){
         //  Launch the main menu.
         DigitViewer::Menu_Main();
 
-    }catch (ym_exception &e){
+    }catch (Exception &e){
         e.print();
     }catch (std::exception &e){
         Console::print(e.what());

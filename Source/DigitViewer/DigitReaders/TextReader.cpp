@@ -11,9 +11,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include "PublicLibs/ConsoleIO/BasicIO.h"
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/FileIO/FileIO.h"
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/Exceptions/StringException.h"
+#include "PublicLibs/FileIO/FileException.h"
 #include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
 #include "TextReader.h"
@@ -49,7 +51,11 @@ TextReader::TextReader(
     while (1){
         char ch;
         if (m_file.read(&ch, 1) != 1){
-            throw ym_exception("Unexpected End of File\n" + path, FileIO::GetLastErrorCode());
+            throw FileIO::FileException(
+                "TextReader::TextReader()",
+                path,
+                "Unexpected End of File"
+            );
         }
 
         c++;
@@ -58,9 +64,10 @@ TextReader::TextReader(
             break;
         }
         if (c == 63){
-            throw ym_exception(
-                "A decimal place was not found within the first 63 bytes of the file.",
-                YCR_DIO_ERROR_NO_DECIMAL_PLACE
+            throw FileIO::FileException(
+                "TextReader::TextReader()",
+                path,
+                "A decimal place was not found within the first 63 bytes of the file."
             );
         }
     }
@@ -116,7 +123,7 @@ void TextReader::set_raw(bool raw){
                 fp_convert = hex_to_raw;
                 break;
             default:
-                throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+                throw StringException("TextReader::set_raw()", "Unsupported Radix");
         };
     }else{
         //  User wants output to be text.
@@ -128,13 +135,13 @@ void TextReader::set_raw(bool raw){
                 fp_convert = nullptr;
                 break;
             default:
-                throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+                throw StringException("TextReader::set_raw()", "Unsupported Radix");
         };
     }
 }
 bool TextReader::check_range(uiL_t start, uiL_t end){
     if (start >= end){
-        throw ym_exception("Invalid Parameters", YCR_DIO_ERROR_INVALID_PARAMETERS);
+        throw StringException("TextReader::check_range()", "Invalid Parameters");
     }
     if (start >= m_total_digits){
         return false;
@@ -163,12 +170,12 @@ void TextReader::read(uiL_t pos, char* str, upL_t digits){
 
     //  Ends past the end.
     if (end > m_total_digits){
-        throw ym_exception("Out of range.", YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw StringException("TextReader::read()", "Out of range.");
     }
 
     m_file.set_ptr(m_dp_offset + static_cast<ufL_t>(pos));
     if (m_file.read(str, digits) != digits){
-        throw ym_exception("Error Reading from File", FileIO::GetLastErrorCode());
+        throw StringException("TextReader::read()", "Error Reading from File");
     }
 
     //  Convert
@@ -178,7 +185,7 @@ void TextReader::read(uiL_t pos, char* str, upL_t digits){
             error += std::to_string(pos);
             error += " - ";
             error += std::to_string(pos + digits);
-            throw ym_exception(std::move(error), YCR_DIO_ERROR_INVALID_DIGIT);
+            throw StringException("TextReader::read()", std::move(error));
         }
     }
 }
@@ -194,7 +201,7 @@ void TextReader::set_radix(int radix){
         case 16:
             break;
         default:
-            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+            throw StringException("TextReader::set_radix()", "Unsupported Radix");
     }
     m_radix = radix;
     if (fp_convert != nullptr){
@@ -231,7 +238,7 @@ void TextReader::auto_detect_radix(){
             break;
         }
 
-        throw ym_exception("Invalid Digit");
+        throw StringException("TextReader::auto_detect_radix()", "Invalid Digit");
     }
 
     set_radix(radix);

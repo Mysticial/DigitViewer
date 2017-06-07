@@ -12,7 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/FileIO/FileException.h"
 #include "PublicLibs/Memory/AlignedMalloc.h"
 #include "DigitViewer/Globals.h"
 #include "DigitViewer/DigitReaders/YCDReader.h"
@@ -70,14 +70,18 @@ YCDWriter::YCDWriter(
     , fp_free(deallocator)
 {
     if (buffer_size < 4096){
-        throw ym_exception("Requested buffer size is too small.", YCR_DIO_ERROR_INVALID_PARAMETERS);
+        throw FileIO::FileException(
+            "YCDWriter::YCDWriter()",
+            path,
+            "Requested buffer size is too small."
+        );
     }
 
     switch (m_radix){
         case 16: break;
         case 10: break;
         default:
-            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+            throw FileIO::FileException("YCDWriter::YCDWriter()", path, "Unsupported Radix");
     }
 
     //  Make sure path ends in a slash.
@@ -98,7 +102,7 @@ YCDWriter::YCDWriter(
     m_bin_buffer_L = buffer_size / sizeof(u64_t);
     if (buffer == nullptr){
         m_external_buffer = false;
-        m_bin_buffer = (u64_t*)AlignedMalloc(m_bin_buffer_L * sizeof(u64_t), 2*sizeof(u64_t));
+        m_bin_buffer = (u64_t*)aligned_malloc(m_bin_buffer_L * sizeof(u64_t), 2*sizeof(u64_t));
     }else{
         m_external_buffer = true;
         m_bin_buffer = buffer;
@@ -111,7 +115,7 @@ void YCDWriter::free_buffer(){
 
     //  Internally allocated.
     if (!m_external_buffer){
-        AlignedFree(m_bin_buffer);
+        aligned_free(m_bin_buffer);
     }
 
     //  Preallocated with manual deallocator.
@@ -144,8 +148,9 @@ void YCDWriter::write(char* str, upL_t digits){
 
         //  Write digits
         upL_t written = m_file.write_chars(str, digits, m_bin_buffer, m_bin_buffer_L);
-        if (written == digits)
+        if (written == digits){
             return;
+        }
 
         digits -= written;
         str    += written;

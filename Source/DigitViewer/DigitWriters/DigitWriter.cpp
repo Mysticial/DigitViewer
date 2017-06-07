@@ -30,7 +30,7 @@ DigitWriter::DigitWriter()
     , m_iter_b_offset(m_buffer_L)
 {}
 DigitWriter::~DigitWriter(){
-    AlignedFree(m_buffer);
+    aligned_free(m_buffer);
 }
 void DigitWriter::push(const char* str, upL_t digits){
     while (digits > 0){
@@ -53,7 +53,7 @@ void DigitWriter::push(const char* str, upL_t digits){
 }
 void DigitWriter::make_buffer(){
     upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER;
-    m_buffer = (char*)AlignedMalloc(buffer_size, 2*sizeof(u64_t));
+    m_buffer = (char*)aligned_malloc(buffer_size, 2*sizeof(u64_t));
 
     //  Do this assignment last - just in case the above throws.
     m_buffer_L = buffer_size;

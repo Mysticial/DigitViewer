@@ -73,6 +73,9 @@ YM_NO_INLINE std::string tostr_u_bytes(uiL_t bytes){
 
     std::string out;
     if (bytes < 1000){
+        if (bytes < 10){
+            out += " ";
+        }
         out += std::to_string(bytes);
         out += BYTE_NAMES[0];
         return out;
@@ -165,10 +168,11 @@ YM_NO_INLINE std::string tostr_u_bytes(uiL_t bytes){
     }
 }
 YM_NO_INLINE std::string tostr_s_bytes(siL_t bytes){
-    if (bytes < 0)
+    if (bytes < 0){
         return std::string("-") + tostr_u_bytes(-bytes);
-    else
+    }else{
         return tostr_u_bytes(bytes);
+    }
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

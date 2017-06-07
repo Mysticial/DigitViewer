@@ -14,15 +14,20 @@
 #include "ConsoleIO/Label.cpp"
 #include "ConsoleIO/Array.cpp"
 
-//#include "Time/Time.cpp"
-//#include "Time/StopWatch.cpp"
+#include "Time/Time.cpp"
+#include "Time/StopWatch.cpp"
 
 #include "Memory/AlignedMalloc.cpp"
+#include "ManagedMemory/CppAllocator.cpp"
+
+#include "FileIO/FileException.cpp"
 #include "FileIO/FileIO.cpp"
 #include "FileIO/BasicFile.cpp"
-//#include "Serialization/Serialization.cpp"
+#include "Serialization/Serialization.cpp"
+#include "Exceptions/SMC_Exceptions.cpp"
 
-//#include "Environment/Environment.cpp"
+#include "Environment/Environment.cpp"
+#include "Concurrency/Parallelizers.cpp"
 
-//#include "CompileOptions_PublicLibs.cpp"
+#include "CompileOptions_PublicLibs.cpp"
 

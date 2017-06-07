@@ -36,7 +36,7 @@ const upL_t BUFFER_CHECK_TOP = 0xc72bf73f0559cfe4;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void* AlignedMalloc(upL_t bytes, upL_t align){
+void* aligned_malloc(upL_t bytes, upL_t align){
     if (align < sizeof(upL_t)){
         align = sizeof(upL_t);
     }
@@ -73,7 +73,7 @@ void* AlignedMalloc(upL_t bytes, upL_t align){
 
     return ret;
 }
-void AlignedFree(void *ptr){
+void aligned_free(void *ptr){
     if (ptr == nullptr){
         return;
     }

@@ -13,8 +13,11 @@
 //  Dependencies
 #include <string.h>
 #include "PublicLibs/CompilerSettings.h"
+#include "PublicLibs/ConsoleIO/BasicIO.h"
+#include "PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/Exceptions/StringException.h"
 #include "PublicLibs/FileIO/FileIO.h"
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/FileIO/FileException.h"
 #include "DigitViewer/Globals.h"
 #include "YCDFileReader.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,12 +37,15 @@ std::string grab_until_delim(FileIO::BasicFile* file, char delim){
 
     char ch;
     do{
-        if (file->read(&ch, 1) == 0)
-            throw ym_exception("Unexpected End of File\n" + file->GetPath(), FileIO::GetLastErrorCode());
-        if (ch == '\r')
+        if (file->read(&ch, 1) == 0){
+            throw FileIO::FileException("grab_until_delim()", file->GetPath(), "Unexpected End of File");
+        }
+        if (ch == '\r'){
             continue;
-        if (ch == delim)
+        }
+        if (ch == delim){
             return out;
+        }
         out += ch;
     }while (1);
 }
@@ -49,10 +55,12 @@ const char* grab_until_delim(std::string& token, const char* str, char delim){
     char ch;
     do{
         ch = *str++;
-        if (ch == '\r')
+        if (ch == '\r'){
             continue;
-        if (ch == delim || ch == '\0')
+        }
+        if (ch == delim || ch == '\0'){
             return str;
+        }
         token += ch;
     }while (1);
 }
@@ -94,7 +102,7 @@ YCDFileReader::YCDFileReader(std::string path_)
         do{
             if (file.read(&ch, 1) == 0){
                 FileIO::PrintLastError();
-                throw ym_exception("Invalid File Format\n" + path, FileIO::GetLastErrorCode());
+                throw FileIO::FileException("YCDFileReader::YCDFileReader()", path, "Invalid File Format");
             }
         }while (ch != '\n');
     }
@@ -167,7 +175,7 @@ YCDFileReader::YCDFileReader(std::string path_)
     ufL_t c = 0;
     while (1){
         if (file.read(&ch, 1) == 0){
-            throw ym_exception("Error Reading File", FileIO::GetLastErrorCode());
+            throw FileIO::FileException("YCDFileReader::YCDFileReader()", path, "Error Reading File");
         }
         c++;
         if (ch == '\0')
@@ -177,20 +185,20 @@ YCDFileReader::YCDFileReader(std::string path_)
 
     //  Check Version
     if (file_version.size() == 0){
-        throw ym_exception("No version # found.\n" + path, YCR_DIO_ERROR_INVALID_FILE);
+        throw FileIO::FileException("YCDFileReader::YCDFileReader()", path, "No version # found.");
     }
     if (file_version != "1.0.0" && file_version != "1.1.0"){
-        throw ym_exception(
+        throw FileIO::FileException(
+            "YCDFileReader::YCDFileReader()",
+            path,
             "This .ycd file is of a later format version.\n"
-            "This version of the digit viewer is unable to view this file.\n"
-            + path,
-            YCR_DIO_ERROR_INVALID_FILE
+            "This version of the digit viewer is unable to view this file."
         );
     }
 
     //  Other checks
     if (digits_per_file < 100){
-        throw ym_exception("Invalid Digits per File", YCR_DIO_ERROR_INVALID_FILE);
+        throw FileIO::FileException("YCDFileReader::YCDFileReader()", path, "Invalid Digits per File");
     }
 
     if (total_digits != 0 && digits_per_file > total_digits)
@@ -211,7 +219,7 @@ YCDFileReader::YCDFileReader(std::string path_)
             error += "Total Digits: ";
             error += std::to_string(total_digits);
             error += "\n";
-            throw ym_exception(error, YCR_DIO_ERROR_OUT_OF_RANGE);
+            throw FileIO::FileException("YCDFileReader::YCDFileReader()", path, error);
         }
         if (block_end > total_digits){
             block_end = total_digits;
@@ -230,7 +238,7 @@ YCDFileReader::YCDFileReader(std::string path_)
             words_in_this_file = (block_digits - 1) / 16 + 1;
             break;
         default:
-            throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+            throw FileIO::FileException("YCDFileReader::YCDFileReader()", path, "Unsupported Radix");
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +288,7 @@ void YCDFileReader::read_words(ufL_t pos, u64_t* T, upL_t L){
         error += std::to_string(0);
         error += " - ";
         error += std::to_string(words_in_this_file);
-        throw ym_exception(error, YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw FileIO::FileException("YCDFileReader::read_words()", path, error);
     }
 
     //  Set file pointer
@@ -289,7 +297,7 @@ void YCDFileReader::read_words(ufL_t pos, u64_t* T, upL_t L){
     //  Read
     upL_t words_read = file.read(T, L * sizeof(u64_t)) / sizeof(u64_t);
     if (words_read != L){
-        throw ym_exception("Error Reading File", FileIO::GetLastErrorCode());
+        throw FileIO::FileException("YCDFileReader::read_words()", path, "Error Reading File");
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -313,14 +321,16 @@ void YCDFileReader::read_chars(
     //  -   (buffer, buffer_L)  -   Scratch memory
     //  -   fp_convert          -   Function pointer for binary -> char conversion.
 
-    if (digits == 0)
+    if (digits == 0){
         return;
+    }
 
     //  Get boundaries
     uiL_t block_start = digits_per_file * file_id;
     uiL_t block_end   = block_start + digits_per_file;
-    if (total_digits != 0 && block_end > digits_per_file)
+    if (total_digits != 0 && block_end > digits_per_file){
         block_end = total_digits;
+    }
 
     //  Check boundaries
     if (pos + digits > block_end || pos < block_start){
@@ -334,7 +344,7 @@ void YCDFileReader::read_chars(
         error += std::to_string(block_start);
         error += " - ";
         error += std::to_string(block_end);
-        throw ym_exception(error, YCR_DIO_ERROR_OUT_OF_RANGE);
+        throw FileIO::FileException("YCDFileReader::read_chars()", path, error);
     }
 
     //  Local digit range.

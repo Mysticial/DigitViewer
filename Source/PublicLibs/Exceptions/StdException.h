@@ -1,33 +1,33 @@
-/* FileException.h
+/* StdException.h
  * 
  * Author           : Alexander J. Yee
- * Date Created     : 09/17/2014
- * Last Modified    : 04/11/2017
+ * Date Created     : 04/14/2017
+ * Last Modified    : 04/14/2017
  * 
  */
 
 #pragma once
-#ifndef ymp_FileIO_FileException_H
-#define ymp_FileIO_FileException_H
+#ifndef ymp_Exceptions_StdException_H
+#define ymp_Exceptions_StdException_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <string>
-#include "PublicLibs/Exceptions/Exception.h"
+#include "Exception.h"
 namespace ymp{
-namespace FileIO{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-class FileException : public Exception{
+class StdException : public Exception{
 public:
     static const char TYPENAME[];
 
-    FileException(const char* function, std::string path, std::string message);
-    FileException(int code, const char* function, std::string path, std::string message);
+    YM_NO_INLINE StdException();
+    YM_NO_INLINE StdException(const char* message);
+    YM_NO_INLINE StdException(std::string message);
 
 public:
     [[noreturn]] virtual void fire() const override{
@@ -37,24 +37,24 @@ public:
         return TYPENAME;
     }
     virtual Exception* clone() const override{
-        return new FileException(*this);
+        return new StdException(*this);
     }
     virtual void print() const override;
 
+    const std::string& message() const{
+        return m_message;
+    }
+
 public:
-    FileException(const DllSafeStream& data);
+    StdException(const DllSafeStream& data);
     virtual DllSafeStream serialize() const override;
 
 protected:
-    std::string m_function;
     std::string m_message;
-    std::string m_path;
-    int m_code;
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-}
 }
 #endif

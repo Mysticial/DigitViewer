@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "PublicLibs/Exception.h"
+#include "PublicLibs/FileIO/FileException.h"
 #include "DigitViewer/Globals.h"
 #include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/DigitReaders/TextReader.h"
@@ -39,8 +39,9 @@ TextWriter::TextWriter(
     //  Write the first digits.
     if (first_digits.size() != 0){
         upL_t decimal_offset = first_digits.find('.');
-        if (decimal_offset == std::string::npos)
-            throw ym_exception("No decimal place was found.", YCR_DIO_ERROR_INVALID_PARAMETERS);
+        if (decimal_offset == std::string::npos){
+            throw FileIO::FileException("TextWriter::TextWriter()", path, "No decimal place was found.");
+        }
         m_file.write(first_digits.c_str(), decimal_offset + 1);
     }
 
@@ -53,7 +54,7 @@ TextWriter::TextWriter(
                 fp_convert = raw_to_hex;
                 break;
             default:
-                throw ym_exception("Unsupported Radix", YCR_DIO_ERROR_INVALID_BASE);
+                throw FileIO::FileException("TextWriter::TextWriter()", path, "Unsupported Radix");
         }
     }
 }
@@ -88,9 +89,10 @@ void TextWriter::write(char* str, upL_t digits){
     //  Write to disk.
     if (m_file.write(str, digits) != digits){
         FileIO::PrintLastError();
-        throw ym_exception(
-            "Error writing to file.\n" + m_file.GetPath(),
-            FileIO::GetLastErrorCode()
+        throw FileIO::FileException(
+            "TextWriter::write()",
+            m_file.GetPath(),
+            "Error writing to file."
         );
     }
 }
