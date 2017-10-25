@@ -4,17 +4,23 @@ y-cruncher's Digit Viewer
 This is the full self-contained source code for y-cruncher's integrated Digit Viewer.<br>
 It includes everything including the heavily optimized back-end conversion code.
 
-To Compile (Windows):
+This Digit Viewer can also be found inside y-cruncher: https://github.com/Mysticial/y-cruncher/tree/master/trunk/VSS%20-%20DigitViewer
+
+-----
+
+**Compile Instructions:**
+
+Windows:
  - Open the Visual Studio project and compile from within the IDE.
  - Visual Studio 2015 is required.
 
-To Compile (Linux):
+Linux:
  - Run `VSS - DigitViewer/Compile-Linux.sh` from the directory it is in. It will create a folder `Binaries` with the three executables.
  - x64 and a sufficiently new version of GCC is required.
 
 -----
 
-The supported build modes are:
+**Build Modes:**
 
  - x86 : Release
  - x86 : 04-SSE3
