@@ -62,6 +62,8 @@ Because buffering has been removed, the new classes will be harder to use casual
 
  - All computational operations are now fully parallelized.
  - All computational operations are now fully vectorized for everything from SSE2 through AVX512.
+ - Faster decompression of decimal digits by means of an integer invariant-multiply method.
+ - Faster digit counts by brute-force parallel SIMD histogramming.
  - Cache blocking optimizations to reduce bandwidth consumption.
 
 y-cruncher v0.7.5 has already picked up a subset of these optimizations when writing out digits to disk at the end of a computation. The rest will be in v0.7.6.
@@ -75,7 +77,7 @@ y-cruncher v0.7.5 has already picked up a subset of these optimizations when wri
 
 
 **To-Do's for the Future:**
- - Enable drive parallelism. When digits are distributed over multiple storage devices, they can be processed in parallel. This will require reading the storage topology. It will also require algorithm to do the actual parallelism when given a specific topology.
+ - Enable drive parallelism. When digits are distributed over multiple storage devices, they can be processed in parallel. This will require reading the storage topology. It will also require an algorithm to do the actual parallelism when given a specific topology.
 
 
 -----
