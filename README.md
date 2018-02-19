@@ -29,7 +29,6 @@ Linux:
  - Run `VSS - DigitViewer/Compile-Linux.sh` from the directory it is in. It will create a folder `Binaries` with the three executables.
  - x64 and a sufficiently new version of GCC is required.
 
------
 
 **Build Modes:**
 
