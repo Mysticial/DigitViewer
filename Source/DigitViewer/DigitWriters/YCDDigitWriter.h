@@ -1,8 +1,8 @@
-/* YCDWriter.h - .ycd Writer Object
+/* YCDDigitWriter.h - .ycd Writer Object
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 07/27/2013
- * Last Modified    : 07/27/2013
+ * Last Modified    : 01/09/2018
  * 
  * 
  *      The YCDWriter object needs yet another internal buffer that is
@@ -14,19 +14,16 @@
  */
 
 #pragma once
-#ifndef ycr_YCDWriter_H
-#define ycr_YCDWriter_H
+#ifndef ydv_DigitViewer_YCDDigitWriter_H
+#define ydv_DigitViewer_YCDDigitWriter_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
+#include "DigitViewer/InjectableBuffer.h"
 #include "DigitWriter.h"
 #include "YCDFileWriter.h"
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,21 +32,12 @@ namespace DigitViewer{
 class YCDWriter : public DigitWriter{
 public:
     virtual ~YCDWriter();
-    virtual std::unique_ptr<DigitReader> close_and_get_reader(upL_t buffer_size) override;
+    virtual std::unique_ptr<DigitReader> close_and_get_reader() override;
 
     //  Create a new writer.
 
     //  digits_per_file:
     //      (uiL_t)0 - 1    =   All digits in one file. Don't split.
-
-    //  buffer_size:    Size of internal buffer.
-    //  buffer:         Use a preallocated buffer?
-    //      If you pass anything non-NULL for this parameter, it will use it as
-    //      the internal buffer with size buffer_size bytes. It will not be
-    //      freed upon destruction of the object.
-    //  deallocator:    Deallocator. This will we called on "buffer" if it
-    //      is preallocated. It will not be called if it is NULL, or if
-    //      "buffer" is not preallocated.
     YCDWriter(
         std::string path,   //  UTF-8
         std::string name,   //  UTF-8
@@ -57,9 +45,7 @@ public:
         ufL_t digits_per_file = (ufL_t)0 - 1,
         uiL_t start_fileid = 0,
         int radix = 10,
-        upL_t buffer_size = YC_DIGITWRITER_DEFAULT_BUFFER,
-        u64_t* buffer = nullptr,
-        void (*deallocator)(void*) = nullptr
+        InjectableBuffer<u64_t> buffer = InjectableBuffer<u64_t>(YC_DIGITWRITER_DEFAULT_BUFFER / sizeof(u64_t))
     );
 
     virtual void write(char* str, upL_t digits) override;
@@ -81,12 +67,8 @@ private:
     YCDFileWriter m_file;
 
     //  Binary Buffer
-    bool m_external_buffer;
-    u64_t* m_bin_buffer;
-    upL_t m_bin_buffer_L;
-    void (*fp_free)(void*);
+    InjectableBuffer<u64_t> m_buffer;
 
-    void free_buffer();
     std::string make_filename(uiL_t fileid);
     void create_file(uiL_t fileid);
 };

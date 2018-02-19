@@ -21,7 +21,7 @@
 #include <immintrin.h>
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/Types.h"
-#include "PublicLibs/ProcessorCapability/ProcessorCapability.h"
+#include "PublicLibs/SystemLibs/ProcessorCapability/ProcessorCapability.h"
 namespace DigitViewer{
 namespace u64d19{
     using namespace ymp;
@@ -73,7 +73,7 @@ YM_FORCE_INLINE void split10_split_words(__m512d& L, __m512d& H, __m512i x){
     //  Split x into upper and lower 32-bits. Return them as floating-point.
 
     __m512i y;
-    __m512d r;
+//    __m512d r;
 
     //  Split x into upper and lower 32-bits.
     //  x = {0L, 0H, 1L, 1H, 2L, 2H, 3L, 3H, 4L, 4H, 5L, 5H, 6L, 6H, 7L, 7H}

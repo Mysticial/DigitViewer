@@ -1,8 +1,8 @@
-/* YCDReader.h - .ycd Reader Object
+/* YCDDigitReader.h - .ycd Reader Object
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 07/13/2013
- * Last Modified    : 07/28/2013
+ * Last Modified    : 01/09/2018
  * 
  * 
  * 
@@ -175,14 +175,15 @@
  */
 
 #pragma once
-#ifndef ycr_YCDReader_H
-#define ycr_YCDReader_H
+#ifndef ydv_DigitViewer_YCDDigitReader_H
+#define ydv_DigitViewer_YCDDigitReader_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <vector>
+#include "DigitViewer/InjectableBuffer.h"
 #include "DigitReader.h"
 #include "YCDFileReader.h"
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,8 +197,6 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 class YCDReader : public DigitReader{
 public:
-    virtual ~YCDReader();
-
     //  Open a new reader. You must pass it the path of any one of the .ycd files.
     //  From there it will take care of the rest.
     //  For ASCII char output, use:   raw = false
@@ -205,8 +204,12 @@ public:
     YCDReader(
         std::string path,   //  UTF-8
         bool raw = false,
-        upL_t buffer_size = YC_DIGITREADER_DEFAULT_BUFFER
+        InjectableBuffer<u64_t> buffer = InjectableBuffer<u64_t>(YC_DIGITREADER_DEFAULT_BUFFER / sizeof(u64_t))
     );
+
+    virtual void set_native_buffer(InjectableBuffer<u64_t> buffer) override;
+    virtual void clear_native_buffer() override;
+
     virtual const char* get_extension() const{
         return "ycd";
     }
@@ -230,29 +233,27 @@ public:
     upL_t               get_num_paths       () const;
 
 private:
-    std::string name;                   //  File name
-    upL_t max_id_length;                //  Max length of id
-    std::vector<std::string> paths;     //  Full path (including the id #)
+    std::string m_name;                 //  File name
+    upL_t m_max_id_length;              //  Max length of id
+    std::vector<std::string> m_paths;   //  Search Paths
 
-    int radix;                          //  Radix of the digits. (10 or 16)
-    void (*fp_convert)(char*, const u64_t*, upL_t);   //  Function pointer for digit conversion.
-    upL_t digits_per_word;
+    int m_radix;                        //  Radix of the digits. (10 or 16)
+    void (*fp_convert)(char*, const u64_t*, upL_t); //  Function pointer for digit conversion.
+    upL_t m_digits_per_word;
 
-    std::string first_digits;           //  First digits
+    std::string m_first_digits;         //  First digits
 
     //  Total # of digits in all the .ycd files.
     //  Total # of digits = 0 indicates extended/unbounded file
-    uiL_t total_digits;
+    uiL_t m_total_digits;
 
-    ufL_t digits_per_file;              //  # of digits per compressed file
-    ufL_t blocks_per_file;              //  # of 64-bit blocks per file
+    ufL_t m_digits_per_file;            //  # of digits per compressed file
+    ufL_t m_blocks_per_file;            //  # of 64-bit blocks per file
 
     YCDFileReader current_file;
 
     //  Binary Buffer
-
-    u64_t* bin_buffer;
-    upL_t bin_buffer_L;
+    InjectableBuffer<u64_t> m_buffer;
 
     virtual void reload();  //  Override
     void load_new_file(std::string path, uiL_t id);

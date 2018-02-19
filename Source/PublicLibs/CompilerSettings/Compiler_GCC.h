@@ -38,6 +38,7 @@ template <typename type> using r_rref = type &&__restrict__;
 //  Warnings
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-value"
 #pragma GCC diagnostic ignored "-Wignored-attributes"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

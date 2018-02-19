@@ -13,7 +13,7 @@
 //  Dependencies
 #include "PublicLibs/ConsoleIO/Label.h"
 #include "PublicLibs/ConsoleIO/Margin.h"
-#include "PublicLibs/ProcessorCapability/ProcessorCapability.h"
+#include "PublicLibs/SystemLibs/ProcessorCapability/ProcessorCapability.h"
 #include "DigitConverter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ namespace DigitViewer{
         Console::println_labelm(MARGIN, "    u32_to_d8", "SSE4.1", 'T');
         Console::println_labelm(MARGIN, "    u64_to_h16", "SSE4.1", 'T');
 #ifdef YMP_Arch_2017_x64_Skylake
-        Console::println_labelm(MARGIN, "    u64_to_d19", "AVX512-DQ", 'y');
+        Console::println_labelm(MARGIN, "    u64_to_d19", "AVX512-DQ", 'r');
 #else
         Console::println_labelm(MARGIN, "    u64_to_d19", "AVX512-F", 'g');
 #endif

@@ -1,4 +1,4 @@
-/* TextWriter.h - .txt Writer Object
+/* TextDigitWriter.h - .txt Writer Object
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 07/25/2013
@@ -7,14 +7,14 @@
  */
 
 #pragma once
-#ifndef ycr_TextWriter_H
-#define ycr_TextWriter_H
+#ifndef ydv_DigitViewer_TextWriter_H
+#define ydv_DigitViewer_TextWriter_H
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "PublicLibs/FileIO/BasicFile.h"
+#include "PublicLibs/SystemLibs/FileIO/BasicFile.h"
 #include "DigitWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ namespace DigitViewer{
 class TextWriter : public DigitWriter{
 public:
     virtual ~TextWriter();
-    virtual std::unique_ptr<DigitReader> close_and_get_reader(upL_t buffer_size) override;
+    virtual std::unique_ptr<DigitReader> close_and_get_reader() override;
 
     //  Create a new writer.
     //  If "first_digits" is not an empty string, all digits before the first

@@ -1,4 +1,4 @@
-/* TextWriter.cpp
+/* TextDigitWriter.cpp
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 07/26/2013
@@ -11,11 +11,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "PublicLibs/FileIO/FileException.h"
+#include "PublicLibs/SystemLibs/FileIO/FileException.h"
 #include "DigitViewer/Globals.h"
 #include "DigitViewer/DigitConverter/DigitConverter.h"
-#include "DigitViewer/DigitReaders/TextReader.h"
-#include "TextWriter.h"
+#include "DigitViewer/DigitReaders/TextDigitReader.h"
+#include "TextDigitWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ TextWriter::TextWriter(
 )
     : m_radix(radix)
     , m_file(0, path)
-    , fp_convert(NULL)
+    , fp_convert(nullptr)
 {
     //  Write the first digits.
     if (first_digits.size() != 0){
@@ -61,7 +61,7 @@ TextWriter::TextWriter(
 TextWriter::~TextWriter(){
     flush_buffer();
 }
-std::unique_ptr<DigitReader> TextWriter::close_and_get_reader(upL_t buffer_size){
+std::unique_ptr<DigitReader> TextWriter::close_and_get_reader(){
     if (m_iter_b_offset != 0){
         write(m_buffer, m_iter_b_offset);
         m_iter_b_offset = 0;

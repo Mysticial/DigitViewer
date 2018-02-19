@@ -1,4 +1,4 @@
-/* yc_TextReader.cpp
+/* TextDigitReader.cpp
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 07/13/2013
@@ -13,12 +13,12 @@
 //  Dependencies
 #include "PublicLibs/ConsoleIO/BasicIO.h"
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/FileIO/FileIO.h"
 #include "PublicLibs/Exceptions/StringException.h"
-#include "PublicLibs/FileIO/FileException.h"
+#include "PublicLibs/SystemLibs/FileIO/FileIO.h"
+#include "PublicLibs/SystemLibs/FileIO/FileException.h"
 #include "DigitViewer/DigitConverter/DigitConverter.h"
 #include "DigitViewer/Globals.h"
-#include "TextReader.h"
+#include "TextDigitReader.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ TextReader::TextReader(
 )
     : m_file(path)
     , m_radix(radix)
-    , fp_convert(NULL)
+    , fp_convert(nullptr)
 {
     //  Auto-detect radix
     if (m_radix == 0){
@@ -152,8 +152,9 @@ bool TextReader::check_range(uiL_t start, uiL_t end){
     return true;
 }
 std::string TextReader::get_first_digits(upL_t L){
-    if (L == 0)
+    if (L == 0){
         return "";
+    }
     m_file.set_ptr(0);
 
     std::string str(L, '\0');
@@ -179,7 +180,7 @@ void TextReader::read(uiL_t pos, char* str, upL_t digits){
     }
 
     //  Convert
-    if (fp_convert != NULL){
+    if (fp_convert != nullptr){
         if (fp_convert(str, digits)){
             std::string error("Invalid Digit: ");
             error += std::to_string(pos);
@@ -225,12 +226,14 @@ void TextReader::auto_detect_radix(){
         }
 
         //  Skip the decimal place.
-        if (ch == '.')
+        if (ch == '.'){
             continue;
+        }
 
         //  Decimal digit
-        if ('0' <= ch && ch <= '9')
+        if ('0' <= ch && ch <= '9'){
             continue;
+        }
 
         //  Hexadecimal digit
         if ('a' <= ch && ch <= 'f'){

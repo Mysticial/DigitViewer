@@ -1,8 +1,8 @@
-/* YCDWriter.cpp
+/* YCDDigitWriter.cpp
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 07/29/2013
- * Last Modified    : 07/29/2013
+ * Last Modified    : 01/09/2018
  * 
  */
 
@@ -12,12 +12,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/FileIO/FileException.h"
-#include "PublicLibs/Memory/AlignedMalloc.h"
+#include "PublicLibs/BasicLibs/Memory/AlignedMalloc.h"
+#include "PublicLibs/SystemLibs/FileIO/FileException.h"
 #include "DigitViewer/Globals.h"
-#include "DigitViewer/DigitReaders/YCDReader.h"
+#include "DigitViewer/DigitReaders/YCDDigitReader.h"
 #include "YCDFileWriter.h"
-#include "YCDWriter.h"
+#include "YCDDigitWriter.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +56,7 @@ YCDWriter::YCDWriter(
     ufL_t digits_per_file_,
     uiL_t start_fileid,
     int radix,
-    upL_t buffer_size,
-    u64_t* buffer,
-    void (*deallocator)(void*)
+    InjectableBuffer<u64_t> buffer
 )
     : m_path(std::move(path))
     , m_name(std::move(name))
@@ -67,9 +65,9 @@ YCDWriter::YCDWriter(
     , m_first_digits(std::move(first_digits))
     , m_digits_per_file(digits_per_file_)
     , m_fileid(start_fileid)
-    , fp_free(deallocator)
+    , m_buffer(std::move(buffer))
 {
-    if (buffer_size < 4096){
+    if (m_buffer.size() < 4096){
         throw FileIO::FileException(
             "YCDWriter::YCDWriter()",
             path,
@@ -98,42 +96,31 @@ YCDWriter::YCDWriter(
         m_path += '/';
         FileIO::MakeDirectory(m_path.c_str());
     }
-
-    m_bin_buffer_L = buffer_size / sizeof(u64_t);
-    if (buffer == nullptr){
-        m_external_buffer = false;
-        m_bin_buffer = (u64_t*)aligned_malloc(m_bin_buffer_L * sizeof(u64_t), 2*sizeof(u64_t));
-    }else{
-        m_external_buffer = true;
-        m_bin_buffer = buffer;
-    }
-}
-void YCDWriter::free_buffer(){
-    if (m_bin_buffer == nullptr){
-        return;
-    }
-
-    //  Internally allocated.
-    if (!m_external_buffer){
-        aligned_free(m_bin_buffer);
-    }
-
-    //  Preallocated with manual deallocator.
-    if (fp_free != nullptr){
-        fp_free(m_bin_buffer);
-    }
-
-    m_bin_buffer = nullptr;
 }
 YCDWriter::~YCDWriter(){
     flush_buffer();
-    free_buffer();
 }
-std::unique_ptr<DigitReader> YCDWriter::close_and_get_reader(upL_t buffer_size){
+std::unique_ptr<DigitReader> YCDWriter::close_and_get_reader(){
     flush_buffer();
-    free_buffer();
     m_file.close();
-    return std::make_unique<YCDReader>(make_filename(m_start_fileid), false, buffer_size);
+#if 0
+    std::unique_ptr<DigitReader> ret(new YCDReader(
+        make_filename(m_start_fileid),
+        false,
+        m_bin_buffer_L * sizeof(u64_t),
+        m_bin_buffer,
+        fp_free
+    ));
+    m_bin_buffer = nullptr;
+#else
+    std::unique_ptr<DigitReader> ret(new YCDReader(
+        make_filename(m_start_fileid),
+        false,
+        0
+    ));
+    m_buffer.clear();
+#endif
+    return ret;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +134,7 @@ void YCDWriter::write(char* str, upL_t digits){
         }
 
         //  Write digits
-        upL_t written = m_file.write_chars(str, digits, m_bin_buffer, m_bin_buffer_L);
+        upL_t written = m_file.write_chars(str, digits, m_buffer, m_buffer.size());
         if (written == digits){
             return;
         }

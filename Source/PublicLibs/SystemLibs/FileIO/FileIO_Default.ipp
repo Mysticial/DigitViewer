@@ -20,9 +20,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
+#include "PublicLibs/BasicLibs/StringTools/ToString.h"
+#include "PublicLibs/BasicLibs/StringTools/Unicode.h"
 #include "PublicLibs/ConsoleIO/Label.h"
-#include "PublicLibs/StringTools/ToString.h"
-#include "PublicLibs/StringTools/Unicode.h"
 #include "FileException.h"
 //#include "FileIO_Default.h"
 #include "BasicFile.h"
@@ -55,7 +55,17 @@ void MakeDirectory(const std::string& path){
 #endif
 }
 void RenameFile(const std::string& oldname, const std::string& newname){
-    while (rename(oldname.c_str(), newname.c_str())){
+    while (true){
+        if (!rename(oldname.c_str(), newname.c_str())){
+            return;
+        }
+
+        remove(newname.c_str());
+
+        if (!rename(oldname.c_str(), newname.c_str())){
+            return;
+        }
+
         Console::Warning("Unable to rename file.", true);
         Console::println(newname);
         Console::println();

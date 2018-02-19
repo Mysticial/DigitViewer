@@ -15,7 +15,7 @@
 #include <windows.h>
 #include <vector>
 #include "PublicLibs/CompilerSettings.h"
-#include "PublicLibs/StringTools/Unicode.h"
+#include "PublicLibs/BasicLibs/StringTools/Unicode.h"
 #include "PublicLibs/ConsoleIO/Label.h"
 #include "FileException.h"
 //#include "FileIO_WinAPI.h"
@@ -72,45 +72,26 @@ void MakeDirectory(const std::string& path){
     _wmkdir(StringTools::utf8_to_wstr(path).c_str());
 }
 void RenameFile(const std::wstring& oldname, const std::wstring& newname){
-    while (1){
-        if (!_wrename(oldname.c_str(), newname.c_str()))
+    while (true){
+        if (!_wrename(oldname.c_str(), newname.c_str())){
             return;
+        }
+
+        _wremove(newname.c_str());
+
+        if (!_wrename(oldname.c_str(), newname.c_str())){
+            return;
+        }
 
         errno_t err;
         _get_errno(&err);
-
-        if (err == EEXIST){
-    //        Console::println("\nWarning: Overwriting existing Checkpoint Swap File...");
-        }else{
-            Console::Warning("Unable to rename file.", true);
-            Console::println_labelc("Error Code", err);
-            Console::println(newname);
-            Console::println();
-            Console::println("Re-attempting...");
-            Console::SetColor('w');
-            continue;
-        }
-
-        if (_wremove(newname.c_str())){
-            _get_errno(&err);
-            Console::Warning("Unable to delete file.", true);
-            Console::println_labelc("Error Code", err);
-            Console::println();
-            Console::println("Re-attempting...");
-            Console::SetColor('w');
-            continue;
-        }
-
-        if (_wrename(oldname.c_str(), newname.c_str())){
-            _get_errno(&err);
-            Console::Warning("Unable to rename file.", true);
-            Console::println_labelc("Error Code", err);
-            Console::println(newname);
-            Console::println();
-            Console::println("Re-attempting...");
-            Console::SetColor('w');
-            continue;
-        }
+        Console::Warning("Unable to rename file.", true);
+        Console::println_labelc("Error Code", err);
+        Console::println(newname);
+        Console::println();
+        Console::println("Re-attempting...");
+        Console::SetColor('w');
+        Console::Pause('w');
     }
 }
 void RenameFile(const std::string& oldname, const std::string& newname){

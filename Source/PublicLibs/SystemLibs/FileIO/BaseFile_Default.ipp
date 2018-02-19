@@ -11,9 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
-#include "PublicLibs/StringTools/Unicode.h"
-#include "PublicLibs/ConsoleIO/BasicIO.h"
-#include "PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/BasicLibs/StringTools/Unicode.h"
 #include "BaseFile_Default.h"
 namespace ymp{
 namespace FileIO{
@@ -26,8 +24,9 @@ bool BaseFile::open(std::string path){
     close();
 
     m_filehandle = fopen(path.c_str(), "rb");
-    if (m_filehandle == nullptr)
+    if (m_filehandle == nullptr){
         return false;
+    }
 
     m_path = std::move(path);
     return true;
@@ -36,8 +35,9 @@ bool BaseFile::create(std::string path, ufL_t bytes){
     close();
 
     m_filehandle = fopen(path.c_str(), "wb+");
-    if (m_filehandle == nullptr)
+    if (m_filehandle == nullptr){
         return false;
+    }
 
     if (bytes != 0){
         //  TODO
@@ -47,8 +47,9 @@ bool BaseFile::create(std::string path, ufL_t bytes){
     return true;
 }
 void BaseFile::close(bool delete_file){
-    if (m_path.empty())
+    if (m_path.empty()){
         return;
+    }
 
     fclose(m_filehandle);
     m_filehandle = nullptr;

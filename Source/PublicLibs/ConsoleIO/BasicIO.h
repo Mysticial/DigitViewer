@@ -55,6 +55,15 @@ YM_NO_INLINE    void    ClearLine   (int characters = 79);
 YM_NO_INLINE    void    Warning     (std::string str, bool sticky = false);
 [[noreturn]] YM_NO_INLINE void Quit (int code);
 ////////////////////////////////////////////////////////////////////////////////
+class ConsoleLock{
+public:
+    ConsoleLock();
+    ~ConsoleLock();
+
+    ConsoleLock(const ConsoleLock&) = delete;
+    void operator=(const ConsoleLock&) = delete;
+};
+////////////////////////////////////////////////////////////////////////////////
 //  Integer
 YM_NO_INLINE    upL_t   print           (uiL_t x, char color = ' ');
 YM_NO_INLINE    upL_t   print           (siL_t x, char color = ' ');

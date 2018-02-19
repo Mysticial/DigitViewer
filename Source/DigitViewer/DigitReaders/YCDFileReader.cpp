@@ -12,64 +12,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <string.h>
+#include <algorithm>
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/ConsoleIO/BasicIO.h"
 #include "PublicLibs/ConsoleIO/Label.h"
 #include "PublicLibs/Exceptions/StringException.h"
-#include "PublicLibs/FileIO/FileIO.h"
-#include "PublicLibs/FileIO/FileException.h"
+#include "PublicLibs/SystemLibs/FileIO/FileIO.h"
+#include "PublicLibs/SystemLibs/FileIO/FileException.h"
 #include "DigitViewer/Globals.h"
+#include "DigitViewer/DigitReaders/ParsingTools.h"
 #include "YCDFileReader.h"
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 namespace DigitViewer{
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-//  Helpers
-std::string grab_until_delim(FileIO::BasicFile* file, char delim){
-    //  Streams characters from "file" into a string until a deliminator is found.
-
-    std::string out;
-
-    char ch;
-    do{
-        if (file->read(&ch, 1) == 0){
-            throw FileIO::FileException("grab_until_delim()", file->GetPath(), "Unexpected End of File");
-        }
-        if (ch == '\r'){
-            continue;
-        }
-        if (ch == delim){
-            return out;
-        }
-        out += ch;
-    }while (1);
-}
-const char* grab_until_delim(std::string& token, const char* str, char delim){
-    //  Streams characters from "str" into the builder until a deliminator is found.
-
-    char ch;
-    do{
-        ch = *str++;
-        if (ch == '\r'){
-            continue;
-        }
-        if (ch == delim || ch == '\0'){
-            return str;
-        }
-        token += ch;
-    }while (1);
-}
-uiL_t parse_uL(const char* str){
-    uiL_t x = 0;
-    while (*str != '\0')
-        x = 10*x + (upL_t)(*str++ - '0');
-    return x;
-}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Rule of 5
@@ -112,8 +69,9 @@ YCDFileReader::YCDFileReader(std::string path_)
         std::string token = grab_until_delim(&file, '\n');
 
         //  Empty line
-        if (token.size() == 0)
+        if (token.size() == 0){
             continue;
+        }
 
         //  End of header section
         if (token == YCF_CDF_TOKEN_EndHeader){
@@ -278,7 +236,7 @@ void YCDFileReader::read_words(ufL_t pos, u64_t* T, upL_t L){
 
     if (pos + L > words_in_this_file){
         Console::Warning("Internal Error: Read out of Bounds");
-        std::string error = "YCDFile::read_words(ufL_t pos, u64_t* T, upL_t L)\n";
+        std::string error = "YCDFileReader::read_words(ufL_t pos, u64_t* T, upL_t L)\n";
         error += "Read out of bounds.\n";
         error += "Requested Range: ";
         error += std::to_string(pos);
@@ -334,7 +292,7 @@ void YCDFileReader::read_chars(
 
     //  Check boundaries
     if (pos + digits > block_end || pos < block_start){
-        std::string error = "void YCDFile::read_chars()\n";
+        std::string error = "void YCDFileReader::read_chars()\n";
         error += "Read out of bounds.\n";
         error += "Requested Range: ";
         error += std::to_string(pos);
@@ -377,9 +335,7 @@ void YCDFileReader::read_chars(
     //  Work loop
     while (word_length > 0){
         //  Select a block size
-        upL_t current_block = buffer_L;
-        if (current_block > word_length)
-            current_block = word_length;
+        upL_t current_block = std::min(buffer_L, word_length);
 //        cout << "current_block = " << current_block << endl;
 
         u64_t* current_buffer = buffer;

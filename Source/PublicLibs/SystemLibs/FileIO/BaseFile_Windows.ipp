@@ -12,9 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <Windows.h>
-#include "PublicLibs/StringTools/Unicode.h"
-#include "PublicLibs/ConsoleIO/BasicIO.h"
-#include "PublicLibs/ConsoleIO/Label.h"
+#include "PublicLibs/BasicLibs/StringTools/Unicode.h"
 #include "BaseFile_Windows.h"
 namespace ymp{
 namespace FileIO{
@@ -40,8 +38,9 @@ bool BaseFile::open(std::string path){
         NULL,
         NULL
     );
-    if (m_filehandle == INVALID_HANDLE_VALUE)
+    if (m_filehandle == INVALID_HANDLE_VALUE){
         return false;
+    }
 
     m_path = std::move(path);
     return true;
@@ -58,8 +57,9 @@ bool BaseFile::create(std::string path, ufL_t bytes){
         FILE_FLAG_WRITE_THROUGH,
         NULL
     );
-    if (m_filehandle == INVALID_HANDLE_VALUE)
+    if (m_filehandle == INVALID_HANDLE_VALUE){
         return false;
+    }
 
     LARGE_INTEGER t;
     t.QuadPart = (LONGLONG)bytes;
@@ -70,8 +70,9 @@ bool BaseFile::create(std::string path, ufL_t bytes){
     return true;
 }
 void BaseFile::close(bool delete_file){
-    if (m_path.empty())
+    if (m_path.empty()){
         return;
+    }
 
     CloseHandle(m_filehandle);
     m_filehandle = nullptr;

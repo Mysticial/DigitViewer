@@ -13,6 +13,9 @@
 //  Dependencies
 #include <string.h>
 #include <stdlib.h>
+#include <new>
+#include "PublicLibs/Exceptions/InvalidParametersException.h"
+#include "PublicLibs/Exceptions/AlgorithmFailedException.h"
 #include "AlignedMalloc.h"
 namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,14 +45,15 @@ void* aligned_malloc(upL_t bytes, upL_t align){
     }
 #ifdef YMP_ENABLE_MALLOC_CHECKING
     if ((align & (align - 1)) != 0){
-        throw "Alignment must be a power of two.";
+        throw InvalidParametersException("aligned_malloc()", "Alignment must be a power of two.");
     }
 #endif
 
     upL_t actual_bytes = bytes + align + sizeof(upL_t)*4;
     void *free_ptr = malloc(actual_bytes);
     if (free_ptr == nullptr){
-        return nullptr;
+        throw std::bad_alloc();
+//        return nullptr;
     }
 #ifdef YMP_ZERO_INITIALIZE
     memset(free_ptr, 0, actual_bytes);
@@ -85,11 +89,11 @@ void aligned_free(void *ptr){
     upL_t bytes = ret[-2];
     upL_t check = ret[-1];
     if (check != BUFFER_CHECK_BOT){
-        throw "Memory buffer has been underrun.";
+        throw AlgorithmFailedException("aligned_free()", "Memory buffer has been underrun.");
     }
     memcpy(&check, (char*)ptr + bytes, sizeof(upL_t));
     if (check != BUFFER_CHECK_TOP){
-        throw "Memory buffer has been overrun.";
+        throw AlgorithmFailedException("aligned_free()", "Memory buffer has been overrun.");
     }
 #endif
 

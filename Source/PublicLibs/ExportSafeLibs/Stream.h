@@ -13,6 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+#include <string.h>
 #include "PublicLibs/Types.h"
 namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,7 @@ static void local_stream_deleter(char* ptr){
 class DllSafeStream{
 public:
     //  Rule of 5
-    ~DllSafeStream(){ reset(); }
+    ~DllSafeStream(){ clear(); }
     DllSafeStream(DllSafeStream&& x)
         : m_bytes(x.m_bytes)
         , m_ptr(x.m_ptr)
@@ -35,7 +36,7 @@ public:
         x.m_ptr = nullptr;
     }
     void operator=(DllSafeStream&& x){
-        reset();
+        clear();
         m_bytes = x.m_bytes;
         m_ptr = x.m_ptr;
         m_deleter = x.m_deleter;
@@ -66,7 +67,7 @@ public:
         , m_ptr(new char[bytes])
         , m_deleter(&local_stream_deleter)
     {}
-    void reset(){
+    void clear(){
         if (m_ptr != nullptr){
             m_deleter(m_ptr);
         }
