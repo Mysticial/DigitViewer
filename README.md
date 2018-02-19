@@ -44,7 +44,37 @@ The x86 modes are not supported in Linux.
 
 ## Version 2:
 
-Version 2 is a work-in-progress rewrite of the Digit Viewer slated for y-cruncher v0.7.6. It isn't here yet, since it's not ready. As of this writing, the implementation is mostly done. But it hasn't been properly tested yet.
+Version 2 is a work-in-progress rewrite of the Digit Viewer slated for y-cruncher v0.7.6. It isn't here yet since it's not quite ready. While most of the implementation is done, it has yet to be properly tested.
+
+**Sources:**
+
+ - Project: `VSS - DigitViewer2/`
+ - Source: `Source/DigitViewer2/`
+ - Namespace: `DigitViewer2`
+
+
+**Compile Instructions:**
+
+Windows:
+ - Open the Visual Studio project and compile from within the IDE.
+ - Visual Studio 2017 is required.
+ - Intel Compiler 2018 is required to build `17-Skylake`. AVX512 support in Visual Studio is currently too buggy to use.
+
+Linux:
+ - TBD
+
+
+**Build Modes:**
+
+ - x86 : 00-x86
+ - x86 : 04-SSE3
+ - x64 : 04-SSE3
+ - x64 : 07-Penryn (SSE4.1)
+ - x64 : 13-Haswell (AVX2)
+ - x64 : 17-Skylake (AVX512-BW)
+
+The x86 modes are not supported in Linux.
+
 
 **Changes:**
 
@@ -96,6 +126,6 @@ In both cases, each 8-byte word is little-endian.
 -----
 
 y-cruncher has a build dependency on this Digit Viewer.
-Not just because it embeds the Digit Viewer, but it actually uses the DigitWriter classes to output digits at the end of a computation.
+Not just because it embeds the Digit Viewer, but it also uses the DigitWriter classes to output digits at the end of a computation.
 
 So what you are seeing here is actual y-cruncher source code.
