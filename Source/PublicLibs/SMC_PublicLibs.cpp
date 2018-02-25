@@ -15,6 +15,6 @@
 #include "BasicLibs/SMC_PublicBasicLibs.cpp"
 #include "SystemLibs/SMC_PublicSystemLibs.cpp"
 
-//#include "MathIntrinsics/ChecksumHash.cpp"
+#include "MathIntrinsics/ChecksumHash.cpp"
 
 #include "CompileOptions_PublicLibs.cpp"

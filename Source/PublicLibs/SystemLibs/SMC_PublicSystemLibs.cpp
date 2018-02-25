@@ -13,8 +13,8 @@
 #include "FileIO/FileIO.cpp"
 #include "FileIO/BasicFile.cpp"
 
-//#include "Concurrency/Parallelizers.cpp"
+#include "Concurrency/Parallelizers.cpp"
 //#include "ManagedMemory/CppAllocator.cpp"
 
-//#include "Environment/Environment.cpp"
+#include "Environment/Environment.cpp"
 //#include "ProcessorCapability/cpu_x86.cpp"
