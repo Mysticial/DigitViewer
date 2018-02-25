@@ -61,7 +61,9 @@ Windows:
  - Intel Compiler 2018 is required to build `17-Skylake`. AVX512 support in Visual Studio is currently too buggy to use.
 
 Linux:
- - TBD
+ - Run `VSS - DigitViewer2/Compile-Linux.sh` from the directory it is in. It will create a folder `Binaries` with the three executables.
+ - x64 and a sufficiently new version of GCC is required.
+ - There is currently no "real" makefile for Linux builds since all development has been done Windows with Visual Studio.
 
 
 **Build Modes:**
@@ -80,12 +82,12 @@ The x86 modes are not supported in Linux.
 
  - New namespace: `DigitViewer2`
  - Classes renamed to, `BasicDigitReader/Writer`, `BasicTextReader/Writer`, and `BasicYcdSetReader/Writer`. The "basic" prepending is because they now operate at a lower level.
- - The "iterator" paradigm has been removed for all digit readers and writers. Instead, the new paradigm is random access which is better suited for high-level parallelism in the future.
- - The automatic buffering that is used to support the iterator paradigm has also been removed. Buffering is now explicit.
+ - The "iterator" paradigm has been removed for all digit readers and writers. Instead, the new paradigm is bulk random access which is better suited for high-level parallelism in the future.
+ - The automatic buffering that is used to support the iterator paradigm has been removed. Buffering is now explicit.
  - All classes are now thread-safe in anticipation of high-level parallelism in the future.
 
 
-Because buffering has been removed, the new classes will be harder to use casually in a performant manner. While it's trivial to build a wrapper that re-adds the buffering to support efficient iteration, this is discouraged as processing large amounts of digits one-at-a-time is going to be very slow.
+Because buffering has been removed, the new classes will be harder to use casually in a performant manner. While it's trivial to build a wrapper that re-adds the buffering to support efficient iteration, this is discouraged as processing a large number of digits one-at-a-time is going to be very slow.
 
 
 **Optimizations:**
