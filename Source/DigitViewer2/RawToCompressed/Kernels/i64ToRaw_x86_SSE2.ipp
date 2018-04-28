@@ -12,7 +12,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include <algorithm>
-#include "PublicLibs/BasicLibs/Alignment/AlignmentTools.h"
 #include "i64ToDec_Default.h"
 #include "i64ToHex_LittleEndian.h"
 #include "i64ToDec_LittleEndian.h"
@@ -26,16 +25,6 @@ namespace RawToCompressed{
 ////////////////////////////////////////////////////////////////////////////////
 YM_NO_INLINE bool hex_to_i64(u64_t* T, const char* raw, upL_t words){
     bool bad = false;
-
-    //  Align
-    {
-        upL_t block = Alignment::ptr_to_aligned<16>(T);
-        block = std::min(block, words);
-        bad |= hex_to_i64_LittleEndian(T, (const u64_t*)raw, block);
-        T     += block;
-        raw   += block * 16;
-        words -= block;
-    }
     {
         upL_t blocks = words / 4;
         bad |= hex_to_i64_u4_x86_SSE2((__m128i*)T, (const __m128i*)raw, blocks);

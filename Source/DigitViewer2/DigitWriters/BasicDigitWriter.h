@@ -25,6 +25,10 @@ namespace DigitViewer2{
 ////////////////////////////////////////////////////////////////////////////////
 class BasicDigitWriter{
 public:
+    //  Buffers need to be aligned to the disk I/O sector size since implementations
+    //  will use raw I/O.
+    static const upL_t BUFFER_ALIGNMENT = 4096;
+
     static const upL_t MAX_RECOMMENDED_BUFFER_SIZE = (upL_t)1 << 30;
 
 public:

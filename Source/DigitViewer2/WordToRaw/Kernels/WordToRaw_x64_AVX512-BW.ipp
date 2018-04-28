@@ -1,4 +1,4 @@
-/* WordToRaw_x64_AVX512BW.ipp
+/* WordToRaw_x64_AVX512-BW.ipp
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 02/12/2018
@@ -14,7 +14,7 @@
 #include <algorithm>
 #include "PublicLibs/BasicLibs/Alignment/AlignmentTools.h"
 #include "WordToRaw_LittleEndian.h"
-#include "WordToRaw_x64_AVX512BW.h"
+#include "WordToRaw_x64_AVX512-BW.h"
 namespace DigitViewer2{
 namespace WordToRaw{
     using namespace ymp;

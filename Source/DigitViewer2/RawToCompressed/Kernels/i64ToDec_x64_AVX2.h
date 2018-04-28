@@ -62,7 +62,7 @@ YM_FORCE_INLINE bool dec_to_i64_u4_x64_AVX2(__m256i* T, const char* raw, upL_t b
         __m256i ret = RawToDec::dec_to_i64_x64_AVX2(t0, a0, b0, c0);
 
         bad = _mm256_or_si256(bad, ret);
-        T[0] = t0;
+        _mm256_storeu_si256(T, t0);
 
         raw += 76;
         T += 1;
@@ -81,7 +81,7 @@ YM_FORCE_INLINE void i64_to_dec_u4_x64_AVX2(char* raw, const __m256i* T, upL_t b
 
     do{
         __m256i a0, b0, c0;
-        RawToDec::i64_to_dec_x64_AVX2(T[0], a0, b0, c0);
+        RawToDec::i64_to_dec_x64_AVX2(_mm256_loadu_si256(T), a0, b0, c0);
 
         SIMD::store2_m64i_SSE2(raw +  0, raw + 19, _mm256_castsi256_si128(c0));
         SIMD::store2_m64i_SSE2(raw + 38, raw + 57, _mm256_extracti128_si256(c0, 1));

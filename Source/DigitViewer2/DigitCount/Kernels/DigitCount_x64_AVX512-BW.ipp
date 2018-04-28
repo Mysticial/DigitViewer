@@ -1,4 +1,4 @@
-/* DigitCount_x64_AVX512BW.ipp
+/* DigitCount_x64_AVX512-BW.ipp
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/13/2018
@@ -19,7 +19,7 @@
 #include "DigitViewer2/DigitCount/DigitCount.h"
 #include "DigitCount_Default.h"
 #include "DigitCount_x64_AVX2.h"
-#include "DigitCount_x64_AVX512BW.h"
+#include "DigitCount_x64_AVX512-BW.h"
 namespace DigitViewer2{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

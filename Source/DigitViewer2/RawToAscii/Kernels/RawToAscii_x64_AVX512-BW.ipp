@@ -1,4 +1,4 @@
-/* RawToAscii_x64_AVX512BW.h
+/* RawToAscii_x64_AVX512-BW.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/14/2018
@@ -18,7 +18,7 @@
 #include "PublicLibs/BasicLibs/Alignment/AlignmentTools.h"
 #include "DigitViewer2/RawToAscii/RawToAscii.h"
 #include "RawToAscii_Default.h"
-#include "RawToAscii_x64_AVX512BW.h"
+#include "RawToAscii_x64_AVX512-BW.h"
 namespace DigitViewer2{
 namespace RawToAscii{
 ////////////////////////////////////////////////////////////////////////////////

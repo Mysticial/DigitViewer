@@ -2,7 +2,7 @@
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 02/06/2018
- * Last Modified    : 02/06/2018
+ * Last Modified    : 03/28/2018
  * 
  *      This write does not officially support multiple writes to the same
  *  digit. This is because individual .ycd files that have been completely
@@ -49,9 +49,6 @@ public:
         void* P, upL_t Pbytes,
         BasicParallelizer& parallelizer, upL_t tds
     ) override;
-
-
-    void print() const; //  Debugging
 
 
 public:

@@ -19,15 +19,32 @@ namespace DigitViewer{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-std::string grab_until_delim(FileIO::BasicFile* file, char delim){
+std::string grab_until_delim(FileIO::BufferedReader& file, char delim){
     //  Streams characters from "file" into a string until a deliminator is found.
 
     std::string out;
 
     char ch;
     do{
-        if (file->read(&ch, 1) == 0){
-            throw FileIO::FileException("grab_until_delim()", file->GetPath(), "Unexpected End of File");
+        ch = file.next();
+        if (ch == '\r'){
+            continue;
+        }
+        if (ch == delim){
+            return out;
+        }
+        out += ch;
+    }while (1);
+}
+std::string grab_until_delim(FileIO::BasicFile& file, char delim){
+    //  Streams characters from "file" into a string until a deliminator is found.
+
+    std::string out;
+
+    char ch;
+    do{
+        if (file.read(&ch, 1) == 0){
+            throw FileIO::FileException("grab_until_delim()", file.GetPath(), "Unexpected End of File");
         }
         if (ch == '\r'){
             continue;

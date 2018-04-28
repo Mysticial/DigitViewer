@@ -80,6 +80,10 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 class BasicDigitReader{
 public:
+    //  Buffers need to be aligned to the disk I/O sector size since implementations
+    //  will use raw I/O.
+    static const upL_t BUFFER_ALIGNMENT = 4096;
+
     static const upL_t MAX_RECOMMENDED_BUFFER_SIZE = (upL_t)1 << 30;
 
 public:
@@ -117,7 +121,7 @@ public:
     virtual void load_stats(
         DigitStats& stats,
         uiL_t offset, uiL_t digits,                 //  Range of digits to load and process.
-        void* P, upL_t Pbytes,                      //  Scratch buffer. Must be aligned to DEFAULT_ALIGNMENT.
+        void* P, upL_t Pbytes,                      //  Scratch buffer. Must be aligned to BUFFER_ALIGNMENT.
         BasicParallelizer& parallelizer, upL_t tds  //  Parallelism
     ) = 0;
 
@@ -130,7 +134,7 @@ public:
         char* output,
         DigitStats* stats,                          //  If null, no stats are computed.
         uiL_t offset, upL_t digits,                 //  Range of digits to load and process.
-        void* P, upL_t Pbytes,                      //  Scratch buffer. Must be aligned to DEFAULT_ALIGNMENT.
+        void* P, upL_t Pbytes,                      //  Scratch buffer. Must be aligned to BUFFER_ALIGNMENT.
         BasicParallelizer& parallelizer, upL_t tds  //  Parallelism
     ) = 0;
 

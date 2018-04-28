@@ -65,7 +65,7 @@ void view_range(BasicDigitReader& reader){
     }
 
     upL_t bytes = reader.recommend_buffer_size(digits);
-    SmartBuffer<> buffer(bytes);
+    SmartBuffer<> buffer(bytes, BasicDigitReader::BUFFER_ALIGNMENT);
 
     //  Read digits
     std::string str(digits, '-');
@@ -219,7 +219,7 @@ void compute_stats(BasicDigitReader& reader){
     //  Don't use more than 1/4 of the remaining available memory.
     upL_t mem_limit = Environment::GetFreePhysicalMemory() / 4;
 
-    const upL_t BLOCK_SIZE = 1000000000;
+    const upL_t BLOCK_SIZE = (upL_t)1 << 30;    //  1 GB
 
     upL_t bytes;
     {
@@ -229,7 +229,7 @@ void compute_stats(BasicDigitReader& reader){
     }
 
     //  Allocate buffers.
-    SmartBuffer<> buffer(bytes);
+    SmartBuffer<> buffer(bytes, BasicDigitReader::BUFFER_ALIGNMENT);
 
     //  Stats Tracker
     StatsTracker tracker(reader, start);
@@ -268,7 +268,7 @@ void process_write(
     //  Don't use more than 1/4 of the remaining available memory.
     upL_t mem_limit = Environment::GetFreePhysicalMemory() / 4;
 
-    const upL_t BLOCK_SIZE = 1000000000;
+    const upL_t BLOCK_SIZE = (upL_t)1 << 30;    //  1 GB
 
     //  Find a suitable block size.
     upL_t block_size = (upL_t)std::min(digits, (uiL_t)BLOCK_SIZE) * 2;
@@ -283,7 +283,7 @@ void process_write(
 //    cout << "bytes = " << bytes << endl;
 
     //  Allocate buffers.
-    SmartBuffer<> buffer(bytes);
+    SmartBuffer<> buffer(bytes, BasicDigitReader::BUFFER_ALIGNMENT);
     SmartBuffer<char> raw(block_size);
 
     //  Stats Tracker

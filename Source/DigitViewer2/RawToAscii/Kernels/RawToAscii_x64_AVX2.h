@@ -148,7 +148,7 @@ YM_FORCE_INLINE bool raw_to_hex_x64_AVX2(__m256i* hex, const __m256i* raw, upL_t
         hex++;
     }while (--blocks);
 
-    return _mm256_testnzc_si256(bad, _mm256_set1_epi8((char)0xf0)) != 0;
+    return _mm256_testnzc_si256(bad, _mm256_set1_epi8((unsigned char)0xf0)) != 0;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

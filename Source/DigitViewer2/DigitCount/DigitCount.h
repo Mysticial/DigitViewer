@@ -31,6 +31,7 @@ public:
     void operator+=(const DigitCounts& x);
 
     std::string to_string() const;
+    uiL_t operator[](upL_t index) const{ return m_counts[index]; }
 
 public:
     void accumulate(const char* raw_digits, upL_t digits);

@@ -1,4 +1,4 @@
-/* Kernels_i64_to_dec_x64_AVX512BW.h
+/* Kernels_i64_to_dec_x64_AVX512-BW.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 02/11/2018

@@ -69,13 +69,13 @@ YM_FORCE_INLINE bool hex_to_i64_u4_x64_AVX2(__m256i* T, const __m256i* raw, upL_
             x0 = _mm256_or_si256(x0, x1);
         }
 
-        T[0] = x0;
+        _mm256_storeu_si256(T, x0);
 
         raw += 2;
         T += 1;
     }while (--blocks);
 
-    return _mm256_testnzc_si256(bad, _mm256_set1_epi8((char)0xf0)) != 0;
+    return _mm256_testnzc_si256(bad, _mm256_set1_epi8((unsigned char)0xf0)) != 0;
 }
 YM_FORCE_INLINE void i64_to_hex_u4_x64_AVX2(__m256i* raw, const __m128i* T, upL_t blocks){
     if (blocks == 0){
@@ -92,8 +92,8 @@ YM_FORCE_INLINE void i64_to_hex_u4_x64_AVX2(__m256i* raw, const __m128i* T, upL_
         __m256i x0, x1;
 
         //  Load and decompress
-        x0 = _mm256_cvtepu8_epi16(T[0]);
-        x1 = _mm256_cvtepu8_epi16(T[1]);
+        x0 = _mm256_cvtepu8_epi16(_mm_loadu_si128(T + 0));
+        x1 = _mm256_cvtepu8_epi16(_mm_loadu_si128(T + 1));
 
         {
             //  Fix bytes

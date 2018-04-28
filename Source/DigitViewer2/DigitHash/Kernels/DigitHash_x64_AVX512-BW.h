@@ -1,4 +1,4 @@
-/* DigitHash_x64_AVX512BW.h
+/* DigitHash_x64_AVX512-BW.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/14/2018

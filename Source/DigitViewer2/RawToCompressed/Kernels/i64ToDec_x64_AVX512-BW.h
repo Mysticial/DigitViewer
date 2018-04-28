@@ -1,4 +1,4 @@
-/* i64ToDec_x64_AVX2.h
+/* i64ToDec_x64_AVX512-BW.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 02/11/2018
@@ -15,8 +15,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Dependencies
 #include "PublicLibs/ArchSpecificLibs/Shuffle/x86_256/Unpack_x86_AVX2.h"
-#include "DigitViewer2/RawToDecKernels/Kernels_dec_to_i64_x64_AVX512BW.h"
-#include "DigitViewer2/RawToDecKernels/Kernels_i64_to_dec_x64_AVX512BW.h"
+#include "DigitViewer2/RawToDecKernels/Kernels_dec_to_i64_x64_AVX512-BW.h"
+#include "DigitViewer2/RawToDecKernels/Kernels_i64_to_dec_x64_AVX512-BW.h"
 namespace DigitViewer2{
 namespace RawToCompressed{
     using namespace ymp;
@@ -58,7 +58,7 @@ YM_FORCE_INLINE bool dec_to_i64_u8_x64_AVX512BW(__m512i* T, const char* raw, upL
         __m512i t0;
         bad |= RawToDec::dec_to_i64_x64_AVX512BW(t0, a0, b0, c0);
 
-        T[0] = t0;
+        _mm512_storeu_si512(T, t0);
 
         raw += 152;
         T += 1;
@@ -75,7 +75,7 @@ YM_FORCE_INLINE void i64_to_dec_u8_x64_AVX512BW(char* raw, const __m512i* T, upL
 
     do{
         __m512i a0, b0, c0;
-        RawToDec::i64_to_dec_x64_AVX512BW(T[0], a0, b0, c0);
+        RawToDec::i64_to_dec_x64_AVX512BW(_mm512_loadu_si512(T), a0, b0, c0);
 
         _mm512_i64scatter_epi64(raw +  0, GATHER, c0, 1);
 #if 0

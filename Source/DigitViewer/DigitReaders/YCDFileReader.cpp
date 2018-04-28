@@ -66,7 +66,7 @@ YCDFileReader::YCDFileReader(std::string path_)
 
     //  Parse header info
     while (1){
-        std::string token = grab_until_delim(&file, '\n');
+        std::string token = grab_until_delim(file, '\n');
 
         //  Empty line
         if (token.size() == 0){

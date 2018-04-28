@@ -40,7 +40,7 @@ YM_FORCE_INLINE bool dec_to_i64_u2_x64_SSE41(__m128i* T, const char* raw, upL_t 
         __m128i ret = RawToDec::dec_to_i64_x64_SSE41(t0, a0, b0, c0);
 
         bad = _mm_or_si128(bad, ret);
-        T[0] = t0;
+        _mm_storeu_si128(T, t0);
 
         raw += 38;
         T += 1;
@@ -93,7 +93,7 @@ YM_FORCE_INLINE void i64_to_dec_u2_x64_SSE41(char* raw, const __m128i* T, upL_t 
 
     do{
         __m128i a0, b0, c0;
-        RawToDec::i64_to_dec_x64_SSE41(T[0], a0, b0, c0);
+        RawToDec::i64_to_dec_x64_SSE41(_mm_loadu_si128(T), a0, b0, c0);
 
         SIMD::store2_m64i_SSE2(raw +  0, raw + 19, c0);
         SIMD::store2_m64i_SSE2(raw +  3, raw + 22, b0);

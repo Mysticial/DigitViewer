@@ -1,4 +1,4 @@
-/* RawToAscii_x64_AVX512BW.h
+/* RawToAscii_x64_AVX512-BW.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/14/2018
@@ -34,7 +34,7 @@ YM_FORCE_INLINE bool dec_to_raw_x64_AVX512BW(__m512i* raw, const __m512i* dec, u
     __mmask64 bad = 0;
 
     do{
-        __m512i a0, b0;
+        __m512i a0;
 
         a0 = _mm512_loadu_si512(dec);
 
@@ -64,7 +64,7 @@ YM_FORCE_INLINE bool hex_to_raw_x64_AVX512BW(__m512i* raw, const __m512i* hex, u
     __mmask64 bad = 0;
 
     do{
-        __m512i a0, b0, c0;
+        __m512i a0;
 
         a0 = _mm512_loadu_si512(hex);
 
@@ -92,7 +92,7 @@ YM_FORCE_INLINE bool raw_to_dec_x64_AVX512BW(__m512i* dec, const __m512i* raw, u
     __mmask64 bad = 0;
 
     do{
-        __m512i a0, b0;
+        __m512i a0;
 
         a0 = _mm512_loadu_si512(raw);
 

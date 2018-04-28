@@ -2,7 +2,7 @@
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/14/2018
- * Last Modified    : 01/14/2018
+ * Last Modified    : 03/20/2018
  * 
  */
 
@@ -13,14 +13,12 @@
 //  Dependencies
 #include <vector>
 #include <algorithm>
-#include "PublicLibs/Exceptions/StringException.h"
 #include "PublicLibs/Exceptions/BufferTooSmallThrower.h"
 #include "PublicLibs/Exceptions/InvalidParametersException.h"
 #include "PublicLibs/BasicLibs/Alignment/AlignmentTools.h"
 #include "PublicLibs/BasicLibs/Concurrency/BlockSplitting.h"
 #include "PublicLibs/SystemLibs/FileIO/FileIO.h"
 #include "PublicLibs/SystemLibs/FileIO/FileException.h"
-#include "DigitViewer2/DigitHash/DigitHash.h"
 #include "DigitViewer2/RawToAscii/RawToAscii.h"
 #include "BasicTextReader.h"
 namespace DigitViewer2{
@@ -28,79 +26,68 @@ namespace DigitViewer2{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-char BasicTextReader::auto_detect_radix(){
-    //  Assume radix 10 until a hexadecimal digit is found.
-    char radix = 10;
-
-    //  Read the first 64 bytes to guess the radix.
-    m_file.set_ptr(0);
-
-    for (upL_t c = 0; c < 64; c++){
-        char ch;
-        if (m_file.read(&ch, 1) != 1){
-            break;
-        }
-
-        //  Skip the decimal place.
-        if (ch == '.'){
-            continue;
-        }
-
-        //  Decimal digit
-        if ('0' <= ch && ch <= '9'){
-            continue;
-        }
-
-        //  Hexadecimal digit
-        if ('a' <= ch && ch <= 'f'){
-            radix = 16;
-            break;
-        }
-
-        throw StringException("TextReader::auto_detect_radix()", "Invalid Digit");
-    }
-
-    return radix;
-}
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 BasicTextReader::BasicTextReader(const std::string& path, char radix)
-    : m_file(path)
+    : m_file(std::move(path), FileIO::OPEN_READONLY)
 {
+    alignas(FILE_ALIGNMENT) char buffer[FILE_ALIGNMENT];
+
+    upL_t bytes = m_file.load(buffer, 0, FILE_ALIGNMENT, false);
+    upL_t stop = std::min(bytes, (upL_t)64);
+
+    m_data_offset = (ufL_t)0 - 1;
+    upL_t offset = 0;
+
     //  Auto-detect radix
-    m_radix = radix == 0
-        ? auto_detect_radix()
-        : radix;
+    if (radix == 0){
+        radix = 10;
+        for (; offset < stop; offset++){
+            char ch = buffer[offset];
+
+            //  Skip the decimal place.
+            if (ch == '.'){
+                m_data_offset = offset + 1;
+                continue;
+            }
+
+            //  Decimal digit
+            if ('0' <= ch && ch <= '9'){
+                continue;
+            }
+
+            //  Hexadecimal digit
+            if ('a' <= ch && ch <= 'f'){
+                radix = 16;
+                break;
+            }
+
+            throw StringException("TextReader::BasicTextReader()", "Invalid Digit");
+        }
+    }
+    m_radix = radix;
 
     //  Find the decimal place
-    m_file.set_ptr(0);
-    ufL_t c = 0;
-    while (1){
-        char ch;
-        if (m_file.read(&ch, 1) != 1){
+    if (m_data_offset == (ufL_t)0 - 1){
+        for (; offset < stop; offset++){
+            char ch = buffer[offset];
+            if (ch == '.'){
+                m_data_offset = offset + 1;
+                break;
+            }
+        }
+        if (m_data_offset == (ufL_t)0 - 1){
             throw FileIO::FileException(
                 "BasicTextReader::BasicTextReader()",
-                path,
-                "Unexpected End of File"
-            );
-        }
-
-        c++;
-        if (ch == '.'){
-            m_dp_offset = c;
-            break;
-        }
-        if (c == 63){
-            throw FileIO::FileException(
-                "BasicTextReader::BasicTextReader()",
-                path,
+                m_file.path(),
                 "A decimal place was not found within the first 63 bytes of the file."
             );
         }
     }
 
     //  # of digits after decimal place.
-    m_total_digits = FileIO::GetFileSize(path.c_str()) - m_dp_offset;
+    m_total_digits = FileIO::GetFileSize(m_file.path().c_str()) - m_data_offset;
+
+    //  First digits
+    m_first_digits = std::string(buffer, stop);
 
     switch (m_radix){
     case 10:
@@ -114,23 +101,15 @@ BasicTextReader::BasicTextReader(const std::string& path, char radix)
     }
 }
 std::string BasicTextReader::first_digits(){
-    const upL_t DIGITS = 64;
-
-    std::lock_guard<std::mutex> lg(m_lock);
-    m_file.set_ptr(0);
-
-    std::string str(DIGITS, '\0');
-    m_file.read(&str[0], DIGITS);
-
-    return std::string(str.c_str());
+    return m_first_digits;
 }
 bool BasicTextReader::range_is_available(uiL_t offset, uiL_t digits){
     return offset + digits <= m_total_digits;
 }
 upL_t BasicTextReader::recommend_buffer_size(uiL_t digits, upL_t limit) const{
-    upL_t bytes = (upL_t)std::min(digits, (uiL_t)limit);
-    bytes = std::max(bytes, DEFAULT_ALIGNMENT);
-    return bytes;
+    limit = std::max(limit, FILE_ALIGNMENT);
+    uiL_t sectors = (digits + 2*FILE_ALIGNMENT - 1) / FILE_ALIGNMENT;
+    return (upL_t)std::min(sectors * FILE_ALIGNMENT, (uiL_t)limit);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +118,8 @@ upL_t BasicTextReader::recommend_buffer_size(uiL_t digits, upL_t limit) const{
 class BasicTextReader::Action_process : public BasicAction{
     const BasicTextReader& m_object;
     DigitStats* m_stats;
-    char* m_buffer;
+    char* m_output;
+    const char* m_txt_digits;
     upL_t m_digits;
 
     upL_t m_unit_L;
@@ -148,12 +128,12 @@ public:
     Action_process(
         const BasicTextReader& object,
         DigitStats* stats,
-        char* buffer, upL_t digits,
+        char* output, const char* txt_digits, upL_t digits,
         upL_t unit_L
     )
         : m_object(object)
         , m_stats(stats)
-        , m_buffer(buffer), m_digits(digits)
+        , m_output(output), m_txt_digits(txt_digits), m_digits(digits)
         , m_unit_L(unit_L)
     {}
 
@@ -171,7 +151,7 @@ public:
             ? nullptr
             : m_stats + index;
 
-        m_object.process(stats, m_buffer + si, ei - si);
+        m_object.process(stats, m_output + si, m_txt_digits + si, ei - si);
 
         if (stats != nullptr){
             stats->scale_up_hash(m_digits - ei);
@@ -182,17 +162,18 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void BasicTextReader::process(DigitStats* stats, char* buffer, upL_t digits) const{
-    //  Optimization: If "buffer" is misaligned, do enough to align it.
-    upL_t align = Alignment::ptr_to_aligned<DEFAULT_ALIGNMENT>(buffer);
+void BasicTextReader::process(DigitStats* stats, char* output, const char* txt_digits, upL_t digits) const{
+    //  Optimization: If "output" is misaligned, do enough to align it.
+    upL_t align = Alignment::ptr_to_aligned<DEFAULT_ALIGNMENT>(output);
     if (digits > DEFAULT_ALIGNMENT && align != 0){
-        process(stats, buffer, align);
-        buffer += align;
+        process(stats, output, txt_digits, align);
+        output += align;
+        txt_digits += align;
         digits -= align;
     }
 
     if (stats == nullptr){
-        if (m_fp_convert(buffer, buffer, digits)){
+        if (m_fp_convert(output, txt_digits, digits)){
             throw InvalidParametersException("BasicTextReader::process_txt()", "Invalid Digit");
         }
         return;
@@ -201,14 +182,15 @@ void BasicTextReader::process(DigitStats* stats, char* buffer, upL_t digits) con
     while (digits > 0){
         upL_t block = std::min(digits, (upL_t)CACHE_BLOCK);
 
-        if (m_fp_convert(buffer, buffer, block)){
+        if (m_fp_convert(output, txt_digits, block)){
             throw InvalidParametersException("BasicTextReader::process_txt()", "Invalid Digit");
         }
         if (stats != nullptr){
-            stats->accumulate(buffer, block);
+            stats->accumulate(output, block);
         }
 
-        buffer += block;
+        output += block;
+        txt_digits += block;
         digits -= block;
     }
 
@@ -220,33 +202,34 @@ void BasicTextReader::process(DigitStats* stats, char* buffer, upL_t digits) con
     while (digits > 0){
         upL_t block = std::min(digits, (upL_t)CACHE_BLOCK);
 
-        if (m_fp_convert(cache, buffer, block)){
+        if (m_fp_convert(cache, txt_digits, block)){
             throw InvalidParametersException("BasicTextReader::process_txt()", "Invalid Digit");
         }
         if (stats != nullptr){
             stats->accumulate(cache, block);
         }
 
-        buffer += block;
+        txt_digits += block;
         digits -= block;
     }
 }
 void BasicTextReader::process(
-    DigitStats* stats, char* buffer, upL_t digits,
+    DigitStats* stats, char* output, const char* txt_digits, upL_t digits,
     BasicParallelizer& parallelizer, upL_t tds
 ) const{
     //  Optimization: If "buffer" is misaligned, do enough to align it.
-    upL_t align = Alignment::ptr_to_aligned<DEFAULT_ALIGNMENT>(buffer);
+    upL_t align = Alignment::ptr_to_aligned<DEFAULT_ALIGNMENT>(output);
     if (digits > DEFAULT_ALIGNMENT && align != 0){
-        process(stats, buffer, align);
-        buffer += align;
+        process(stats, output, txt_digits, align);
+        output += align;
+        txt_digits += align;
         digits -= align;
     }
 
     const upL_t THRESHOLD = 10000;
 
     if (digits < THRESHOLD || tds <= 1){
-        process(stats, buffer, digits);
+        process(stats, output, txt_digits, digits);
         return;
     }
 
@@ -265,7 +248,7 @@ void BasicTextReader::process(
     Action_process action(
         *this,
         stats != nullptr ? &vstats[0] : nullptr,
-        buffer, digits, unit_L
+        output, txt_digits, digits, unit_L
     );
     parallelizer.run_in_parallel(action, 0, tds);
 
@@ -293,29 +276,68 @@ void BasicTextReader::load_stats(
     }
 
     char* buffer = (char*)P;
-    if (Alignment::ptr_past_aligned<DEFAULT_ALIGNMENT>(buffer) != 0){
+    if (Alignment::ptr_past_aligned<FILE_ALIGNMENT>(buffer) != 0){
         throw InvalidParametersException("BasicTextReader::load_stats()", "Buffer is misaligned.");
     }
 
-    Alignment::align_int_down_inplace<DEFAULT_ALIGNMENT>(Pbytes);
-    check_BufferTooSmall("BasicTextReader::load_stats()", Pbytes, DEFAULT_ALIGNMENT);
+    Alignment::align_int_down_inplace<FILE_ALIGNMENT>(Pbytes);
+    check_BufferTooSmall("BasicTextReader::load_stats()", Pbytes, FILE_ALIGNMENT);
 
-    while (digits > 0){
-        upL_t block = (upL_t)std::min(digits, (uiL_t)Pbytes);
+    //  This is the ugly sector alignment logic.
+
+    ufL_t logical_access_offset_s = (ufL_t)offset;
+    ufL_t logical_access_offset_e = logical_access_offset_s + (ufL_t)digits;
+
+    ufL_t file_access_offset_s = m_data_offset + logical_access_offset_s;
+    ufL_t file_access_offset_e = m_data_offset + logical_access_offset_e;
+
+    ufL_t file_block_fs = file_access_offset_s / FILE_ALIGNMENT;
+    ufL_t file_block_fe = (file_access_offset_e + FILE_ALIGNMENT - 1) / FILE_ALIGNMENT;
+
+    ufL_t file_aligned_offset_s = file_block_fs * FILE_ALIGNMENT;
+    ufL_t file_aligned_offset_e = file_block_fe * FILE_ALIGNMENT;
+
+    ufL_t aligned_bytes_left = file_aligned_offset_e - file_aligned_offset_s;
+    while (aligned_bytes_left > 0){
+        upL_t current = (upL_t)std::min((ufL_t)Pbytes, aligned_bytes_left);
 
         //  Read from file.
+        upL_t bytes_read;
         {
             std::lock_guard<std::mutex> lg(m_lock);
-            m_file.set_ptr(m_dp_offset + static_cast<ufL_t>(offset));
-            upL_t bytes = m_file.read(buffer, block);
-            if (bytes != block){
-                throw StringException("BasicTextReader::load_stats()", "Error Reading from File");
-            }
+            bytes_read = m_file.load(buffer, file_aligned_offset_s, current, false);
         }
 
-        process(&stats, buffer, block, parallelizer, tds);
-        offset += block;
-        digits -= block;
+        sfL_t logical_aligned_offset_s = (sfL_t)file_aligned_offset_s - (sfL_t)m_data_offset;
+        sfL_t logical_aligned_offset_e = logical_aligned_offset_s + (sfL_t)current;
+
+        //  Bottom Filter
+        upL_t shift_f = (upL_t)std::max(
+            (sfL_t)logical_access_offset_s - logical_aligned_offset_s,
+            (sfL_t)0
+        );
+
+        //  Top Filter
+        upL_t shift_e = (upL_t)std::max(
+            logical_aligned_offset_e - (sfL_t)logical_access_offset_e,
+            (sfL_t)0
+        );
+        if (bytes_read < current - shift_e){
+            throw FileIO::FileException("BasicTextReader::load_stats()", m_file.path(), "Incomplete read.");
+        }
+
+        upL_t processed = current - shift_f - shift_e;
+        process(
+            &stats,
+            buffer + shift_f,
+            buffer + shift_f,
+            processed,
+            parallelizer, tds
+        );
+
+        logical_access_offset_s += processed;
+        file_aligned_offset_s += current;
+        aligned_bytes_left -= current;
     }
 }
 void BasicTextReader::load_digits(
@@ -328,19 +350,74 @@ void BasicTextReader::load_digits(
     //  Ends past the end.
     uiL_t end = offset + digits;
     if (end > m_total_digits){
-        throw StringException("BasicTextReader::load_digits()", "Out of range.");
+        throw StringException("BasicTextReader::load_stats()", "Out of range.");
     }
 
-    //  Read from file.
-    {
-        std::lock_guard<std::mutex> lg(m_lock);
-        m_file.set_ptr(m_dp_offset + static_cast<ufL_t>(offset));
-        if (m_file.read(output, digits) != digits){
-            throw StringException("BasicTextReader::load_digits()", "Error Reading from File");
+    char* buffer = (char*)P;
+    if (Alignment::ptr_past_aligned<FILE_ALIGNMENT>(buffer) != 0){
+        throw InvalidParametersException("BasicTextReader::load_stats()", "Buffer is misaligned.");
+    }
+
+    Alignment::align_int_down_inplace<FILE_ALIGNMENT>(Pbytes);
+    check_BufferTooSmall("BasicTextReader::load_stats()", Pbytes, FILE_ALIGNMENT);
+
+    //  This is the ugly sector alignment logic.
+
+    ufL_t logical_access_offset_s = (ufL_t)offset;
+    ufL_t logical_access_offset_e = logical_access_offset_s + (ufL_t)digits;
+
+    ufL_t file_access_offset_s = m_data_offset + logical_access_offset_s;
+    ufL_t file_access_offset_e = m_data_offset + logical_access_offset_e;
+
+    ufL_t file_block_fs = file_access_offset_s / FILE_ALIGNMENT;
+    ufL_t file_block_fe = (file_access_offset_e + FILE_ALIGNMENT - 1) / FILE_ALIGNMENT;
+
+    ufL_t file_aligned_offset_s = file_block_fs * FILE_ALIGNMENT;
+    ufL_t file_aligned_offset_e = file_block_fe * FILE_ALIGNMENT;
+
+    ufL_t aligned_bytes_left = file_aligned_offset_e - file_aligned_offset_s;
+    while (aligned_bytes_left > 0){
+        upL_t current = (upL_t)std::min((ufL_t)Pbytes, aligned_bytes_left);
+
+        //  Read from file.
+        upL_t bytes_read;
+        {
+            std::lock_guard<std::mutex> lg(m_lock);
+            bytes_read = m_file.load(buffer, file_aligned_offset_s, current, false);
         }
-    }
 
-    process(stats, output, digits, parallelizer, tds);
+        sfL_t logical_aligned_offset_s = (sfL_t)file_aligned_offset_s - (sfL_t)m_data_offset;
+        sfL_t logical_aligned_offset_e = logical_aligned_offset_s + (sfL_t)current;
+
+        //  Bottom Filter
+        upL_t shift_f = (upL_t)std::max(
+            (sfL_t)logical_access_offset_s - logical_aligned_offset_s,
+            (sfL_t)0
+        );
+
+        //  Top Filter
+        upL_t shift_e = (upL_t)std::max(
+            logical_aligned_offset_e - (sfL_t)logical_access_offset_e,
+            (sfL_t)0
+        );
+        if (bytes_read < current - shift_e){
+            throw FileIO::FileException("BasicTextReader::load_digits()", m_file.path(), "Incomplete read.");
+        }
+
+        upL_t processed = current - shift_f - shift_e;
+        process(
+            stats,
+            output,
+            buffer + shift_f,
+            processed,
+            parallelizer, tds
+        );
+
+        output += processed;
+        logical_access_offset_s += processed;
+        file_aligned_offset_s += current;
+        aligned_bytes_left -= current;
+    }
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

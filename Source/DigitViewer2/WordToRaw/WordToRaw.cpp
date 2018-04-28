@@ -15,7 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #if 0
 #elif defined YMP_Arch_2017_x64_Skylake
-#include "Kernels/WordToRaw_x64_AVX512BW.ipp"
+#include "Kernels/WordToRaw_x64_AVX512-BW.ipp"
 #elif defined YMP_Arch_2013_x64_Haswell
 #include "Kernels/WordToRaw_x64_AVX2.ipp"
 #elif defined YMP_Arch_2007_x64_Penryn

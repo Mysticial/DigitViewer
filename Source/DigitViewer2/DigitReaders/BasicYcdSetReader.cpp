@@ -248,13 +248,7 @@ bool BasicYcdSetReader::range_is_available(uiL_t offset, uiL_t digits){
     return !bad;
 }
 upL_t BasicYcdSetReader::recommend_buffer_size(uiL_t digits, upL_t limit) const{
-    if (digits == 0){
-        return 0;
-    }
-    uiL_t words = (digits - 1) / m_digits_per_word + 1;
-    upL_t bytes = (upL_t)std::min((words + 2) * sizeof(u64_t), (uiL_t)limit);
-    bytes = std::max(bytes, DEFAULT_ALIGNMENT + 2 * sizeof(u64_t));
-    return bytes;
+    return m_files.begin()->second->recommend_buffer_size(digits, limit);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #if 0
 #elif defined YMP_Arch_2017_x64_Skylake
-#include "Kernels/DigitCount_x64_AVX512BW.ipp"
+#include "Kernels/DigitCount_x64_AVX512-BW.ipp"
 #elif defined YMP_Arch_2013_x64_Haswell
 #include "Kernels/DigitCount_x64_AVX2.ipp"
 #elif defined YMP_Arch_2001_x86_SSE2

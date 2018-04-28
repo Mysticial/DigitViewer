@@ -395,6 +395,9 @@
     <ClCompile Include="..\..\Source\DigitViewer\PrintHelpers.cpp">
       <Filter>Source Files\DigitViewer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile.cpp">
+      <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\DigitViewer2\DigitCount\DigitCount.h">
@@ -616,6 +619,12 @@
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_SSE2.h">
       <Filter>Source Files\PublicLibs\ArchSpecificLibs</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_XOP.h">
+      <Filter>Source Files\PublicLibs\ArchSpecificLibs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_AVX.h">
+      <Filter>Source Files\PublicLibs\ArchSpecificLibs</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_AVX2.h">
       <Filter>Source Files\PublicLibs\ArchSpecificLibs</Filter>
     </ClInclude>
@@ -732,6 +741,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\DigitViewer\PrintHelpers.h">
       <Filter>Source Files\DigitViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Linux.h">
+      <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Linux.ipp">
+      <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Windows.h">
+      <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Windows.ipp">
+      <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile.h">
+      <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

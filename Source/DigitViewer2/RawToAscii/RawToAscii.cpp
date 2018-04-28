@@ -20,7 +20,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #if 0
 #elif defined YMP_Arch_2017_x64_Skylake
-#include "Kernels/RawToAscii_x64_AVX512BW.ipp"
+#include "Kernels/RawToAscii_x64_AVX512-BW.ipp"
 #elif defined YMP_Arch_2013_x64_Haswell
 #include "Kernels/RawToAscii_x64_AVX2.ipp"
 #elif defined YMP_Arch_2004_x86_SSE3 || defined YMP_Arch_2004_x64

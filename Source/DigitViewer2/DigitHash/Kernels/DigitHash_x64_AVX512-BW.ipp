@@ -1,4 +1,4 @@
-/* DigitHash_x64_AVX512BW.ipp
+/* DigitHash_x64_AVX512-BW.ipp
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/14/2018
@@ -18,7 +18,7 @@
 #include "PublicLibs/BasicLibs/Alignment/AlignmentTools.h"
 #include "DigitViewer2/DigitHash/DigitHash.h"
 #include "DigitHash_Default.h"
-#include "DigitHash_x64_AVX512BW.h"
+#include "DigitHash_x64_AVX512-BW.h"
 namespace DigitViewer2{
 namespace DigitHash{
 ////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/29/2018
- * Last Modified    : 01/29/2018
+ * Last Modified    : 03/21/2018
  * 
  */
 
@@ -20,7 +20,6 @@
 #include "PublicLibs/Exceptions/InvalidParametersException.h"
 #include "PublicLibs/BasicLibs/Alignment/AlignmentTools.h"
 #include "PublicLibs/BasicLibs/Concurrency/BlockSplitting.h"
-#include "PublicLibs/SystemLibs/FileIO/FileIO.h"
 #include "PublicLibs/SystemLibs/FileIO/FileException.h"
 #include "DigitViewer2/RawToCompressed/RawToCompressed.h"
 #include "DigitViewer/Globals.h"
@@ -31,28 +30,20 @@ namespace DigitViewer2{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-BasicYcdFileReader::BasicYcdFileReader(const std::string& path)
-    : m_path(path)
-    , m_file(path)
+BasicYcdFileReader::BasicYcdFileReader(std::string path)
+    : m_file(std::move(path), FileIO::OPEN_READONLY)
 {
     //  Parse the file
-
     using namespace DigitViewer;
 
+    FileIO::BufferedReader reader(m_file);
+
     //  Start after the next newline.
-    {
-        char ch;
-        do{
-            if (m_file.read(&ch, 1) == 0){
-                FileIO::PrintLastError();
-                throw FileIO::FileException("BasicYcdFileReader::BasicYcdFileReader()", path, "Invalid File Format");
-            }
-        }while (ch != '\n');
-    }
+    while (reader.next() != '\n');
 
     //  Parse header info
     while (1){
-        std::string token = grab_until_delim(&m_file, '\n');
+        std::string token = grab_until_delim(reader, '\n');
 
         //  Empty line
         if (token.size() == 0){
@@ -112,20 +103,13 @@ BasicYcdFileReader::BasicYcdFileReader(const std::string& path)
     }
 
     //  Find offset
-    //  This isn't efficient. It sets the file pointer back to zero and counts
-    //  to the first null character.
-    m_file.set_ptr(0);
-    char ch;
-    ufL_t c = 0;
-    while (1){
-        if (m_file.read(&ch, 1) == 0){
-            throw FileIO::FileException("BasicYcdFileReader::BasicYcdFileReader()", path, "Error Reading File");
-        }
-        c++;
-        if (ch == '\0')
+    while (true){
+        char ch = reader.next();
+        if (ch == '\0'){
+            m_data_offset = reader.offset();
             break;
+        }
     };
-    m_data_offset = c;
 
     //  Check Version
     if (m_file_version.size() == 0){
@@ -133,7 +117,7 @@ BasicYcdFileReader::BasicYcdFileReader(const std::string& path)
     }
     if (m_file_version != "1.0.0" && m_file_version != "1.1.0"){
         throw FileIO::FileException(
-            "YCDFileReader::YCDFileReader()",
+            "BasicYcdFileReader::BasicYcdFileReader()",
             path,
             "This .ycd file is of a later format version.\n"
             "This version of the digit viewer is unable to view this file."
@@ -200,17 +184,17 @@ upL_t BasicYcdFileReader::recommend_buffer_size(uiL_t digits, upL_t limit) const
     if (digits == 0){
         return 0;
     }
-    uiL_t words = (digits - 1) / m_digits_per_word + 1;
-    upL_t bytes = (upL_t)std::min((words + 2) * sizeof(u64_t), (uiL_t)limit);
-    bytes = std::max(bytes, DEFAULT_ALIGNMENT + 2 * sizeof(u64_t));
-    return bytes;
+    limit = std::max(limit, 2*FILE_ALIGNMENT);
+    uiL_t words = (digits + 2*m_digits_per_word - 1) / m_digits_per_word;
+    uiL_t sectors = (words * sizeof(u64_t) + 2*FILE_ALIGNMENT - 1) / FILE_ALIGNMENT;
+    return (upL_t)std::min(sectors * FILE_ALIGNMENT, (uiL_t)limit);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 void BasicYcdFileReader::print() const{
-    Console::println(m_path);
+    Console::println(m_file.path());
     Console::println();
 
     Console::println_labelm("file_version:", m_file_version);
@@ -226,55 +210,13 @@ void BasicYcdFileReader::print() const{
     Console::println_labelm_commas("data_offset:", m_data_offset);
     Console::println();
 }
-void BasicYcdFileReader::read_words(ufL_t pos, u64_t* T, upL_t L){
-    //  This method reads L words starting at offset "pos".
-    //  "pos" is measured in 64-bit words. It is relative to the start of the
-    //  data section of the .ycd file.
-
-    //  Thus the byte region of the file that is read is:
-    //      [
-    //          (data section offset) + pos * sizeof(u64_t),
-    //          (data section offset) + (pos + L) * sizeof(u64_t)
-    //      )
-
-    //  Note the [start, end). Thus it reads from "start" and ends 1 byte before
-    //  "end".
-
-    //  If any portion is out of range of the file, it throw an exception.
-
-    if (pos + L > m_words_in_this_file){
-        Console::Warning("Internal Error: Read out of Bounds");
-        std::string error = "BasicYcdFileReader::read_words()\n";
-        error += "Read out of bounds.\n";
-        error += "Requested Range: ";
-        error += std::to_string(pos);
-        error += " - ";
-        error += std::to_string(pos + L);
-        error += "\nAvailable Range: ";
-        error += std::to_string(0);
-        error += " - ";
-        error += std::to_string(m_words_in_this_file);
-        throw FileIO::FileException("BasicYcdFileReader::read_words()", m_path, error);
-    }
-
-    std::lock_guard<std::mutex> lg(m_lock);
-
-    //  Set file pointer
-    m_file.set_ptr(m_data_offset + pos * sizeof(u64_t));
-
-    //  Read
-    upL_t words_read = m_file.read(T, L * sizeof(u64_t)) / sizeof(u64_t);
-    if (words_read != L){
-        throw FileIO::FileException("BasicYcdFileReader::read_words()", m_path, "Error Reading File");
-    }
-}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 void BasicYcdFileReader::process_blocks(
     DigitStats& stats,
-    u64_t* B, upL_t BL
+    const u64_t* B, upL_t BL
 ) const{
     alignas(DEFAULT_ALIGNMENT) char raw_digits[19 * CACHE_BLOCK];
     while (BL > 0){
@@ -291,7 +233,7 @@ void BasicYcdFileReader::process_blocks(
 void BasicYcdFileReader::process_blocks(
     char* raw_digits,
     DigitStats* stats,
-    u64_t* B, upL_t BL
+    const u64_t* B, upL_t BL
 ) const{
     if (stats == nullptr){
         //  Single-pass only. No cache blocking needed.
@@ -319,7 +261,7 @@ class BasicYcdFileReader::Action_process : public BasicAction{
     const BasicYcdFileReader& m_object;
     char* m_raw_digits;
     DigitStats* m_stats;
-    u64_t* m_B;
+    const u64_t* m_B;
     upL_t m_BL;
 
     upL_t m_unit_L;
@@ -329,7 +271,7 @@ public:
         const BasicYcdFileReader& object,
         char* raw_digits,
         DigitStats* stats,
-        u64_t* B, upL_t BL,
+        const u64_t* B, upL_t BL,
         upL_t unit_L
     )
         : m_object(object)
@@ -367,7 +309,7 @@ public:
 void BasicYcdFileReader::process_blocks(
     char* raw_digits,
     DigitStats* stats,
-    u64_t* B, upL_t BL,
+    const u64_t* B, upL_t BL,
     BasicParallelizer& parallelizer, upL_t tds
 ) const{
     const upL_t THRESHOLD = 1000;
@@ -419,19 +361,49 @@ void BasicYcdFileReader::process_blocks(
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+const u64_t* BasicYcdFileReader::read_words(ufL_t word_offset, upL_t words, void* P, upL_t Pbytes){
+    //  Read the words in the range [word_offset, word_offset + words) from
+    //  disk into somewhere in [P, P + Pbytes).
+    //  Return a pointer the actual start of the data.
+
+    //  This function handles the sector alignment.
+
+    upL_t bytes = words * sizeof(u64_t);
+
+    ufL_t file_access_offset_s = m_data_offset + word_offset * sizeof(u64_t);
+    ufL_t file_access_offset_e = file_access_offset_s + bytes;
+
+    ufL_t file_block_fs = file_access_offset_s / FILE_ALIGNMENT;
+    ufL_t file_block_fe = (file_access_offset_e + FILE_ALIGNMENT - 1) / FILE_ALIGNMENT;
+
+    ufL_t file_aligned_offset_s = file_block_fs * FILE_ALIGNMENT;
+    ufL_t file_aligned_offset_e = file_block_fe * FILE_ALIGNMENT;
+
+    upL_t shift = (upL_t)(file_access_offset_s - file_aligned_offset_s);
+    upL_t read_bytes = (upL_t)(file_aligned_offset_e - file_aligned_offset_s);
+    check_BufferTooSmall("BasicYcdFileReader::read_words()", Pbytes, read_bytes);
+
+    upL_t bytes_read;
+    {
+        std::lock_guard<std::mutex> lg(m_lock);
+        bytes_read = m_file.load(P, file_aligned_offset_s, read_bytes, false);
+    }
+    if (bytes_read < bytes + shift){
+        throw FileIO::FileException(
+            "BasicYcdFileReader::read_words()",
+            m_file.path(),
+            "Read error."
+        );
+    }
+
+    return (const u64_t*)((char*)P + shift);
+}
 void BasicYcdFileReader::load_stats_B(
     DigitStats& stats,
     uiL_t offset, upL_t digits,
-    u64_t* P, upL_t PL,
+    void* P, upL_t Pbytes,
     BasicParallelizer& parallelizer, upL_t tds
 ){
-    //  Conditions:
-    //   -  digits <= (PL - 2) * m_digits_per_word
-
-    if (digits == 0){
-        return;
-    }
-
     ufL_t end = (ufL_t)offset + digits;
     ufL_t word_s = (ufL_t)offset / m_digits_per_word;
     ufL_t word_e = end / m_digits_per_word;
@@ -439,23 +411,22 @@ void BasicYcdFileReader::load_stats_B(
     bool end_tail = word_e * m_digits_per_word < end;
 
     //  Read into memory.
+    const u64_t* ptr;
     {
         ufL_t read_s = word_s;
         ufL_t read_e = end_tail ? word_e + 1 : word_e;
         upL_t read_L = (upL_t)(read_e - read_s);
-        read_words(word_s, P, read_L);
-//        Console::println_af(P, read_L);
+        ptr = read_words(word_s, read_L, P, Pbytes);
+//        Console::println_af(ptr, read_L);
     }
-
-//    alignas(DEFAULT_ALIGNMENT) char raw_digits[19 * CACHE_BLOCK];
 
     //  Start Filter
     ufL_t read_s = word_s * m_digits_per_word;
     if (read_s != offset){
 //        cout << "Start Filter" << endl;
         char buffer[19];
-        m_fp_convert(buffer, P, 1);
-        P += 1;
+        m_fp_convert(buffer, ptr, 1);
+        ptr += 1;
 
         //  Compute sizes
         upL_t diff = (upL_t)(offset - read_s);
@@ -478,10 +449,10 @@ void BasicYcdFileReader::load_stats_B(
     upL_t blocks = (upL_t)(word_e - word_s);
     if (blocks > 0){
 //        cout << "Steady" << endl;
-        process_blocks(nullptr, &stats, P, blocks, parallelizer, tds);
+        process_blocks(nullptr, &stats, ptr, blocks, parallelizer, tds);
 
         upL_t current_digits = blocks * m_digits_per_word;
-        P += blocks;
+        ptr += blocks;
         digits -= current_digits;
         word_s += blocks;
     }
@@ -490,7 +461,7 @@ void BasicYcdFileReader::load_stats_B(
     if (end_tail){
 //        cout << "End Filter" << endl;
         char buffer[19];
-        m_fp_convert(buffer, P, 1);
+        m_fp_convert(buffer, ptr, 1);
 
         stats.accumulate(buffer, digits);
     }
@@ -499,16 +470,9 @@ void BasicYcdFileReader::load_digits_B(
     char* output,
     DigitStats* stats,
     uiL_t offset, upL_t digits,
-    u64_t* P, upL_t PL,
+    void* P, upL_t Pbytes,
     BasicParallelizer& parallelizer, upL_t tds
 ){
-    //  Conditions:
-    //   -  digits <= (PL - 2) * m_digits_per_word
-
-    if (digits == 0){
-        return;
-    }
-
     ufL_t end = (ufL_t)offset + digits;
     ufL_t word_s = (ufL_t)offset / m_digits_per_word;
     ufL_t word_e = end / m_digits_per_word;
@@ -516,12 +480,13 @@ void BasicYcdFileReader::load_digits_B(
     bool end_tail = word_e * m_digits_per_word < end;
 
     //  Read into memory.
+    const u64_t* ptr;
     {
         ufL_t read_s = word_s;
         ufL_t read_e = end_tail ? word_e + 1 : word_e;
         upL_t read_L = (upL_t)(read_e - read_s);
-        read_words(word_s, P, read_L);
-//        Console::println_af(P, read_L);
+        ptr = read_words(word_s, read_L, P, Pbytes);
+//        Console::println_af(ptr, read_L);
     }
 
     //  Start Filter
@@ -529,8 +494,8 @@ void BasicYcdFileReader::load_digits_B(
     if (read_s != offset){
 //        cout << "Start Filter" << endl;
         char buffer[19];
-        m_fp_convert(buffer, P, 1);
-        P += 1;
+        m_fp_convert(buffer, ptr, 1);
+        ptr += 1;
 
         //  Compute sizes
         upL_t diff = (upL_t)(offset - read_s);
@@ -554,15 +519,14 @@ void BasicYcdFileReader::load_digits_B(
         return;
     }
 
-
     //  Steady State
     upL_t blocks = (upL_t)(word_e - word_s);
     if (blocks > 0){
 //        cout << "Steady" << endl;
-        process_blocks(output, stats, P, blocks, parallelizer, tds);
+        process_blocks(output, stats, ptr, blocks, parallelizer, tds);
 
         upL_t current_digits = blocks * m_digits_per_word;
-        P += blocks;
+        ptr += blocks;
         output += current_digits;
         digits -= current_digits;
         word_s += blocks;
@@ -572,14 +536,7 @@ void BasicYcdFileReader::load_digits_B(
     if (end_tail){
 //        cout << "End Filter" << endl;
         char buffer[19];
-        m_fp_convert(buffer, P, 1);
-//        cout << "digits = " << digits << endl;
-
-        //cout << P[1] << endl;
-//        cout << P[0] << endl;
-//        for (upL_t c = 0; c < digits; c++){
-//            cout << "digit = " << (int)buffer[c] << endl;
-//        }
+        m_fp_convert(buffer, ptr, 1);
 
         memcpy(output, buffer, digits);
         if (stats != nullptr){
@@ -591,6 +548,49 @@ void BasicYcdFileReader::load_digits_B(
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+upL_t BasicYcdFileReader::start_access(
+    uiL_t& offset, uiL_t digits,
+    void* P, upL_t& Pbytes
+) const{
+    //  Get boundaries
+    uiL_t block_start = m_digits_per_file * m_file_id;
+    uiL_t block_end   = block_start + m_digits_per_file;
+    if (m_stream_end != 0 && block_end > m_digits_per_file){
+        block_end = m_stream_end;
+    }
+
+    //  Check boundaries
+    if (offset + digits > block_end || offset < block_start){
+        std::string error = "BasicYcdFileReader::start_access()\n";
+        error += "Read out of bounds.\n";
+        error += "Requested Range: ";
+        error += std::to_string(offset);
+        error += " - ";
+        error += std::to_string(offset + digits);
+        error += "\nAvailable Range: ";
+        error += std::to_string(block_start);
+        error += " - ";
+        error += std::to_string(block_end);
+        throw FileIO::FileException("BasicYcdFileReader::start_access()", m_file.path(), error);
+    }
+
+    if (Alignment::int_past_aligned<FILE_ALIGNMENT>((upL_t)P) != 0){
+        throw InvalidParametersException("BasicYcdFileReader::start_access()", "Buffer is misaligned.");
+    }
+
+    Alignment::align_int_down_inplace<FILE_ALIGNMENT>(Pbytes);
+    check_BufferTooSmall("BasicYcdFileReader::start_access()", Pbytes, 2*FILE_ALIGNMENT);
+
+    offset -= block_start;
+
+    //  # of words that can be safely loaded with current buffer size.
+    upL_t max_words = (Pbytes - FILE_ALIGNMENT) / sizeof(u64_t);
+
+    //  # of digits that can be safely loaded with current buffer size.
+    upL_t max_digits = (max_words - 1) * m_digits_per_word;
+
+    return max_digits;
+}
 void BasicYcdFileReader::load_stats(
     DigitStats& stats,
     uiL_t offset, uiL_t digits,
@@ -601,40 +601,11 @@ void BasicYcdFileReader::load_stats(
         return;
     }
 
-    //  Get boundaries
-    uiL_t block_start = m_digits_per_file * m_file_id;
-    uiL_t block_end   = block_start + m_digits_per_file;
-    if (m_stream_end != 0 && block_end > m_digits_per_file){
-        block_end = m_stream_end;
-    }
-
-    //  Check boundaries
-    if (offset + digits > block_end || offset < block_start){
-        std::string error = "void BasicYcdFileReader::load_digits()\n";
-        error += "Read out of bounds.\n";
-        error += "Requested Range: ";
-        error += std::to_string(offset);
-        error += " - ";
-        error += std::to_string(offset + digits);
-        error += "\nAvailable Range: ";
-        error += std::to_string(block_start);
-        error += " - ";
-        error += std::to_string(block_end);
-        throw FileIO::FileException("BasicYcdFileReader::load_digits()", m_path, error);
-    }
-
-    if (Alignment::int_past_aligned<DEFAULT_ALIGNMENT>((upL_t)P) != 0){
-        throw InvalidParametersException("BasicTextReader::load_digits()", "Buffer is misaligned.");
-    }
-
-    upL_t PL = Pbytes / sizeof(u64_t);
-    check_BufferTooSmall("BasicYcdFileReader::load_digits()", PL, DEFAULT_ALIGNMENT / sizeof(u64_t) + 2);
-
-    offset -= block_start;
+    upL_t max_digits = start_access(offset, digits, P, Pbytes);
     while (digits > 0){
-        upL_t current_digits = (upL_t)std::min(digits, (uiL_t)((PL - 2) * m_digits_per_word));
+        upL_t current_digits = (upL_t)std::min(digits, (uiL_t)max_digits);
 
-        load_stats_B(stats, offset, current_digits, (u64_t*)P, PL, parallelizer, tds);
+        load_stats_B(stats, offset, current_digits, P, Pbytes, parallelizer, tds);
 
         offset += current_digits;
         digits -= current_digits;
@@ -647,58 +618,15 @@ void BasicYcdFileReader::load_digits(
     void* P, upL_t Pbytes,
     BasicParallelizer& parallelizer, upL_t tds
 ){
-    //  This method reads digits from the file.
-    //  It reads the following region:
-    //      [pos, pos + digits)
-
-    //  "pos" is relative to the start of the constant. Thus it is required that
-    //  the region fits entirely inside this file. Otherwise it will throw an
-    //  exception.
-
-    //Parameters:
-    //  -   pos                 -   Starting digit position of the constant.
-    //  -   (str, digits)       -   Output buffer
-    //  -   (buffer, buffer_L)  -   Scratch memory
-    //  -   fp_convert          -   Function pointer for binary -> char conversion.
-
     if (digits == 0){
         return;
     }
 
-    //  Get boundaries
-    uiL_t block_start = m_digits_per_file * m_file_id;
-    uiL_t block_end   = block_start + m_digits_per_file;
-    if (m_stream_end != 0 && block_end > m_digits_per_file){
-        block_end = m_stream_end;
-    }
-
-    //  Check boundaries
-    if (offset + digits > block_end || offset < block_start){
-        std::string error = "void BasicYcdFileReader::load_digits()\n";
-        error += "Read out of bounds.\n";
-        error += "Requested Range: ";
-        error += std::to_string(offset);
-        error += " - ";
-        error += std::to_string(offset + digits);
-        error += "\nAvailable Range: ";
-        error += std::to_string(block_start);
-        error += " - ";
-        error += std::to_string(block_end);
-        throw FileIO::FileException("BasicYcdFileReader::load_digits()", m_path, error);
-    }
-
-    if (Alignment::int_past_aligned<DEFAULT_ALIGNMENT>((upL_t)P) != 0){
-        throw InvalidParametersException("BasicTextReader::load_digits()", "Buffer is misaligned.");
-    }
-
-    upL_t PL = Pbytes / sizeof(u64_t);
-    check_BufferTooSmall("BasicYcdFileReader::load_digits()", PL, DEFAULT_ALIGNMENT / sizeof(u64_t) + 2);
-
-    offset -= block_start;
+    upL_t max_digits = start_access(offset, digits, P, Pbytes);
     while (digits > 0){
-        upL_t current_digits = std::min(digits, (PL - 2) * m_digits_per_word);
+        upL_t current_digits = std::min(digits, max_digits);
 
-        load_digits_B(output, stats, offset, current_digits, (u64_t*)P, PL, parallelizer, tds);
+        load_digits_B(output, stats, offset, current_digits, P, Pbytes, parallelizer, tds);
 
         output += current_digits;
         offset += current_digits;

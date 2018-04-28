@@ -62,7 +62,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{78460907-F11F-45DF-A8B3-BCF1D8E54EC5}</ProjectGuid>
     <RootNamespace>DigitViewer2</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -485,7 +485,7 @@
       </EnableEnhancedInstructionSet>
       <UseProcessorExtensions>CORE512</UseProcessorExtensions>
       <Mtune>skylake</Mtune>
-      <AdditionalOptions>/Qfreestanding %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Qfreestanding /Qwd11074 /Qwd11075 /Qwd15335 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <InterproceduralOptimization>SingleFile</InterproceduralOptimization>
     </ClCompile>
@@ -664,6 +664,7 @@
     <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\FileIO\BasicFile.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\FileIO\FileException.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\FileIO\FileIO.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\SMC_PublicSystemLibs.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -739,9 +740,11 @@
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\Shuffle\x86_256\Unpack_x86_AVX2.h" />
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\Shuffle\x86_512\Transpose_64x8x8_x86_AVX512.h" />
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\Shuffle\x86_512\Unpack_x86_AVX512.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_AVX.h" />
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_AVX2.h" />
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_AVX512.h" />
     <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_SSE2.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\ArchSpecificLibs\x86_XOP.h" />
     <ClInclude Include="..\..\Source\PublicLibs\BasicLibs\Alignment\AlignmentTools.h" />
     <ClInclude Include="..\..\Source\PublicLibs\BasicLibs\Alignment\DefaultAlignment.h" />
     <ClInclude Include="..\..\Source\PublicLibs\BasicLibs\CommandLine.h" />
@@ -791,6 +794,11 @@
     <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\BasicFile.h" />
     <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\FileException.h" />
     <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\FileIO.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Linux.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Linux.ipp" />
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Windows.h" />
+    <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile_Windows.ipp" />
     <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\ProcessorCapability\ProcessorCapability.h" />
     <ClInclude Include="..\..\Source\PublicLibs\SystemLibs\ProcessorCapability\ProcessorCapability_x86.h" />
     <ClInclude Include="..\..\Source\PublicLibs\Types.h" />

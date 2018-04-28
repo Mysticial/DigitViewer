@@ -2,7 +2,18 @@
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 02/04/2018
- * Last Modified    : 02/04/2018
+ * Last Modified    : 03/26/2018
+ * 
+ *      This writer uses raw (unbuffered) I/O.
+ * 
+ *  The advantages of raw disk I/O are:
+ *      -   Faster for bulk transfers because it eliminates the OS memcpy().
+ *      -   Saves memory since the OS doesn't need to allocate a buffer.
+ *      -   Prevents the OS from doing any stupid caching that may lead to
+ *          the pagefile Thrash of Death.
+ *
+ *  The disadvantage is that the buffer needs to be larger and must satisfy
+ *  stricter alignment requirements. It is also more difficult to implement.
  * 
  */
 
@@ -16,7 +27,7 @@
 //  Dependencies
 #include <mutex>
 #include "PublicLibs/BasicLibs/SparseRegion.h"
-#include "PublicLibs/SystemLibs/FileIO/BasicFile.h"
+#include "PublicLibs/SystemLibs/FileIO/RawFile.h"
 #include "BasicDigitWriter.h"
 namespace DigitViewer2{
     using namespace ymp;
@@ -25,6 +36,8 @@ namespace DigitViewer2{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class BasicYcdFileWriter : public BasicDigitWriter{
+    static const upL_t FILE_ALIGNMENT = FileIO::RAWIO_ALIGNMENT;
+
 public:
     BasicYcdFileWriter(
         const std::string& path,    //  UTF-8
@@ -53,14 +66,22 @@ public:
 
 
 private:
-    void read_words(ufL_t pos, u64_t* T, upL_t L);
-    void store_words(ufL_t pos, const u64_t* T, upL_t L);
+    u64_t* get_range(
+        ufL_t& write_offset, upL_t& write_bytes,
+        ufL_t word_offset, upL_t words,
+        void* P, upL_t Pbytes
+    );
     void store_digits_B(
         const char* input,
         ufL_t offset, upL_t digits,
-        u64_t* P, upL_t Pbytes,
+        void* P, upL_t Pbytes,
         BasicParallelizer& parallelizer, upL_t tds
     );
+
+    upL_t start_access(
+        uiL_t& offset, uiL_t digits,
+        void* P, upL_t& Pbytes
+    ) const;
 
 
 private:
@@ -70,7 +91,7 @@ private:
     std::mutex m_lock;
 
     std::string m_path;
-    FileIO::BasicFile m_file;
+    FileIO::RawFile m_file;
 
     uiL_t m_stream_end;
     ufL_t m_digits_per_file;
@@ -78,6 +99,7 @@ private:
 
     ConvertForward m_fp_convert_forward;
     ConvertInverse m_fp_convert_inverse;
+    u64_t m_max_word;
 
     //  File offset of where the "stream_end" field is.
     //  This is needed because this value isn't determined until the file is
@@ -89,6 +111,7 @@ private:
     upL_t m_digits_per_word;
     ufL_t m_words_in_this_file;
     ufL_t m_data_offset;        //  Offset where the actual data blocks begin.
+    ufL_t m_offset_extent;      //  Largest offset written + 1.
 
     //  Keep track of which parts of the file have been written to.
     Region<uiL_t> m_target;

@@ -103,8 +103,8 @@ YM_FORCE_INLINE bool hex_to_i64_u4_x86_SSE2(__m128i* T, const __m128i* raw, upL_
         a0 = _mm_or_si128(a0, a1);
         a2 = _mm_or_si128(a2, a3);
 
-        T[0] = a0;
-        T[1] = a2;
+        _mm_storeu_si128(T + 0, a0);
+        _mm_storeu_si128(T + 1, a2);
 
         raw += 4;
         T += 2;

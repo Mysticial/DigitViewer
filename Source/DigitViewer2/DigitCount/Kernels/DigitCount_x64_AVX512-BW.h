@@ -1,4 +1,4 @@
-/* DigitCount_x64_AVX512BW.h
+/* DigitCount_x64_AVX512-BW.h
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 01/13/2018
