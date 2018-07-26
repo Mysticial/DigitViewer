@@ -65,6 +65,30 @@ public:
 
     //  Run the action for all indices in the range [si, ei) assuming independence.
     virtual void run_in_parallel(BasicAction& action, upL_t si, upL_t ei) = 0;
+
+    //  A Note on Synchronization:
+    //
+    //      The functions above will run the specified actions in parallel
+    //  assuming they are independent from each other. Furthermore, the actions
+    //  should not attempt to synchronize with each other or they may deadlock.
+    //
+    //  This is because there is no guarantee that the actions actually run
+    //  concurrently. If action A attempts to wait for action B to trigger
+    //  something, action A may wait forever since the framework may not even
+    //  start running B until A finishes.
+    //
+    //
+    //  Starting from y-cruncher v0.7.6, all frameworks will support the
+    //  following exception to this "no synchronization" rule.
+    //
+    //      Actions with a higher index are allowed to block on actions with a
+    //  lower index. For the two-action function, a1 is allowed to wait for a0.
+    //  However, if a lower index attempts to block on a higher index, it may
+    //  still lead to a deadlock.
+    //
+    //  This exception is a temporary API change for an unrelated experiment.
+    //  It will probably go away again in the future.
+    //
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

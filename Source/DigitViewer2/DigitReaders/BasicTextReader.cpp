@@ -280,7 +280,7 @@ void BasicTextReader::load_stats(
         throw InvalidParametersException("BasicTextReader::load_stats()", "Buffer is misaligned.");
     }
 
-    Alignment::align_int_down_inplace<FILE_ALIGNMENT>(Pbytes);
+    Pbytes = Alignment::align_int_down<FILE_ALIGNMENT>(Pbytes);
     check_BufferTooSmall("BasicTextReader::load_stats()", Pbytes, FILE_ALIGNMENT);
 
     //  This is the ugly sector alignment logic.
@@ -358,7 +358,7 @@ void BasicTextReader::load_digits(
         throw InvalidParametersException("BasicTextReader::load_stats()", "Buffer is misaligned.");
     }
 
-    Alignment::align_int_down_inplace<FILE_ALIGNMENT>(Pbytes);
+    Pbytes = Alignment::align_int_down<FILE_ALIGNMENT>(Pbytes);
     check_BufferTooSmall("BasicTextReader::load_stats()", Pbytes, FILE_ALIGNMENT);
 
     //  This is the ugly sector alignment logic.

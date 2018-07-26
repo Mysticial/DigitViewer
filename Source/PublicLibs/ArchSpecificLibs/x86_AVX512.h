@@ -22,42 +22,18 @@ namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//  COMPILER-BUG-GCC: Missing AVX512 intrinsics.
-#if __GNUC__
-YM_FORCE_INLINE u64_t _mm512_reduce_or_epi64(const __m512i& a){
-    __m256i L4 = _mm512_castsi512_si256(a);
-    __m256i H4 = _mm512_extracti64x4_epi64(a, 1);
-    L4 = _mm256_or_si256(L4, H4);
-
-    __m128i L2 = _mm256_castsi256_si128(L4);
-    __m128i H2 = _mm256_extracti128_si256(L4, 1);
-    L2 = _mm_or_si128(L2, H2);
-
-    u64_t L1 =_mm_cvtsi128_si64(L2);
-    u64_t H1 = _mm_cvtsi128_si64(_mm_unpackhi_epi64(L2, L2));
-    return L1 | H1;
-}
-YM_FORCE_INLINE u64_t _mm512_reduce_add_epi64(const __m512i& a){
-    __m256i L4 = _mm512_castsi512_si256(a);
-    __m256i H4 = _mm512_extracti64x4_epi64(a, 1);
-    L4 = _mm256_add_epi64(L4, H4);
-
-    __m128i L2 = _mm256_castsi256_si128(L4);
-    __m128i H2 = _mm256_extracti128_si256(L4, 1);
-    L2 = _mm_add_epi64(L2, H2);
-
-    u64_t L1 =_mm_cvtsi128_si64(L2);
-    u64_t H1 = _mm_cvtsi128_si64(_mm_unpackhi_epi64(L2, L2));
-    return L1 + H1;
-}
-#define _mm512_mask2int(x)  (__mmask16)(x)
-#define _mm512_int2mask(x)  (s32_t)(x)
+#if !defined __INTEL_COMPILER && (defined _MSC_VER) && (_MSC_VER < 1914)
+#error "Visual Studio 15.7 or later is required."
 #endif
 ////////////////////////////////////////////////////////////////////////////////
-//  COMPILER-BUG-VSC: Missing AVX512 permute macros.
-#if !defined __INTEL_COMPILER && !defined __GNUC__
-//#define _MM_PERM_CDAB 0x1b
-#error "AVX512 code generation on MSVC is broken and buggy as of 15.5."
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//  COMPILER-BUG-GCC: AVX512 Missing intrinsics
+#if (!defined __INTEL_COMPILER) && (defined __GNUC__)
+YM_FORCE_INLINE __m512i _mm512_zextsi256_si512(__m256i x){
+    return _mm512_maskz_broadcast_i64x4(0x0f, x);
+}
 #endif
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -149,18 +125,16 @@ YM_FORCE_INLINE __m512i _mm512_permutex2var_epi8_AVX512BW(__m512i a, __m512i ind
 }
 #endif
 YM_FORCE_INLINE __m512i _mm512_cvtsi64_si512(u64_t x){
-#ifndef __INTEL_COMPILER
+#if (!defined __INTEL_COMPILER) && (defined __GNUC__)
     //  COMPILER-BUG-GCC: AVX512 Missing intrinsics
-    //  COMPILER-BUG-VSC: AVX512 Missing intrinsics
     return _mm512_maskz_set1_epi64(1, x);
 #else
     return _mm512_zextsi128_si512(_mm_cvtsi64_si128(x));
 #endif
 }
 YM_FORCE_INLINE __m512i _mm512_loadl_epi64(const void* ptr){
-#ifndef __INTEL_COMPILER
+#if (!defined __INTEL_COMPILER) && (defined __GNUC__)
     //  COMPILER-BUG-GCC: AVX512 Missing intrinsics
-    //  COMPILER-BUG-VSC: AVX512 Missing intrinsics
     return _mm512_maskz_set1_epi64(1, *(const u64_t*)ptr);
 #else
     return _mm512_zextsi128_si512(_mm_loadl_epi64((const __m128i*)ptr));

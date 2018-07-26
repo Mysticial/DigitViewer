@@ -25,6 +25,8 @@ namespace DigitHash{
 ////////////////////////////////////////////////////////////////////////////////
 template <int radix> YM_FORCE_INLINE
 u64_t hash_raw_str_Default(u64_t hash_in, const char* raw_digits, upL_t digits){
+    static_assert(0 < radix && radix <= 16, "Radix is out of range.");
+
     if (digits == 0){
         return hash_in;
     }
@@ -38,6 +40,8 @@ u64_t hash_raw_str_Default(u64_t hash_in, const char* raw_digits, upL_t digits){
 }
 template <int radix> YM_NO_INLINE
 u64_t hash_raw_u32d4_LittleEndian(u64_t hash_in, const u32_t* T, upL_t L){
+    static_assert(0 < radix && radix <= 16, "Radix is out of range.");
+
     if (L == 0){
         return hash_in;
     }
@@ -69,6 +73,8 @@ u64_t hash_raw_u32d4_LittleEndian(u64_t hash_in, const u32_t* T, upL_t L){
 }
 template <int radix> YM_NO_INLINE
 u64_t hash_raw_u64d8_LittleEndian(u64_t hash_in, const u64_t* T, upL_t L){
+    static_assert(0 < radix && radix <= 16, "Radix is out of range.");
+
     if (L == 0){
         return hash_in;
     }
@@ -98,7 +104,9 @@ u64_t hash_raw_u64d8_LittleEndian(u64_t hash_in, const u64_t* T, upL_t L){
         {
             u64_t lo = (u64_t)(u32_t)hash_in * SCALE8;
             u64_t hi = (u64_t)(u32_t)(hash_in >> 32) * SCALE8;
-            hash_in = lo + (hi >> 29) + ((hi & 0x1fffffff) << 32) + word;
+            lo = (lo >> 61) + ((u64_t)lo & 0x1fffffffffffffff);
+            hi = (hi >> 29) + ((hi & 0x1fffffff) << 32);
+            hash_in = lo + hi + word;
         }
         T++;
     }while (--L);

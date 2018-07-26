@@ -28,13 +28,14 @@ namespace BasicFrameworks{
 class CppAsync : public BasicParallelizer{
 public:
     virtual void run_in_parallel(BasicAction& a0, BasicAction& a1) override{
-        auto handle = std::async(std::launch::async, run, std::ref(a0), 0);
-        try{
-            a1.run();
-        }catch (...){
-            handle.get();
-            throw;
-        }
+        auto handle = std::async(std::launch::async, run, std::ref(a1), 0);
+        run(a0, 0);
+        //try{
+        //    a1.run();
+        //}catch (...){
+        //    handle.get();
+        //    throw;
+        //}
         handle.get();
     }
     virtual void run_in_parallel(BasicAction& action, upL_t si, upL_t ei) override{

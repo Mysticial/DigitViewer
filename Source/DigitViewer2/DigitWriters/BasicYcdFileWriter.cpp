@@ -373,7 +373,7 @@ upL_t BasicYcdFileWriter::start_access(
         throw InvalidParametersException("BasicYcdFileWriter::start_access()", "Buffer is misaligned.");
     }
 
-    Alignment::align_int_down_inplace<FILE_ALIGNMENT>(Pbytes);
+    Pbytes = Alignment::align_int_down<FILE_ALIGNMENT>(Pbytes);
     check_BufferTooSmall("BasicYcdFileWriter::start_access()", Pbytes, 2*FILE_ALIGNMENT);
 
     offset -= block_start;

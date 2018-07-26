@@ -398,6 +398,9 @@
     <ClCompile Include="..\..\Source\PublicLibs\SystemLibs\FileIO\RawFile.cpp">
       <Filter>Source Files\PublicLibs\SystemLibs\FileIO</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\PublicLibs\CompileOptions_PublicLibs.cpp">
+      <Filter>Source Files\PublicLibs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\DigitViewer2\DigitCount\DigitCount.h">

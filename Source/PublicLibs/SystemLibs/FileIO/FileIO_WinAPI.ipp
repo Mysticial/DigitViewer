@@ -119,8 +119,9 @@ ufL_t GetFileSize(const std::string& path){
 }
 bool FileExists(const std::string& path){
     FILE *file;
-    if (_wfopen_s(&file, StringTools::utf8_to_wstr(path).c_str(), L"rb"))
+    if (_wfopen_s(&file, StringTools::utf8_to_wstr(path).c_str(), L"rb")){
         return false;
+    }
     fclose(file);
     return true;
 }
@@ -141,8 +142,9 @@ bool DirectoryIsWritable(const std::string& directory){
 
         //  Ensure the path ends with a slash.
         wchar_t last = path.back();
-        if (last != L'/' && last != L'\\')
+        if (last != L'/' && last != L'\\'){
             path += L'/';
+        }
     }
 
     //  Push the name

@@ -8,6 +8,7 @@ CURRENT_DIR := PublicLibs
 CURRENT :=
 
 
+CURRENT += ConsoleIO/ColorStrings.cpp
 CURRENT += ConsoleIO/BasicIO.cpp
 CURRENT += ConsoleIO/Margin.cpp
 CURRENT += ConsoleIO/Label.cpp

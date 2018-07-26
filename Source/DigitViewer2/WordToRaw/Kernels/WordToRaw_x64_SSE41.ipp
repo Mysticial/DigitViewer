@@ -45,7 +45,7 @@ YM_NO_INLINE void word_to_hex(char* raw, const u64_t* T, upL_t words){
     }
     {
         upL_t blocks = words / 2;
-        w64_to_hex_u2_x64_SSE41((__m128i*)raw, (const __m128i*)T, blocks);
+        w64_to_hex_u2_x64_SSE41((__m128i*)raw, (const u64_t*)T, blocks);
         raw   -= blocks * 2 * 16;
         T     += blocks * 2;
         words -= blocks * 2;

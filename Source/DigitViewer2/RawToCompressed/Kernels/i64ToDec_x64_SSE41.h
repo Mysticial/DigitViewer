@@ -73,8 +73,8 @@ YM_FORCE_INLINE bool dec_to_i64_u4_x64_SSE41(__m128i* T, const char* raw, upL_t 
         );
 
         bad = _mm_or_si128(bad, ret);
-        T[0] = t0;
-        T[1] = t1;
+        _mm_storeu_si128(T + 0, t0);
+        _mm_storeu_si128(T + 1, t1);
 
         raw += 76;
         T += 2;

@@ -110,8 +110,9 @@ ufL_t GetFileSize(const std::string& path){
 }
 bool FileExists(const std::string& path){
     FILE *file = fopen(path.c_str(), "rb");
-    if (file == NULL)
+    if (file == nullptr){
         return false;
+    }
 
     fclose(file);
     return true;
@@ -129,8 +130,9 @@ bool DirectoryIsWritable(const std::string& directory){
 
         //  Ensure the path ends with a slash.
         char last = path.back();
-        if (last != '/' && last != '\\')
+        if (last != '/' && last != '\\'){
             path += '/';
+        }
     }
 
     //  Push the name

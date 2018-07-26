@@ -62,7 +62,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{78460907-F11F-45DF-A8B3-BCF1D8E54EC5}</ProjectGuid>
     <RootNamespace>DigitViewer2</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -612,6 +612,7 @@
     <ClCompile Include="..\..\Source\PublicLibs\BasicLibs\StringTools\ToString.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\BasicLibs\StringTools\Unicode.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\BasicLibs\StringTools\ymb_STR.cpp" />
+    <ClCompile Include="..\..\Source\PublicLibs\CompileOptions_PublicLibs.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Array.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\BasicIO.cpp" />
     <ClCompile Include="..\..\Source\PublicLibs\ConsoleIO\Label.cpp" />

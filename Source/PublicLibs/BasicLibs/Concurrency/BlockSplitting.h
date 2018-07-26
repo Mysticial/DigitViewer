@@ -61,7 +61,7 @@ LengthType parallel_split_words_aligned(LengthType total, upL_t& tds, ThresholdT
         : corrected_block_size;
 
     //  Align the block size.
-    Alignment::align_length_up_inplace<WordType, byte_alignment>(corrected_block_size);
+    corrected_block_size = Alignment::align_length_up<WordType, byte_alignment>(corrected_block_size);
 
     //  If anything has changed, recalculate the task decomposition.
     if (corrected_block_size != desired_block_size){

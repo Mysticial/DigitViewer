@@ -36,9 +36,7 @@ public:
     YM_FORCE_INLINE hash_t(u64_t x);
 
 public:
-    YM_FORCE_INLINE u64_t value() const{
-        return m_hash;
-    }
+    YM_FORCE_INLINE u64_t value() const;
 
 public:
     friend bool operator==(hash_t a, hash_t b);
@@ -63,15 +61,20 @@ public:
     static hash_t word_power(siL_t pow);
 
 private:
+    YM_FORCE_INLINE hash_t(u64_t x, void*) : m_hash(x) {}
+    static u64_t reduce(u64_t x);
+    static u64_t reduce(s64_t x);
+    static u64_t reduce(u64_t L, u64_t H);
+
+private:
+    //  This internal hash is not fully reduced modulo 2^61 - 1.
+    //  But it is guaranteed to be inside the range [0, 2^63).
     u64_t m_hash;
 
     friend hash_t bp_hash(hash_t hash_in, const u32_t* T, upL_t L);
     friend hash_t bp_hash(hash_t hash_in, const u64_t* T, upL_t L);
     friend hash_t bp_hash_radix(hash_t hash_in, u32_t radix, const u32_t* T, upL_t L);
     friend hash_t bp_hash_radix(hash_t hash_in, u64_t radix, const u64_t* T, upL_t L);
-
-    YM_FORCE_INLINE hash_t(u64_t x, void*) : m_hash(x) {}
-    static YM_FORCE_INLINE u64_t reduce(u64_t L, u64_t H);
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,30 +88,33 @@ YM_FORCE_INLINE hash_t::hash_t(u32_t x)
     : m_hash(x)
 {}
 YM_FORCE_INLINE hash_t::hash_t(u64_t x)
-    : m_hash(x)
-{
-    x >>= 61;
-    m_hash &= PRIME;
-    m_hash += x;
-    if (m_hash >= PRIME){
-        m_hash -= PRIME;
-    }
+    : m_hash(reduce(x))
+{}
+YM_FORCE_INLINE u64_t hash_t::value() const{
+    u64_t x = reduce(m_hash);
+    return x == PRIME ? 0 : x;
+}
+YM_FORCE_INLINE u64_t hash_t::reduce(u64_t x){
+    //  Reduce any unsigned 64-bit integer into the range [0, 2^61 + 7).
+    return (x >> 61) + (x & PRIME);
+}
+YM_FORCE_INLINE u64_t hash_t::reduce(s64_t x){
+    //  Reduce any signed 64-bit integer into the range [-4, 2^61 + 3).
+    return (x >> 61) + ((u64_t)x & PRIME);
 }
 YM_FORCE_INLINE u64_t hash_t::reduce(u64_t L, u64_t H){
-    H <<= 3;
-    H |= (u64_t)L >> 61;
-    L &= 0x1fffffffffffffffull;
-    L += H;
-    H = L - 0x1fffffffffffffffull;
-    return L >= 0x1fffffffffffffffull ? H : L;
+    L = (L >> 61) + (L & PRIME);
+    L += H >> 58;
+    L += (H << 3) & PRIME;
+    return L;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 YM_FORCE_INLINE bool operator==(hash_t a, hash_t b){
-    return a.m_hash == b.m_hash;
+    return a.value() == b.value();
 }
 YM_FORCE_INLINE bool operator!=(hash_t a, hash_t b){
-    return a.m_hash != b.m_hash;
+    return a.value() != b.value();
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +122,7 @@ YM_FORCE_INLINE hash_t operator+(hash_t a){
     return a;
 }
 YM_FORCE_INLINE hash_t operator-(hash_t a){
-    return a.m_hash == 0 ? 0 : hash_t::PRIME - a.m_hash;
+    return hash_t::reduce((u64_t)(0xfffffffffffffff8ull - a.m_hash));
 }
 YM_FORCE_INLINE hash_t operator+(hash_t a, hash_t b){
     a += b;
@@ -141,16 +147,10 @@ YM_FORCE_INLINE hash_t operator^(hash_t a, siL_t pow){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 YM_FORCE_INLINE void hash_t::operator+=(hash_t b){
-    m_hash += b.m_hash;
-    if (m_hash >= PRIME){
-        m_hash -= PRIME;
-    }
+    m_hash = reduce(m_hash + b.m_hash);
 }
 YM_FORCE_INLINE void hash_t::operator-=(hash_t b){
-    m_hash -= b.m_hash;
-    if ((s64_t)m_hash < 0){
-        m_hash += PRIME;
-    }
+    m_hash = reduce((s64_t)m_hash - (s64_t)b.m_hash) + PRIME;
 }
 YM_FORCE_INLINE void hash_t::operator^=(siL_t pow){
     if (pow < 0){

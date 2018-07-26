@@ -6,15 +6,16 @@
  * 
  */
 
-//#include "Time/Time.cpp"
-//#include "Time/StopWatch.cpp"
+#include "Time/Time.cpp"
+#include "Time/StopWatch.cpp"
 
 #include "FileIO/FileException.cpp"
 #include "FileIO/FileIO.cpp"
 #include "FileIO/BasicFile.cpp"
+#include "FileIO/RawFile.cpp"
 
 #include "Concurrency/Parallelizers.cpp"
-//#include "ManagedMemory/CppAllocator.cpp"
+#include "ManagedMemory/CppAllocator.cpp"
 
 #include "Environment/Environment.cpp"
-//#include "ProcessorCapability/cpu_x86.cpp"
+#include "ProcessorCapability/cpu_x86.cpp"

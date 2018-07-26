@@ -17,6 +17,7 @@
 #include <type_traits>
 #include "PublicLibs/CompilerSettings.h"
 #include "PublicLibs/Types.h"
+#include "PublicLibs/BasicLibs/TemplateTools/SizeOf.h"
 #include "DefaultAlignment.h"
 namespace ymp{
 namespace Alignment{
@@ -45,19 +46,21 @@ YM_FORCE_INLINE upL_t int_to_aligned(LengthType x){
 //  "ptr" must already be aligned to its type. Otherwise the behavior is undefined.
 template <upL_t alignment, typename Type>
 YM_FORCE_INLINE upL_t ptr_past_aligned(Type* ptr){
-    static_assert((sizeof(Type) & (sizeof(Type) - 1)) == 0, "sizeof(Type) must be a power-of-two.");
+    constexpr upL_t TYPE_ALIGN = SizeOf<Type>::value;
+    static_assert((TYPE_ALIGN & (TYPE_ALIGN - 1)) == 0, "sizeof(Type) must be a power-of-two.");
     static_assert((alignment & (alignment - 1)) == 0, "Alignment must be a power-of-two.");
-    constexpr upL_t ALIGN = sizeof(Type) > alignment ? sizeof(Type) : alignment;
+    constexpr upL_t ALIGN = TYPE_ALIGN > alignment ? TYPE_ALIGN : alignment;
     constexpr upL_t MASK = ALIGN - 1;
-    return ((upL_t)ptr & MASK) / sizeof(Type);
+    return ((upL_t)ptr & MASK) / TYPE_ALIGN;
 }
 template <upL_t alignment, typename Type>
 YM_FORCE_INLINE upL_t ptr_to_aligned(Type* ptr){
-    static_assert((sizeof(Type) & (sizeof(Type) - 1)) == 0, "sizeof(Type) must be a power-of-two.");
+    constexpr upL_t TYPE_ALIGN = SizeOf<Type>::value;
+    static_assert((TYPE_ALIGN & (TYPE_ALIGN - 1)) == 0, "sizeof(Type) must be a power-of-two.");
     static_assert((alignment & (alignment - 1)) == 0, "Alignment must be a power-of-two.");
-    constexpr upL_t ALIGN = sizeof(Type) > alignment ? sizeof(Type) : alignment;
+    constexpr upL_t ALIGN = TYPE_ALIGN > alignment ? TYPE_ALIGN : alignment;
     constexpr upL_t MASK = ALIGN - 1;
-    return ((0 - (upL_t)ptr) & MASK) / sizeof(Type);
+    return ((0 - (upL_t)ptr) & MASK) / TYPE_ALIGN;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,33 +68,24 @@ YM_FORCE_INLINE upL_t ptr_to_aligned(Type* ptr){
 ////////////////////////////////////////////////////////////////////////////////
 //  Align an Integer
 template <upL_t alignment, typename LengthType>
-YM_FORCE_INLINE LengthType align_int_down_return(LengthType x){
+YM_FORCE_INLINE LengthType align_int_down(LengthType x){
     static_assert(std::is_unsigned<LengthType>::value, "Length must be an unsigned integer.");
     static_assert((alignment & (alignment - 1)) == 0, "Alignment must be a power-of-two.");
     constexpr LengthType MASK = alignment - 1;
     return x & ~MASK;
 }
 template <upL_t alignment, typename LengthType>
-YM_FORCE_INLINE LengthType align_int_up_return(LengthType x){
+YM_FORCE_INLINE LengthType align_int_up(LengthType x){
     static_assert(std::is_unsigned<LengthType>::value, "Length must be an unsigned integer.");
     static_assert((alignment & (alignment - 1)) == 0, "Alignment must be a power-of-two.");
     constexpr LengthType MASK = alignment - 1;
     return (x + MASK) & ~MASK;
 }
 ////////////////////////////////////////////////////////////////////////////////
-template <upL_t alignment, typename LengthType>
-YM_FORCE_INLINE void align_int_down_inplace(LengthType& x){
-    x = align_int_down_return<alignment, LengthType>(x);
-}
-template <upL_t alignment, typename LengthType>
-YM_FORCE_INLINE void align_int_up_inplace(LengthType& x){
-    x = align_int_up_return<alignment, LengthType>(x);
-}
-////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Align a Word Length
 template <typename WordType, upL_t byte_alignment, typename LengthType>
-YM_FORCE_INLINE LengthType align_length_down_return(LengthType length){
+YM_FORCE_INLINE LengthType align_length_down(LengthType length){
     static_assert(std::is_unsigned<LengthType>::value, "Length must be an unsigned integer.");
     static_assert((sizeof(WordType) & (sizeof(WordType) - 1)) == 0, "sizeof(WordType) must be a power-of-two.");
     static_assert((byte_alignment & (byte_alignment - 1)) == 0, "Alignment must be a power-of-two.");
@@ -100,7 +94,7 @@ YM_FORCE_INLINE LengthType align_length_down_return(LengthType length){
     return length & ~MASK;
 }
 template <typename WordType, upL_t byte_alignment, typename LengthType>
-YM_FORCE_INLINE LengthType align_length_up_return(LengthType length){
+YM_FORCE_INLINE LengthType align_length_up(LengthType length){
     static_assert(std::is_unsigned<LengthType>::value, "Length must be an unsigned integer.");
     static_assert((sizeof(WordType) & (sizeof(WordType) - 1)) == 0, "sizeof(WordType) must be a power-of-two.");
     static_assert((byte_alignment & (byte_alignment - 1)) == 0, "Alignment must be a power-of-two.");
@@ -109,33 +103,15 @@ YM_FORCE_INLINE LengthType align_length_up_return(LengthType length){
     return (length + MASK) & ~MASK;
 }
 ////////////////////////////////////////////////////////////////////////////////
-template <typename WordType, upL_t byte_alignment, typename LengthType>
-YM_FORCE_INLINE void align_length_down_inplace(LengthType& length){
-    length = align_length_down_return<WordType, byte_alignment, LengthType>(length);
-}
-template <typename WordType, upL_t byte_alignment, typename LengthType>
-YM_FORCE_INLINE void align_length_up_inplace(LengthType& length){
-    length = align_length_up_return<WordType, byte_alignment, LengthType>(length);
-}
-////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Align a Pointer
 template <upL_t alignment, typename Type>
-YM_FORCE_INLINE Type* align_ptr_down_return(Type* ptr){
-    return (Type*)align_int_down_return<alignment>((upL_t)ptr);
+YM_FORCE_INLINE Type* align_ptr_down(Type* ptr){
+    return (Type*)align_int_down<alignment>((upL_t)ptr);
 }
 template <upL_t alignment, typename Type>
-YM_FORCE_INLINE Type* align_ptr_up_return(Type* ptr){
-    return (Type*)align_int_up_return<alignment>((upL_t)ptr);
-}
-////////////////////////////////////////////////////////////////////////////////
-template <upL_t alignment, typename Type>
-YM_FORCE_INLINE void align_ptr_down_inplace(Type*& ptr){
-    ptr = align_ptr_down_return<alignment>(ptr);
-}
-template <upL_t alignment, typename Type>
-YM_FORCE_INLINE void align_ptr_up_inplace(Type*& ptr){
-    ptr = align_ptr_up_return<alignment>(ptr);
+YM_FORCE_INLINE Type* align_ptr_up(Type* ptr){
+    return (Type*)align_int_up<alignment>((upL_t)ptr);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,27 +119,18 @@ YM_FORCE_INLINE void align_ptr_up_inplace(Type*& ptr){
 ////////////////////////////////////////////////////////////////////////////////
 //  Run-time Alignment (deprecated)
 template <typename T, typename A>
-YM_FORCE_INLINE T align_int_up_return(const T& x, A align){
+YM_FORCE_INLINE T align_int_up(const T& x, A align){
     static_assert(std::is_integral<T>::value, "Integer type required.");
     static_assert(std::is_integral<A>::value, "Integer type required.");
     const T MASK = align - 1;
     return (x + MASK) & ~MASK;
 }
 //template <typename T, typename A>
-//YM_FORCE_INLINE T align_int_down_return(const T& x, A align){
+//YM_FORCE_INLINE T align_int_down(const T& x, A align){
 //    static_assert(std::is_integral<T>::value, "Integer type required.");
 //    static_assert(std::is_integral<A>::value, "Integer type required.");
 //    const T MASK = align - 1;
 //    return x & ~MASK;
-//}
-////////////////////////////////////////////////////////////////////////////////
-template <typename wtype>
-YM_FORCE_INLINE void align_int_up_inplace(wtype& x, upL_t align){
-    x = align_int_up_return(x, (wtype)align);
-}
-//template <typename wtype>
-//YM_FORCE_INLINE void align_int_down_inplace(wtype& x, upL_t align){
-//    x = align_int_down_return(x, (wtype)align);
 //}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

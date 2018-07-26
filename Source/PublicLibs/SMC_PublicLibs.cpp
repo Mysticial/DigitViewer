@@ -6,6 +6,7 @@
  * 
  */
 
+#include "ConsoleIO/ColorStrings.cpp"
 #include "ConsoleIO/BasicIO.cpp"
 #include "ConsoleIO/Margin.cpp"
 #include "ConsoleIO/Label.cpp"
