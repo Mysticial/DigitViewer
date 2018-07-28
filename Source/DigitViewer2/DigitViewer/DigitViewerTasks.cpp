@@ -219,7 +219,7 @@ void compute_stats(BasicDigitReader& reader){
     //  Don't use more than 1/4 of the remaining available memory.
     upL_t mem_limit = Environment::GetFreePhysicalMemory() / 4;
 
-    const upL_t BLOCK_SIZE = (upL_t)1 << 30;    //  1 GB
+    const upL_t BLOCK_SIZE = 1000000000;
 
     upL_t bytes;
     {
@@ -268,7 +268,7 @@ void process_write(
     //  Don't use more than 1/4 of the remaining available memory.
     upL_t mem_limit = Environment::GetFreePhysicalMemory() / 4;
 
-    const upL_t BLOCK_SIZE = (upL_t)1 << 30;    //  1 GB
+    const upL_t BLOCK_SIZE = 1000000000;
 
     //  Find a suitable block size.
     upL_t block_size = (upL_t)std::min(digits, (uiL_t)BLOCK_SIZE) * 2;

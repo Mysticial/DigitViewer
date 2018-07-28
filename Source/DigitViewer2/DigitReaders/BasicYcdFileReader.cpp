@@ -380,13 +380,13 @@ const u64_t* BasicYcdFileReader::read_words(ufL_t word_offset, upL_t words, void
     ufL_t file_aligned_offset_e = file_block_fe * FILE_ALIGNMENT;
 
     upL_t shift = (upL_t)(file_access_offset_s - file_aligned_offset_s);
-    upL_t read_bytes = (upL_t)(file_aligned_offset_e - file_aligned_offset_s);
-    check_BufferTooSmall("BasicYcdFileReader::read_words()", Pbytes, read_bytes);
+    upL_t file_bytes = (upL_t)(file_aligned_offset_e - file_aligned_offset_s);
+    check_BufferTooSmall("BasicYcdFileReader::read_words()", Pbytes, file_bytes);
 
     upL_t bytes_read;
     {
         std::lock_guard<std::mutex> lg(m_lock);
-        bytes_read = m_file.load(P, file_aligned_offset_s, read_bytes, false);
+        bytes_read = m_file.load(P, file_aligned_offset_s, file_bytes, false);
     }
     if (bytes_read < bytes + shift){
         throw FileIO::FileException(

@@ -204,24 +204,30 @@ u64_t* BasicYcdFileWriter::get_range(
     ufL_t file_aligned_offset_e = file_block_fe * FILE_ALIGNMENT;
 
     upL_t shift = (upL_t)(file_access_offset_s - file_aligned_offset_s);
-    upL_t aligned_bytes = (upL_t)(file_aligned_offset_e - file_aligned_offset_s);
-    check_BufferTooSmall("BasicYcdFileWriter::get_range()", Pbytes, aligned_bytes);
+    upL_t file_bytes = (upL_t)(file_aligned_offset_e - file_aligned_offset_s);
+    check_BufferTooSmall("BasicYcdFileWriter::get_range()", Pbytes, file_bytes);
 
     write_offset = file_aligned_offset_s;
-    write_bytes = aligned_bytes;
+    write_bytes = file_bytes;
 
+    //  Read start block.
     if (shift != 0){
         m_file.load(
             P,
             file_aligned_offset_s,
-            FILE_ALIGNMENT,
+            //  Need to read two sectors if the word crosses a sectors boundary.
+            shift + sizeof(u64_t) <= FILE_ALIGNMENT
+                ? FILE_ALIGNMENT
+                : FILE_ALIGNMENT * 2,
             false
         );
     }
-    if (file_access_offset_e < file_aligned_offset_e && aligned_bytes > FILE_ALIGNMENT){
+
+    //  Read end block.
+    if (file_access_offset_e < file_aligned_offset_e && file_bytes > FILE_ALIGNMENT){
         m_file.load(
-            (char*)P + aligned_bytes - FILE_ALIGNMENT,
-            file_aligned_offset_e - FILE_ALIGNMENT,
+            (char*)P + file_bytes - FILE_ALIGNMENT * 2, //  TODO: Don't always need to read 2 sectors.
+            file_aligned_offset_e - FILE_ALIGNMENT * 2,
             FILE_ALIGNMENT,
             false
         );
@@ -263,7 +269,7 @@ void BasicYcdFileWriter::store_digits_B(
     //  Start Filter
     ufL_t read_s = word_s * m_digits_per_word;
     if (read_s != offset){
-//        cout << "Start Filter" << endl;
+//        cout << "Start Filter: " << offset + digits - digits_left << endl;
 
         //  Load and filter
         char buffer[19];
@@ -333,7 +339,6 @@ void BasicYcdFileWriter::store_digits_B(
         if(m_fp_convert_forward(ptr, buffer, 1)){
             throw InvalidParametersException("BasicYcdFileWriter::store_digits_B()", "Invalid Digit");
         }
-        ptr++;
     }
 
     m_file.store(P, write_offset, write_bytes);
