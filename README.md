@@ -10,41 +10,11 @@ This Digit Viewer can also be found inside y-cruncher: https://github.com/Mystic
 
 ## Version 1:
 
-Version 1 is the original DigitViewer that's currently in use by y-cruncher v0.7.5.
-
-**Sources:**
-
- - Project: `VSS - DigitViewer/`
- - Source: `Source/DigitViewer/`
- - Namespace: `DigitViewer`
-
-
-**Compile Instructions:**
-
-Windows:
- - Open the Visual Studio project and compile from within the IDE.
- - Visual Studio 2017 is required.
-
-Linux:
- - Run `VSS - DigitViewer/Compile-Linux.sh` from the directory it is in. It will create a folder `Binaries` with the three executables.
- - x64 and a sufficiently new version of GCC is required.
-
-
-**Build Modes:**
-
- - x86 : Release
- - x86 : 04-SSE3
- - x64 : 04-SSE3
- - x64 : 07-Penryn (SSE4.1)
- - x64 : 13-Haswell (AVX2)
-
-The x86 modes are not supported in Linux.
-
------
+Version 1 is the original DigitViewer that's currently in use by y-cruncher v0.7.5. It was replaced and removed in v0.7.6.
 
 ## Version 2:
 
-Version 2 is a work-in-progress rewrite of the Digit Viewer slated for y-cruncher v0.7.6. It isn't here yet since it's not quite ready. While most of the implementation is done, it has yet to be properly tested.
+Version 2 is a rewrite of the which was launched with y-cruncher v0.7.6.
 
 **Sources:**
 
@@ -97,8 +67,6 @@ Because buffering has been removed, the new classes will be harder to use casual
  - Faster decompression of decimal digits by means of an integer invariant-multiply method.
  - Faster digit counts by brute-force parallel SIMD histogramming.
  - Cache blocking optimizations to reduce bandwidth consumption.
-
-y-cruncher v0.7.5 has already picked up a subset of these optimizations when writing out digits to disk at the end of a computation. The rest will be in v0.7.6.
 
 
 **New Features**
