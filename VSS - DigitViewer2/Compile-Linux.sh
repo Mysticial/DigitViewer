@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir "Binaries" #
+mkdir -p "Binaries" #
 #
 #
 dir=$(pwd)/$(dirname $0) #
