@@ -29,7 +29,7 @@ namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//  COMPILER-BUG-GCC: AVX512 Missing intrinsics
+//  COMPILER-BUG-GCC: AVX512 Missing intrinsics (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83250)
 #if (!defined __INTEL_COMPILER) && (defined __GNUC__)
 YM_FORCE_INLINE __m512i _mm512_zextsi256_si512(__m256i x){
     return _mm512_maskz_broadcast_i64x4(0x0f, x);
@@ -126,7 +126,7 @@ YM_FORCE_INLINE __m512i _mm512_permutex2var_epi8_AVX512BW(__m512i a, __m512i ind
 #endif
 YM_FORCE_INLINE __m512i _mm512_cvtsi64_si512(u64_t x){
 #if (!defined __INTEL_COMPILER) && (defined __GNUC__)
-    //  COMPILER-BUG-GCC: AVX512 Missing intrinsics
+    //  COMPILER-BUG-GCC: AVX512 Missing intrinsics (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83250)
     return _mm512_maskz_set1_epi64(1, x);
 #else
     return _mm512_zextsi128_si512(_mm_cvtsi64_si128(x));
@@ -134,7 +134,7 @@ YM_FORCE_INLINE __m512i _mm512_cvtsi64_si512(u64_t x){
 }
 YM_FORCE_INLINE __m512i _mm512_loadl_epi64(const void* ptr){
 #if (!defined __INTEL_COMPILER) && (defined __GNUC__)
-    //  COMPILER-BUG-GCC: AVX512 Missing intrinsics
+    //  COMPILER-BUG-GCC: AVX512 Missing intrinsics (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83250)
     return _mm512_maskz_set1_epi64(1, *(const u64_t*)ptr);
 #else
     return _mm512_zextsi128_si512(_mm_loadl_epi64((const __m128i*)ptr));

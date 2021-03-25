@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    //  COMPILER-BUG-ICC: ICE if this function gets inlined.
+    //  COMPILER-BUG-ICC2019: ICE if this function gets inlined.
     YM_NO_INLINE static void run(BasicAction& action, upL_t index){
         try{
             action.run(index);

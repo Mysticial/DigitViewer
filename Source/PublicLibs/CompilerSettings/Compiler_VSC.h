@@ -17,12 +17,14 @@ namespace ymp{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#if (defined _MSC_VER) && (_MSC_VER < 1900)
-#error "MSVC++ 14.0 or later is required."
+//  Disable Bad/Buggy Compilers
+#if (defined _MSC_VER) && (_MSC_VER < 1923)
+#error "MSVC++ 16.3 or later is required."
+//  https://developercommunity.visualstudio.com/content/problem/549433/mixing-integer-and-floating-point-sse-intrinsics-l.html
 #endif 
 #ifdef __INTEL_COMPILER
-#if (__INTEL_COMPILER < 1600) || (__INTEL_COMPILER == 1600 && __INTEL_COMPILER_UPDATE < 4)
-#error "ICC 16.4 or later is required.""
+#if (__INTEL_COMPILER < 1900) || (__INTEL_COMPILER == 1900 && __INTEL_COMPILER_UPDATE < 4)
+#error "ICC 19.4 or later is required.""
 #endif
 #endif
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +89,6 @@ template <typename type> using r_rref = type &&__restrict;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Compiler Bugs
-#pragma warning(disable:4310)   //  Constant Truncation     COMPILER-BUG: VS2017 AVX512 warnings
 #if (defined _MSC_VER) && (_MSC_VER < 1910)
 #pragma warning(disable:4189)   //  Unused Local Variable (in static polymorphism)
 #endif

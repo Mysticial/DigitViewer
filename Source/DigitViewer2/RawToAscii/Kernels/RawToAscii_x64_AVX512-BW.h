@@ -127,7 +127,7 @@ YM_FORCE_INLINE bool raw_to_hex_x64_AVX512BW(__m512i* hex, const __m512i* raw, u
         hex++;
     }while (--blocks);
 
-    return _mm512_test_epi8_mask(bad, _mm512_set1_epi8((char)0xf0)) != 0;
+    return _mm512_test_epi8_mask(bad, _mm512_set1_epi8((unsigned char)0xf0)) != 0;
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

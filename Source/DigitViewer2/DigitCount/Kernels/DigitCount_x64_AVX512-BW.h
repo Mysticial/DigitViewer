@@ -103,9 +103,9 @@ YM_FORCE_INLINE void accumulate_b64_AVX512_64x10(u64_t digits[10], const __m512i
 
     sum0 = _mm512_add_epi64(sum0, sum4);
 
-    sum1 = _mm512_loadu_si512((__m512i*)digits);    //  COMPILER-BUG-GCC: Pointer Type
+    sum1 = _mm512_loadu_si512(digits);
     sum0 = _mm512_add_epi64(sum0, sum1);
-    _mm512_storeu_si512((__m512i*)digits, sum0);
+    _mm512_storeu_si512(digits, sum0);
 
     digits[8] += _mm512_reduce_add_epi64(sum8);
     digits[9] += _mm512_reduce_add_epi64(sum9);
@@ -167,9 +167,9 @@ void accumulate_b64_AVX512_64x8(u64_t digits[8], const __m512i* raw_digits, upL_
 
     sum0 = _mm512_add_epi64(sum0, sum4);
 
-    sum1 = _mm512_loadu_si512((__m512i*)digits);    //  COMPILER-BUG-GCC: Pointer Type
+    sum1 = _mm512_loadu_si512(digits);
     sum0 = _mm512_add_epi64(sum0, sum1);
-    _mm512_storeu_si512((__m512i*)digits, sum0);
+    _mm512_storeu_si512(digits, sum0);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

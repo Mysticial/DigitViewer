@@ -137,6 +137,16 @@ public:
         m_len -= bytes;
         return LinearWordBuffer<SubType>(ptr, length);
     }
+    template <typename SubType, typename SizeType>
+    SubType* spawn_objects(SizeType size){
+        upL_t bytes = (upL_t)size * sizeof(SubType);
+        bytes = (bytes + MASK) & ~MASK;
+        check_BufferTooSmall("AlignedBufferC::spawn_words()", m_len, bytes);
+        SubType* ptr = (SubType*)m_ptr;
+        m_ptr = (char*)m_ptr + bytes;
+        m_len -= bytes;
+        return ptr;
+    }
 
 
 private:
