@@ -36,7 +36,7 @@ YM_FORCE_INLINE __m256i div_100000000(__m256i x0){
 
     r3 = _mm256_shuffle_epi32(x0, 177);
 
-    // round(2**90 / 10**8) = 0xabcc77118461cefc.e
+    // 2**90 / 10**8 = 0xabcc77118461cefc.e
     // round up and split in two values: 0xabcc7711 and 0x8461cefd
     r0 = _mm256_mul_epu32(x0, _mm256_set1_epi32(0xabcc7711));
     r1 = _mm256_mul_epu32(r3, _mm256_set1_epi32(0x8461cefd));
