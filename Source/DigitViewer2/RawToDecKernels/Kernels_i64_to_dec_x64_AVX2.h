@@ -36,9 +36,11 @@ YM_FORCE_INLINE __m256i div_100000000(__m256i x0){
 
     r3 = _mm256_shuffle_epi32(x0, 177);
 
-    r0 = _mm256_mul_epu32(x0, _mm256_set1_epi32(2882303761));
-    r1 = _mm256_mul_epu32(r3, _mm256_set1_epi32(2221002493));
-    r2 = _mm256_mul_epu32(x0, _mm256_set1_epi32(2221002493));
+    // 2**90 / 10**8 = 0xabcc77118461cefc.e
+    // round up and split in two values: 0xabcc7711 and 0x8461cefd
+    r0 = _mm256_mul_epu32(x0, _mm256_set1_epi32(0xabcc7711));
+    r1 = _mm256_mul_epu32(r3, _mm256_set1_epi32(0x8461cefd));
+    r2 = _mm256_mul_epu32(x0, _mm256_set1_epi32(0x8461cefd));
 
     r2 = _mm256_srli_epi64(r2, 32);
     r0 = _mm256_add_epi64(r0, r2);
@@ -48,7 +50,7 @@ YM_FORCE_INLINE __m256i div_100000000(__m256i x0){
     r0 = _mm256_srli_epi64(r0, 32);
     r1 = _mm256_srli_epi64(r1, 32);
 
-    r3 = _mm256_mul_epu32(r3, _mm256_set1_epi32(2882303761));
+    r3 = _mm256_mul_epu32(r3, _mm256_set1_epi32(0x8461cefd));
     r3 = _mm256_add_epi64(r3, r0);
     r3 = _mm256_add_epi64(r3, r1);
 
@@ -83,6 +85,7 @@ YM_FORCE_INLINE void i64_to_dec_x64_AVX2(
 
         //  Invariant multiply
         hi = _mm256_shuffle_epi32(x0, 177);
+        // 3518437209 = 2**45 / 10000, rounded up
         lo = _mm256_mul_epu32(x0, _mm256_set1_epi32(3518437209));
         hi = _mm256_mul_epu32(hi, _mm256_set1_epi32(3518437209));
 
@@ -104,6 +107,7 @@ YM_FORCE_INLINE void i64_to_dec_x64_AVX2(
 
         //  Divide
         hi = _mm256_srli_epi16(c0, 2);
+        // 5243 = 2**19 / 100, rounded up
         hi = _mm256_mulhi_epu16(hi, _mm256_set1_epi16(5243));
         hi = _mm256_srli_epi16(hi, 1);
 
@@ -135,6 +139,7 @@ YM_FORCE_INLINE void i64_to_dec_x64_AVX2(
         __m256i lo, hi;
 
         //  Divide
+        // 205 = 2**11 / 10, rounded up
         hi = _mm256_mullo_epi16(c0, _mm256_set1_epi16(205));
         hi = _mm256_srli_epi16(hi, 11);
 
