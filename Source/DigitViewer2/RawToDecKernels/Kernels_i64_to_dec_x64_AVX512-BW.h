@@ -35,10 +35,13 @@ YM_FORCE_INLINE __m512i div_100000000(__m512i x0){
     __m512i r0, r1, r2, r3;
 
     r3 = _mm512_shuffle_epi32(x0, _MM_PERM_CDAB);
+    
+    // 2**90 / 10**8 = 0xabcc77118461cefc.e
+    // round up and split in two values: 0xabcc7711 and 0x8461cefd
 
-    r0 = _mm512_mul_epu32(x0, _mm512_set1_epi32(2882303761));
-    r1 = _mm512_mul_epu32(r3, _mm512_set1_epi32(2221002493));
-    r2 = _mm512_mul_epu32(x0, _mm512_set1_epi32(2221002493));
+    r0 = _mm512_mul_epu32(x0, _mm512_set1_epi32(0xabcc7711));
+    r1 = _mm512_mul_epu32(r3, _mm512_set1_epi32(0x8461cefd));
+    r2 = _mm512_mul_epu32(x0, _mm512_set1_epi32(0x8461cefd));
 
     r2 = _mm512_srli_epi64(r2, 32);
     r0 = _mm512_add_epi64(r0, r2);
@@ -48,7 +51,7 @@ YM_FORCE_INLINE __m512i div_100000000(__m512i x0){
     r0 = _mm512_srli_epi64(r0, 32);
     r1 = _mm512_srli_epi64(r1, 32);
 
-    r3 = _mm512_mul_epu32(r3, _mm512_set1_epi32(2882303761));
+    r3 = _mm512_mul_epu32(r3, _mm512_set1_epi32(0x8461cefd));
     r3 = _mm512_add_epi64(r3, r0);
     r3 = _mm512_add_epi64(r3, r1);
 
@@ -82,6 +85,7 @@ YM_FORCE_INLINE void i64_to_dec_x64_AVX512BW(
 
         //  Invariant multiply
         hi = _mm512_shuffle_epi32(x0, _MM_PERM_CDAB);
+        // 3518437209 = 2**45 / 10000, rounded up
         lo = _mm512_mul_epu32(x0, _mm512_set1_epi32(3518437209));
         hi = _mm512_mul_epu32(hi, _mm512_set1_epi32(3518437209));
         hi = _mm512_mask_shuffle_epi32(hi, 0x5555, lo, _MM_PERM_CDAB);
@@ -102,6 +106,7 @@ YM_FORCE_INLINE void i64_to_dec_x64_AVX512BW(
 
         //  Divide
         hi = _mm512_srli_epi16(c0, 2);
+        // 5243 = 2**19 / 100, rounded up
         hi = _mm512_mulhi_epu16(hi, _mm512_set1_epi16(5243));
         hi = _mm512_srli_epi16(hi, 1);
 
@@ -134,6 +139,7 @@ YM_FORCE_INLINE void i64_to_dec_x64_AVX512BW(
         __m512i hi;
 
         //  Divide
+        // 205 = 2**11 / 10, rounded up
         hi = _mm512_mullo_epi16(c0, _mm512_set1_epi16(205));
 
 #if 1
